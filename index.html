@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HTRUONG ❤️ V1 - Shop Dịch Vụ MXH & AI</title>
+  <title>HTRUONG ❤️ V1 - Shop Dịch Vụ MXH, AI & Shopee</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     * {
@@ -81,7 +81,7 @@
       font-weight: 600;
     }
 
-    /* CARD CHÍNH GIỐNG HÌNH DEMO */
+    /* CARD CHÍNH PHONG CÁCH NEON HTRUONG V1 */
     .hero-section {
       display: flex;
       justify-content: center;
@@ -98,7 +98,6 @@
       text-align: center;
       box-shadow: 0 0 35px rgba(0, 242, 254, 0.15);
     }
-    /* Khung viền Neon đổi màu liên tục như ảnh */
     .profile-card::before {
       content: "";
       position: absolute;
@@ -207,7 +206,7 @@
       letter-spacing: 0.5px;
     }
 
-    /* Container sản phẩm */
+    /* Container sản phẩm & Tabs */
     .container {
       max-width: 1000px;
       margin: 28px auto;
@@ -222,6 +221,38 @@
       padding-left: 10px;
       letter-spacing: 0.5px;
     }
+    
+    /* Bộ lọc danh mục */
+    .category-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      background: #111420;
+      color: #94a3b8;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .tab-btn.active, .tab-btn:hover {
+      background: #00f2fe;
+      color: #050507;
+      border-color: #00f2fe;
+      box-shadow: 0 0 12px rgba(0, 242, 254, 0.4);
+    }
+    .tab-shopee.active {
+      background: #ee4d2d !important;
+      color: #fff !important;
+      border-color: #ee4d2d !important;
+      box-shadow: 0 0 12px rgba(238, 77, 45, 0.5) !important;
+    }
+
     .products {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -255,6 +286,10 @@
     .banner-clone { background: linear-gradient(135deg, #1e3c72, #2a5298); }
     .banner-plus { background: linear-gradient(135deg, #7b2ff7, #f107a3); }
     .banner-pro { background: linear-gradient(135deg, #000428, #004e92); border-bottom: 2px solid #ffd700; }
+    .banner-shopee-50 { background: linear-gradient(135deg, #ff5722, #ff9800); }
+    .banner-shopee-80 { background: linear-gradient(135deg, #ee4d2d, #ff3366); }
+    .banner-shopee-100 { background: linear-gradient(135deg, #d32f2f, #7b1fa2); border-bottom: 2px solid #ffeb3b; }
+    
     .product-info {
       padding: 16px;
       display: flex;
@@ -270,8 +305,17 @@
     .product-desc {
       font-size: 0.85rem;
       color: #8b949e;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       line-height: 1.4;
+    }
+    .warning-text {
+      color: #ff5252;
+      font-size: 0.78rem;
+      background: rgba(255, 82, 82, 0.1);
+      padding: 4px 8px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      border-left: 3px solid #ff5252;
     }
     .product-price {
       color: #00e5ff;
@@ -501,6 +545,7 @@
       border-radius: 10px;
       max-width: 82%;
       line-height: 1.4;
+      white-space: pre-line;
     }
     .bot-msg {
       background: #161b22;
@@ -587,7 +632,7 @@
     </div>
   </header>
 
-  <!-- Card Demo phong cách Neon HTRUONG V1 -->
+  <!-- Card Demo Neon HTRUONG V1 -->
   <div class="hero-section">
     <div class="profile-card">
       <div class="brand-title">
@@ -622,9 +667,17 @@
     </div>
   </div>
 
-  <!-- Danh sách sản phẩm mua tài khoản -->
+  <!-- Danh sách sản phẩm -->
   <div class="container" id="products-section">
-    <div class="section-title">Danh Sách Tài Khoản Google & Gói AI</div>
+    <div class="section-title">Danh Mục Dịch Vụ & Tài Khoản</div>
+
+    <!-- Bộ lọc loại sản phẩm -->
+    <div class="category-tabs">
+      <button class="tab-btn active" onclick="filterProducts('all')">Tất cả</button>
+      <button class="tab-btn tab-shopee" onclick="filterProducts('shopee')">🔥 Tài khoản Shopee</button>
+      <button class="tab-btn" onclick="filterProducts('google')">Google & AI</button>
+    </div>
+
     <div class="products" id="product-list"></div>
   </div>
 
@@ -639,10 +692,10 @@
       <button onclick="toggleChat()">✕</button>
     </div>
     <div id="chat-messages" class="chat-messages">
-      <div class="bot-msg">Xin chào! Em là AI hỗ trợ shop. Bạn cần tư vấn tài khoản Google hay gói AI Plus/Pro nào cứ nhắn cho em nhé!</div>
+      <div class="bot-msg">Xin chào! Em là AI hỗ trợ shop. Bạn cần tư vấn tài khoản Shopee (mã 50k, 80k, 100k) hay tài khoản Google/AI cứ nhắn cho em nhé!</div>
     </div>
     <div class="chat-input-area">
-      <input type="text" id="chat-user-input" placeholder="Nhập câu hỏi..." onkeypress="handleChatKey(event)">
+      <input type="text" id="chat-user-input" placeholder="Hỏi giá Shopee, Google, thanh toán..." onkeypress="handleChatKey(event)">
       <button onclick="sendChatMessage()">Gửi</button>
     </div>
   </div>
@@ -682,11 +735,12 @@
       <div class="form-group">
         <label>Chọn số tiền cần nạp (VNĐ):</label>
         <select id="topup-amount" onchange="updateTopupQR()">
-          <option value="20000">20.000đ (Mua 1 TK GG Clone)</option>
+          <option value="20000">20.000đ (Mua Shopee 50k hoặc GG Clone)</option>
           <option value="25000">25.000đ (Mua 1 TK AI Plus)</option>
-          <option value="35000">35.000đ (Mua 1 TK AI Pro)</option>
-          <option value="50000">50.000đ</option>
+          <option value="35000">35.000đ (Mua Shopee 80k hoặc AI Pro)</option>
+          <option value="50000">50.000đ (Mua 1 TK Shopee 100k)</option>
           <option value="100000">100.000đ</option>
+          <option value="200000">200.000đ</option>
         </select>
       </div>
       <div class="qr-box">
@@ -740,7 +794,7 @@
     </div>
   </div>
 
-  <!-- Nút liên hệ nhanh bên phải -->
+  <!-- Nút Zalo / FB -->
   <div class="floating-contacts">
     <a href="https://zalo.me/0346462528" target="_blank" rel="noopener noreferrer" class="floating-btn btn-zalo" title="Chat Zalo">
       <i class="fa-solid fa-comment"></i>
@@ -751,40 +805,79 @@
   </div>
 
   <script>
-    // 1. Thông tin cấu hình
+    // 1. Cấu hình thông tin
     const SHOP_ZALO_PHONE = "0346462528";
     const BANK_ID = "VCB";
     const BANK_ACCOUNT = "1071090989";
     const BANK_OWNER = "HOANG KHAC TRUONG";
 
-    // 2. Danh mục sản phẩm
+    // 2. Danh mục sản phẩm (Đầy đủ Google, AI & Shopee mới)
     const products = [
+      // Nhóm Shopee
+      { 
+        id: 4, 
+        category: "shopee",
+        name: "TK Shopee Mã 50K (Đơn Đầu)", 
+        price: 20000, 
+        bannerClass: "banner-shopee-50",
+        badge: "SHOPEE VOUCHER 50K",
+        desc: "Mã 50k cho đơn đầu tiên, trắng thông tin. Mua về chỉ cần nhập SĐT và dùng ngay.",
+        warning: "⚠️ Không bảo hành với máy bị dính lỗi M04 (thiết bị/mạng đã bị Shopee gắn cờ)."
+      },
+      { 
+        id: 5, 
+        category: "shopee",
+        name: "TK Shopee Mã 80K", 
+        price: 35000, 
+        bannerClass: "banner-shopee-80",
+        badge: "SHOPEE VOUCHER 80K",
+        desc: "Mã giảm giá 80k ngon, trắng thông tin 100%. Mua về nhập SĐT là lên đơn được ngay.",
+        warning: "⚠️ Không bảo hành với máy bị dính lỗi M04."
+      },
+      { 
+        id: 6, 
+        category: "shopee",
+        name: "TK Shopee Mã 100K", 
+        price: 50000, 
+        bannerClass: "banner-shopee-100",
+        badge: "SHOPEE VOUCHER 100K",
+        desc: "Voucher cực khủng 100k, trắng thông tin. Mua về chỉ cần nhập SĐT và áp mã.",
+        warning: "⚠️ Không bảo hành với thiết bị dính lỗi M04 Shopee."
+      },
+      // Nhóm Google & AI
       { 
         id: 1, 
+        category: "google",
         name: "Tài khoản Google Clone", 
         price: 20000, 
         bannerClass: "banner-clone",
         badge: "GOOGLE CLONE",
-        desc: "Tài khoản Google trắng, độ trust cao, phục vụ làm dịch vụ MXH mượt mà."
+        desc: "Tài khoản Google trắng, độ trust cao, phục vụ làm dịch vụ MXH mượt mà.",
+        warning: null
       },
       { 
         id: 2, 
+        category: "google",
         name: "Tài khoản Google AI Plus", 
         price: 25000, 
         bannerClass: "banner-plus",
         badge: "GOOGLE AI PLUS",
-        desc: "Tài khoản Google kích hoạt sẵn AI Plus, xử lý tác vụ thông minh tốc độ cao."
+        desc: "Tài khoản Google kích hoạt sẵn AI Plus, xử lý tác vụ thông minh tốc độ cao.",
+        warning: null
       },
       { 
         id: 3, 
+        category: "google",
         name: "Tài khoản Google AI Pro", 
         price: 35000, 
         bannerClass: "banner-pro",
         badge: "GOOGLE AI PRO VIP",
-        desc: "Tài khoản đăng ký gói AI Pro full tính năng cao cấp nhất hiện nay."
+        desc: "Tài khoản đăng ký gói AI Pro full tính năng cao cấp nhất hiện nay.",
+        warning: null
       }
     ];
 
+    let currentFilter = "all";
     let cart = [];
     let currentUser = JSON.parse(localStorage.getItem("shop_user")) || null;
 
@@ -792,9 +885,19 @@
       document.getElementById("products-section").scrollIntoView({ behavior: "smooth" });
     }
 
+    function filterProducts(cat) {
+      currentFilter = cat;
+      const buttons = document.querySelectorAll(".tab-btn");
+      buttons.forEach(btn => btn.classList.remove("active"));
+      event.target.classList.add("active");
+      renderProducts();
+    }
+
     function renderProducts() {
       const container = document.getElementById("product-list");
-      container.innerHTML = products.map(p => `
+      const list = currentFilter === "all" ? products : products.filter(p => p.category === currentFilter);
+
+      container.innerHTML = list.map(p => `
         <div class="product-card">
           <div class="product-banner ${p.bannerClass}">
             <div>${p.badge}</div>
@@ -802,14 +905,15 @@
           <div class="product-info">
             <div class="product-title">${p.name}</div>
             <div class="product-desc">${p.desc}</div>
+            ${p.warning ? `<div class="warning-text">${p.warning}</div>` : ""}
             <div class="product-price">${p.price.toLocaleString("vi-VN")}đ</div>
-            <button class="btn-add" onclick="addToCart(${p.id})">+ Mua ngay</button>
+            <button class="btn-add" onclick="addToCart(${p.id})">+ Thêm vào giỏ</button>
           </div>
         </div>
       `).join("");
     }
 
-    // Đăng nhập / Người dùng
+    // Đăng nhập / Đăng ký
     function renderUserHeader() {
       const userDisplay = document.getElementById("user-display");
       const btnLogin = document.getElementById("btn-login");
@@ -846,7 +950,7 @@
       renderUserHeader();
     }
 
-    // Nạp tiền QR Vietcombank
+    // Nạp tiền VietQR
     function openTopup() {
       if (!currentUser) { openAuth(); return; }
       updateTopupQR();
@@ -947,17 +1051,17 @@
       const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
       const itemsText = cart.map(i => `- ${i.name} (SL: ${i.qty}): ${(i.price * i.qty).toLocaleString("vi-VN")}đ`).join("\n");
 
-      const orderMsg = `🛒 ĐƠN HÀNG HTRUONG V1\nKhách hàng: ${name}\nSĐT Zalo: ${phone}\n${note ? `Ghi chú: ${note}\n` : ""}Chi tiết:\n${itemsText}\nTổng: ${total.toLocaleString("vi-VN")}đ\nĐã chuyển khoản Vietcombank 1071090989`;
+      const orderMsg = `🛒 ĐƠN HÀNG HTRUONG V1\nKhách hàng: ${name}\nSĐT Zalo: ${phone}\n${note ? `Ghi chú: ${note}\n` : ""}Chi tiết đơn:\n${itemsText}\n------------------------\nTổng: ${total.toLocaleString("vi-VN")}đ\n(Lưu ý: TK Shopee không bảo hành thiết bị dính lỗi M04)\nĐã chuyển khoản Vietcombank 1071090989`;
 
       navigator.clipboard.writeText(orderMsg).then(() => {
-        alert("Đã sao chép đơn mua! Hệ thống chuyển sang Zalo chủ shop để gửi hàng.");
+        alert("Đã sao chép đơn mua! Hệ thống chuyển sang Zalo chủ shop để gửi tài khoản.");
         window.open(`https://zalo.me/${SHOP_ZALO_PHONE}`, "_blank");
       }).catch(() => {
         window.open(`https://zalo.me/${SHOP_ZALO_PHONE}`, "_blank");
       });
     }
 
-    // AI Chatbot logic tự động
+    // AI Chatbot Logic tự động cập nhật Shopee + M04
     function toggleChat() {
       const box = document.getElementById("ai-chat-box");
       box.classList.toggle("chat-hidden");
@@ -974,14 +1078,12 @@
 
       const container = document.getElementById("chat-messages");
 
-      // Thêm câu hỏi
       const userDiv = document.createElement("div");
       userDiv.className = "user-msg";
       userDiv.innerText = text;
       container.appendChild(userDiv);
       input.value = "";
 
-      // Phản hồi thông minh theo từ khóa sản phẩm / thanh toán
       const botDiv = document.createElement("div");
       botDiv.className = "bot-msg";
       botDiv.innerText = "Đang xử lý...";
@@ -989,17 +1091,31 @@
       container.scrollTop = container.scrollHeight;
 
       setTimeout(() => {
-        const query = text.toLowerCase();
-        let reply = "Dạ chào bạn, HTruong hỗ trợ cung cấp: Google Clone (20k), AI Plus (25k), AI Pro (35k). Bạn có thể bấm '+ Mua ngay' trên web hoặc inbox Zalo 0346462528 để được gửi tài khoản ngay ạ!";
-        
-        if (query.includes("giá") || query.includes("nhiêu") || query.includes("bảng giá")) {
-          reply = "Dạ bảng giá dịch vụ hiện tại:\n• Google Clone: 20.000đ\n• Google AI Plus: 25.000đ\n• Google AI Pro VIP: 35.000đ\nBạn muốn chọn gói nào ạ?";
-        } else if (query.includes("thanh toán") || query.includes("stk") || query.includes("ngân hàng")) {
-          reply = "Dạ shop nhận chuyển khoản qua Vietcombank STK 1071090989 (HOANG KHAC TRUONG). Bạn có thể quét mã VietQR tự động trên web rất nhanh nhé!";
-        } else if (query.includes("liên hệ") || query.includes("zalo") || query.includes("sđt") || query.includes("admin")) {
-          reply = "Dạ bạn có thể liên hệ trực tiếp admin qua Zalo: 0346462528 hoặc Facebook ở các nút tròn trên web ạ!";
+        const q = text.toLowerCase();
+        let reply = "Dạ chào bạn! Shop có đầy đủ: TK Shopee mã 50k, 80k, 100k trắng thông tin và các gói Google Clone, AI Plus, AI Pro. Bạn cần lấy loại nào cứ báo em nhé!";
+
+        if (q.includes("shopee") || q.includes("shopi") || q.includes("mã") || q.includes("voucher")) {
+          reply = "🔥 Bảng giá tài khoản Shopee trắng thông tin (về chỉ cần nhập SĐT là dùng):\n" +
+                  "• TK Shopee mã 50k (đơn đầu tiên): 20.000đ\n" +
+                  "• TK Shopee mã 80k: 35.000đ\n" +
+                  "• TK Shopee mã 100k: 50.000đ\n" +
+                  "⚠️ Lưu ý: Shop không bảo hành đối với các thiết bị/máy đã bị dính lỗi M04 Shopee ạ!";
+        } else if (q.includes("m04") || q.includes("bảo hành")) {
+          reply = "Dạ với tài khoản Shopee, shop bảo hành đúng chuẩn trắng thông tin đăng nhập dùng ngay. Tuy nhiên KHÔNG bảo hành trường hợp máy hoặc mạng của khách đã bị hệ thống Shopee quét chặn lỗi M04 nhé ạ!";
+        } else if (q.includes("giá") || q.includes("bảng giá")) {
+          reply = "Dạ bảng giá tổng hợp:\n" +
+                  "1. Shopee mã 50k: 20k\n" +
+                  "2. Shopee mã 80k: 35k\n" +
+                  "3. Shopee mã 100k: 50k\n" +
+                  "4. Google Clone: 20k\n" +
+                  "5. Google AI Plus: 25k\n" +
+                  "6. Google AI Pro: 35k";
+        } else if (q.includes("stk") || q.includes("ngân hàng") || q.includes("thanh toán")) {
+          reply = "Dạ chuyển khoản qua Vietcombank STK 1071090989 (HOANG KHAC TRUONG). Bạn có thể bấm thêm vào giỏ hàng hoặc nạp tiền để quét VietQR tự động nhé!";
+        } else if (q.includes("zalo") || q.includes("admin") || q.includes("liên hệ")) {
+          reply = "Dạ liên hệ trực tiếp chủ shop qua Zalo: 0346462528 để được hỗ trợ gửi tài khoản ngay lập tức ạ!";
         }
-        
+
         botDiv.innerText = reply;
         container.scrollTop = container.scrollHeight;
       }, 500);
