@@ -22,6 +22,412 @@
     .container { max-width: 1000px; margin: 28px auto; padding: 0 16px; }
     .section-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 16px; color: #1a202c; border-left: 4px solid #0068ff; padding-left: 10px; }
     .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 18px; }
-    .product-card { background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 12px rgba(0
+    .product-card { background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06); display: flex; flex-direction: column; transition: transform 0.2s; border: 1px solid #e2e8f0; }
+    .product-card:hover { transform: translateY(-4px); }
+    .product-banner { height: 140px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 1.3rem; text-align: center; padding: 12px; }
+    .banner-clone { background: linear-gradient(135deg, #4285F4, #34A853); }
+    .banner-plus { background: linear-gradient(135deg, #7b2ff7, #f107a3); }
+    .banner-pro { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); border-bottom: 3px solid #ffd700; }
+    .product-info { padding: 16px; display: flex; flex-direction: column; flex-grow: 1; }
+    .product-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; color: #1e293b; }
+    .product-desc { font-size: 0.85rem; color: #64748b; margin-bottom: 14px; line-height: 1.4; }
+    .product-price { color: #e53935; font-weight: 800; margin-bottom: 14px; font-size: 1.25rem; }
+    .btn-add { margin-top: auto; background: #0068ff; color: #fff; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 0.95rem; transition: 0.2s; }
+    .btn-add:hover { background: #0053cc; }
 
+    /* Modals */
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 200; justify-content: center; align-items: center; padding: 16px; }
+    .modal-content { background: #fff; border-radius: 14px; width: 100%; max-width: 460px; max-height: 92vh; overflow-y: auto; padding: 22px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+    .close-btn { font-size: 1.6rem; border: none; background: none; cursor: pointer; color: #888; line-height: 1; }
     
+    /* Cart & Forms */
+    .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed #eee; font-size: 0.95rem; }
+    .cart-controls button { width: 28px; height: 28px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; cursor: pointer; font-weight: bold; }
+    .cart-total { font-weight: 800; font-size: 1.15rem; margin: 16px 0; text-align: right; color: #e53935; }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 5px; color: #334155; }
+    .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 9px 11px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.92rem; }
+    .checkout-btn { width: 100%; background: #0068ff; color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.98rem; margin-top: 6px; }
+    .checkout-btn:hover { background: #0053cc; }
+
+    /* QR Box */
+    .qr-box { text-align: center; background: #f8fafc; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 14px; }
+    .qr-box img { max-width: 230px; width: 100%; border-radius: 8px; margin: 8px 0; border: 1px solid #ddd; }
+    .bank-details { font-size: 0.9rem; line-height: 1.6; color: #1e293b; background: #fff; padding: 10px; border-radius: 8px; border: 1px dashed #0068ff; margin-top: 8px; }
+    .transfer-syntax { color: #d32f2f; font-weight: 800; background: #ffebee; padding: 2px 6px; border-radius: 4px; }
+
+    /* Floating Contact Buttons */
+    .floating-contacts { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 90; }
+    .floating-btn { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; font-size: 0.8rem; font-weight: 700; box-shadow: 0 4px 12px rgba(0,0,0,0.25); transition: transform 0.2s; }
+    .floating-btn:hover { transform: scale(1.08); }
+    .btn-zalo { background: #0068ff; }
+    .btn-fb { background: #1877f2; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>SHOP TRƯỜNG ONE MXH</h1>
+    <div class="header-actions">
+      <div id="user-display" style="display: none;">
+        <span class="user-badge">👤 <span id="username-label"></span> | 💰 <span id="balance-label">0</span>đ</span>
+        <button class="btn-header btn-topup" onclick="openTopup()">+ Nạp tiền QR</button>
+        <button class="btn-header" onclick="logout()">Thoát</button>
+      </div>
+      <button class="btn-header" id="btn-login" onclick="openAuth()">Đăng nhập / Đăng ký</button>
+      <button class="btn-header" onclick="openCart()">🛒 Giỏ hàng (<span id="cart-count">0</span>)</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="section-title">Danh Sách Tài Khoản Google & AI</div>
+    <div class="products" id="product-list"></div>
+  </div>
+
+  <!-- Modal Đăng nhập / Đăng ký -->
+  <div class="modal" id="auth-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="auth-title">Đăng nhập tài khoản</h3>
+        <button class="close-btn" onclick="closeAuth()">&times;</button>
+      </div>
+      <form onsubmit="handleAuth(event)">
+        <div class="form-group">
+          <label>Tên tài khoản:</label>
+          <input type="text" id="auth-user" required placeholder="Nhập tên đăng nhập viết liền (vd: truong123)" />
+        </div>
+        <div class="form-group">
+          <label>Số điện thoại Zalo:</label>
+          <input type="tel" id="auth-phone" required placeholder="Nhập SĐT Zalo để nhận tài khoản" />
+        </div>
+        <div class="form-group">
+          <label>Mật khẩu:</label>
+          <input type="password" id="auth-pass" required placeholder="Nhập mật khẩu" />
+        </div>
+        <button type="submit" class="checkout-btn">Đăng nhập / Tạo tài khoản ngay</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Nạp Tiền QR Vietcombank -->
+  <div class="modal" id="topup-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Nạp Tiền Qua QR Vietcombank</h3>
+        <button class="close-btn" onclick="closeTopup()">&times;</button>
+      </div>
+      
+      <div class="form-group">
+        <label>Chọn hoặc nhập số tiền cần nạp (VNĐ):</label>
+        <select id="topup-amount" onchange="updateTopupQR()">
+          <option value="20000">20.000đ (Mua 1 TK GG Clone)</option>
+          <option value="25000">25.000đ (Mua 1 TK GG AI Plus)</option>
+          <option value="35000">35.000đ (Mua 1 TK GG AI Pro)</option>
+          <option value="50000">50.000đ</option>
+          <option value="100000">100.000đ</option>
+          <option value="200000">200.000đ</option>
+        </select>
+      </div>
+
+      <div class="qr-box">
+        <p style="font-size: 0.85rem; color: #555;">Mở App Ngân hàng bất kỳ để quét mã VietQR:</p>
+        <img id="vietqr-img" src="" alt="Mã QR Vietcombank HOANG KHAC TRUONG" />
+        <div class="bank-details">
+          Ngân hàng: <strong>Vietcombank</strong><br>
+          Chủ tài khoản: <strong>HOANG KHAC TRUONG</strong><br>
+          Số tài khoản: <strong>1071090989</strong><br>
+          Nội dung CK: <span class="transfer-syntax" id="topup-syntax">NAP</span>
+        </div>
+      </div>
+
+      <button type="button" class="checkout-btn" onclick="confirmTopup()">Tôi đã chuyển khoản (Xác nhận qua Zalo)</button>
+    </div>
+  </div>
+
+  <!-- Modal Giỏ hàng & Thanh toán -->
+  <div class="modal" id="cart-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Giỏ hàng & Thanh toán</h3>
+        <button class="close-btn" onclick="closeCart()">&times;</button>
+      </div>
+
+      <div id="cart-items"></div>
+      <div class="cart-total" id="cart-total">Tổng: 0đ</div>
+
+      <!-- Mã QR Thanh toán trực tiếp đơn hàng -->
+      <div class="qr-box" id="cart-qr-box" style="display: none;">
+        <p style="font-size: 0.85rem; font-weight: 600; color: #0068ff;">Quét QR dưới đây để thanh toán đúng số tiền đơn hàng:</p>
+        <img id="cart-qr-img" src="" alt="QR Thanh Toán Đơn Hàng" />
+        <div class="bank-details">
+          <strong>Vietcombank</strong> - STK: <strong>1071090989</strong><br>
+          Chủ TK: <strong>HOANG KHAC TRUONG</strong>
+        </div>
+      </div>
+
+      <form id="order-form" onsubmit="submitOrder(event)">
+        <div class="form-group">
+          <label>Tên khách hàng:</label>
+          <input type="text" id="cust-name" required placeholder="Nhập tên của bạn" />
+        </div>
+        <div class="form-group">
+          <label>Số điện thoại Zalo (để nhận TK):</label>
+          <input type="tel" id="cust-phone" required placeholder="Nhập SĐT Zalo của bạn" />
+        </div>
+        <div class="form-group">
+          <label>Ghi chú thêm (tuỳ chọn):</label>
+          <textarea id="cust-note" rows="2" placeholder="Đã chuyển khoản / Cần hỗ trợ gấp..."></textarea>
+        </div>
+        <button type="submit" class="checkout-btn">Xác nhận & Nhận tài khoản qua Zalo</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Nút hỗ trợ nhanh Zalo & FB -->
+  <div class="floating-contacts">
+    <a href="https://zalo.me/0346462528" target="_blank" rel="noopener noreferrer" class="floating-btn btn-zalo">Zalo</a>
+    <a href="https://www.facebook.com/share/1EqFH5r2nu/" target="_blank" rel="noopener noreferrer" class="floating-btn btn-fb">FB</a>
+  </div>
+
+  <script>
+    // 1. Cấu hình thông tin chủ Shop & Ngân hàng
+    const SHOP_ZALO_PHONE = "0346462528";
+    const SHOP_FB_LINK = "https://www.facebook.com/share/1EqFH5r2nu/";
+    const BANK_ID = "VCB";
+    const BANK_ACCOUNT = "1071090989";
+    const BANK_OWNER = "HOANG KHAC TRUONG";
+
+    // 2. Danh sách 3 gói sản phẩm theo yêu cầu
+    const products = [
+      { 
+        id: 1, 
+        name: "Tài khoản Google Clone", 
+        price: 20000, 
+        bannerClass: "banner-clone",
+        badge: "GOOGLE CLONE",
+        desc: "Tài khoản Google trắng, độ trust cao, đăng nhập sử dụng ngay cho đa dịch vụ."
+      },
+      { 
+        id: 2, 
+        name: "Tài khoản Google có gói ĐK AI Plus", 
+        price: 25000, 
+        bannerClass: "banner-plus",
+        badge: "GOOGLE AI PLUS",
+        desc: "Tài khoản Google đã kích hoạt sẵn gói đăng ký AI Plus tiện lợi, tốc độ cao."
+      },
+      { 
+        id: 3, 
+        name: "Tài khoản có gói đăng ký AI Pro", 
+        price: 35000, 
+        bannerClass: "banner-pro",
+        badge: "GOOGLE AI PRO VIP",
+        desc: "Tài khoản cao cấp tích hợp sẵn gói đăng ký AI Pro mở khóa tối đa tính năng."
+      }
+    ];
+
+    let cart = [];
+    let currentUser = JSON.parse(localStorage.getItem("shop_user")) || null;
+
+    // Hiển thị sản phẩm
+    function renderProducts() {
+      const container = document.getElementById("product-list");
+      container.innerHTML = products.map(p => `
+        <div class="product-card">
+          <div class="product-banner ${p.bannerClass}">
+            <div>${p.badge}</div>
+          </div>
+          <div class="product-info">
+            <div class="product-title">${p.name}</div>
+            <div class="product-desc">${p.desc}</div>
+            <div class="product-price">${p.price.toLocaleString("vi-VN")}đ</div>
+            <button class="btn-add" onclick="addToCart(${p.id})">+ Thêm vào giỏ mua</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    // Quản lý Đăng nhập / Đăng ký
+    function renderUserHeader() {
+      const userDisplay = document.getElementById("user-display");
+      const btnLogin = document.getElementById("btn-login");
+      if (currentUser) {
+        userDisplay.style.display = "flex";
+        userDisplay.style.alignItems = "center";
+        userDisplay.style.gap = "8px";
+        btnLogin.style.display = "none";
+        document.getElementById("username-label").innerText = currentUser.username;
+        document.getElementById("balance-label").innerText = (currentUser.balance || 0).toLocaleString("vi-VN");
+        
+        // Điền sẵn vào form giỏ hàng
+        document.getElementById("cust-name").value = currentUser.username;
+        document.getElementById("cust-phone").value = currentUser.phone;
+      } else {
+        userDisplay.style.display = "none";
+        btnLogin.style.display = "inline-block";
+      }
+    }
+
+    function openAuth() {
+      document.getElementById("auth-modal").style.display = "flex";
+    }
+    function closeAuth() {
+      document.getElementById("auth-modal").style.display = "none";
+    }
+
+    function handleAuth(e) {
+      e.preventDefault();
+      const username = document.getElementById("auth-user").value.trim();
+      const phone = document.getElementById("auth-phone").value.trim();
+      currentUser = { username, phone, balance: 0 };
+      localStorage.setItem("shop_user", JSON.stringify(currentUser));
+      renderUserHeader();
+      closeAuth();
+      alert("Đăng nhập thành công! Bạn có thể nạp tiền qua QR hoặc đặt mua tài khoản ngay.");
+    }
+
+    function logout() {
+      localStorage.removeItem("shop_user");
+      currentUser = null;
+      renderUserHeader();
+    }
+
+    // Quản lý Nạp tiền VietQR tự động
+    function openTopup() {
+      if (!currentUser) {
+        openAuth();
+        return;
+      }
+      updateTopupQR();
+      document.getElementById("topup-modal").style.display = "flex";
+    }
+    function closeTopup() {
+      document.getElementById("topup-modal").style.display = "none";
+    }
+
+    function updateTopupQR() {
+      const amount = document.getElementById("topup-amount").value;
+      const username = currentUser ? currentUser.username.toUpperCase() : "KHACH";
+      const addInfo = `NAP ${username}`;
+      document.getElementById("topup-syntax").innerText = addInfo;
+      const qrUrl = `https://img.vietqr.io/image/${BANK_ID}-${BANK_ACCOUNT}-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(addInfo)}&accountName=${encodeURIComponent(BANK_OWNER)}`;
+      document.getElementById("vietqr-img").src = qrUrl;
+    }
+
+    function confirmTopup() {
+      const amount = Number(document.getElementById("topup-amount").value);
+      const username = currentUser ? currentUser.username : "Khách";
+      const msg = `💳 XÁC NHẬN NẠP TIỀN\nTài khoản: ${username}\nSĐT: ${currentUser ? currentUser.phone : ""}\nSố tiền vừa chuyển: ${amount.toLocaleString("vi-VN")}đ\nNgân hàng nhận: Vietcombank - 1071090989 (HOANG KHAC TRUONG)\nNội dung CK: NAP ${username.toUpperCase()}`;
+      
+      navigator.clipboard.writeText(msg).then(() => {
+        alert("Đã sao chép thông tin nạp tiền! Hệ thống sẽ chuyển sang Zalo chủ shop (0346462528) để duyệt cộng tiền ngay.");
+        window.open(`https://zalo.me/${SHOP_ZALO_PHONE}`, "_blank");
+      }).catch(() => {
+        window.open(`https://zalo.me/${SHOP_ZALO_PHONE}`, "_blank");
+      });
+    }
+
+    // Quản lý Giỏ hàng
+    function addToCart(id) {
+      const item = cart.find(i => i.id === id);
+      if (item) {
+        item.qty++;
+      } else {
+        const prod = products.find(p => p.id === id);
+        cart.push({ ...prod, qty: 1 });
+      }
+      updateCart();
+      openCart();
+    }
+
+    function changeQty(id, delta) {
+      const item = cart.find(i => i.id === id);
+      if (!item) return;
+      item.qty += delta;
+      if (item.qty <= 0) {
+        cart = cart.filter(i => i.id !== id);
+      }
+      updateCart();
+    }
+
+    function updateCart() {
+      const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+      document.getElementById("cart-count").innerText = totalCount;
+
+      const cartItems = document.getElementById("cart-items");
+      const qrBox = document.getElementById("cart-qr-box");
+
+      if (cart.length === 0) {
+        cartItems.innerHTML = "<p style='color: #888; text-align:center; padding: 12px;'>Giỏ hàng đang trống.</p>";
+        qrBox.style.display = "none";
+      } else {
+        cartItems.innerHTML = cart.map(item => `
+          <div class="cart-item">
+            <div>
+              <strong>${item.name}</strong><br>
+              <small>${item.price.toLocaleString("vi-VN")}đ x ${item.qty}</small>
+            </div>
+            <div class="cart-controls">
+              <button type="button" onclick="changeQty(${item.id}, -1)">-</button>
+              <span style="margin: 0 8px;">${item.qty}</span>
+              <button type="button" onclick="changeQty(${item.id}, 1)">+</button>
+            </div>
+          </div>
+        `).join("");
+
+        const totalPrice = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+        const userTag = currentUser ? currentUser.username : "MUAHANG";
+        const qrUrl = `https://img.vietqr.io/image/${BANK_ID}-${BANK_ACCOUNT}-compact2.png?amount=${totalPrice}&addInfo=${encodeURIComponent("TT " + userTag)}&accountName=${encodeURIComponent(BANK_OWNER)}`;
+        document.getElementById("cart-qr-img").src = qrUrl;
+        qrBox.style.display = "block";
+      }
+
+      const totalPrice = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+      document.getElementById("cart-total").innerText = `Tổng thanh toán: ${totalPrice.toLocaleString("vi-VN")}đ`;
+    }
+
+    function openCart() {
+      document.getElementById("cart-modal").style.display = "flex";
+    }
+    function closeCart() {
+      document.getElementById("cart-modal").style.display = "none";
+    }
+
+    function submitOrder(e) {
+      e.preventDefault();
+      if (cart.length === 0) {
+        alert("Giỏ hàng của bạn đang trống!");
+        return;
+      }
+
+      const name = document.getElementById("cust-name").value.trim();
+      const phone = document.getElementById("cust-phone").value.trim();
+      const note = document.getElementById("cust-note").value.trim();
+      const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+      const itemsText = cart.map(i => `- ${i.name} (SL: ${i.qty}): ${(i.price * i.qty).toLocaleString("vi-VN")}đ`).join("\n");
+      
+      const orderMessage = 
+`🛒 ĐƠN MUA TÀI Khoản MỚI
+👤 Khách hàng: ${name}
+📱 Zalo nhận TK: ${phone}
+${note ? `📝 Ghi chú: ${note}\n` : ""}
+📦 Sản phẩm đặt mua:
+${itemsText}
+---------------------
+💰 Tổng thanh toán: ${total.toLocaleString("vi-VN")}đ
+🏦 Đã quét QR Vietcombank (1071090989 - HOANG KHAC TRUONG)`;
+
+      navigator.clipboard.writeText(orderMessage).then(() => {
+        alert("Đã sao chép chi tiết đơn hàng! Hệ thống sẽ mở Zalo chủ shop (0346462528), bạn chỉ cần Dán (Paste) và gửi để nhận tài khoản.");
+        window.open(`https://zalo.me/${SHOP_ZALO_PHONE}`, "_blank");
+      }).catch(() => {
+        window.open(`https://zalo.me/${SHOP_ZALO_PHONE}`, "_blank");
+      });
+    }
+
+    renderProducts();
+    renderUserHeader();
+  </script>
+</body>
+</html>
