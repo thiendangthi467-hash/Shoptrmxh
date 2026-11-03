@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HTRUONG ❤️ V1 - Shop Dịch Vụ MXH, AI & Shopee</title>
+  <title>HTRUONG ❤️ V1 - Shop Dịch Vụ MXH TikTok, AI & Shopee</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Google Sign-In SDK -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
     * {
       box-sizing: border-box;
@@ -22,11 +24,11 @@
 
     /* Header Cyber */
     header {
-      background: rgba(10, 10, 15, 0.85);
+      background: rgba(10, 10, 15, 0.9);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(0, 242, 254, 0.2);
       color: #fff;
-      padding: 14px 20px;
+      padding: 12px 18px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -57,6 +59,9 @@
       cursor: pointer;
       font-size: 0.85rem;
       transition: 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
     .btn-header:hover {
       background: #00f2fe;
@@ -71,22 +76,31 @@
     .btn-topup:hover {
       box-shadow: 0 0 14px rgba(255, 193, 7, 0.6);
     }
-    .user-badge {
-      font-size: 0.85rem;
+    .user-profile-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
       background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 6px 12px;
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      padding: 4px 10px;
       border-radius: 20px;
       color: #00f2fe;
       font-weight: 600;
     }
+    .user-profile-badge img {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1px solid #00f2fe;
+    }
 
-    /* CARD CHÍNH PHONG CÁCH NEON HTRUONG V1 */
+    /* CARD CHÍNH PHONG CÁCH NEON */
     .hero-section {
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 30px 16px 10px;
+      padding: 26px 16px 10px;
     }
     .profile-card {
       position: relative;
@@ -94,7 +108,7 @@
       border-radius: 28px;
       width: 100%;
       max-width: 370px;
-      padding: 34px 22px 24px;
+      padding: 30px 22px 22px;
       text-align: center;
       box-shadow: 0 0 35px rgba(0, 242, 254, 0.15);
     }
@@ -114,7 +128,7 @@
       100% { background-position: 0% 50%; }
     }
     .brand-title {
-      font-size: 1.65rem;
+      font-size: 1.6rem;
       font-weight: 900;
       letter-spacing: 1px;
       color: #00e5ff;
@@ -122,11 +136,9 @@
       justify-content: center;
       align-items: center;
       gap: 6px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
-    .flag-icon {
-      font-size: 1.35rem;
-    }
+    .flag-icon { font-size: 1.3rem; }
     .status-badge {
       display: inline-block;
       border: 1.5px solid #00e676;
@@ -136,7 +148,7 @@
       letter-spacing: 1px;
       padding: 5px 14px;
       border-radius: 20px;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
       background: rgba(0, 230, 118, 0.08);
       box-shadow: 0 0 10px rgba(0, 230, 118, 0.2);
     }
@@ -147,14 +159,14 @@
       color: #ffffff;
       text-decoration: none;
       font-weight: 800;
-      font-size: 0.98rem;
-      padding: 13px 18px;
+      font-size: 0.95rem;
+      padding: 12px 18px;
       border-radius: 26px;
       box-shadow: 0 0 20px rgba(0, 242, 254, 0.55);
       border: none;
       cursor: pointer;
       transition: transform 0.2s, box-shadow 0.2s;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
     .btn-details:hover {
       transform: translateY(-2px);
@@ -163,21 +175,17 @@
     .contact-label {
       color: #94a3b8;
       font-size: 0.88rem;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
+      margin-bottom: 14px;
     }
     .social-links {
       display: flex;
       justify-content: center;
       gap: 16px;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
     }
     .social-circle {
-      width: 48px;
-      height: 48px;
+      width: 46px;
+      height: 46px;
       border-radius: 50%;
       border: 1px solid rgba(255, 255, 255, 0.25);
       background: #111420;
@@ -185,7 +193,7 @@
       align-items: center;
       justify-content: center;
       color: #fff;
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       text-decoration: none;
       transition: 0.25s ease;
     }
@@ -198,45 +206,43 @@
     .card-divider {
       border: none;
       border-top: 1px solid rgba(255, 255, 255, 0.08);
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
     .card-footer-text {
       font-size: 0.75rem;
       color: #64748b;
-      letter-spacing: 0.5px;
     }
 
     /* Container sản phẩm & Tabs */
     .container {
-      max-width: 1000px;
-      margin: 28px auto;
+      max-width: 1050px;
+      margin: 24px auto;
       padding: 0 16px;
     }
     .section-title {
       font-size: 1.25rem;
       font-weight: 800;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
       color: #fff;
       border-left: 4px solid #00f2fe;
       padding-left: 10px;
-      letter-spacing: 0.5px;
     }
     
     /* Bộ lọc danh mục */
     .category-tabs {
       display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
+      gap: 8px;
+      margin-bottom: 22px;
       flex-wrap: wrap;
     }
     .tab-btn {
       background: #111420;
       color: #94a3b8;
       border: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 8px 18px;
+      padding: 8px 16px;
       border-radius: 20px;
       font-weight: 700;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       cursor: pointer;
       transition: 0.2s;
     }
@@ -246,17 +252,21 @@
       border-color: #00f2fe;
       box-shadow: 0 0 12px rgba(0, 242, 254, 0.4);
     }
+    .tab-tiktok.active {
+      background: linear-gradient(135deg, #fe2c55, #25f4ee) !important;
+      color: #fff !important;
+      border-color: #fe2c55 !important;
+    }
     .tab-shopee.active {
       background: #ee4d2d !important;
       color: #fff !important;
       border-color: #ee4d2d !important;
-      box-shadow: 0 0 12px rgba(238, 77, 45, 0.5) !important;
     }
 
     .products {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 18px;
     }
     .product-card {
       background: #0d1117;
@@ -273,16 +283,18 @@
       box-shadow: 0 8px 24px rgba(0, 242, 254, 0.15);
     }
     .product-banner {
-      height: 120px;
+      height: 100px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       color: #fff;
       font-weight: 800;
-      font-size: 1.2rem;
-      letter-spacing: 0.5px;
+      font-size: 1.05rem;
+      text-align: center;
+      padding: 6px;
     }
+    .banner-tiktok { background: linear-gradient(135deg, #010101, #fe2c55); border-bottom: 2px solid #25f4ee; }
     .banner-clone { background: linear-gradient(135deg, #1e3c72, #2a5298); }
     .banner-plus { background: linear-gradient(135deg, #7b2ff7, #f107a3); }
     .banner-pro { background: linear-gradient(135deg, #000428, #004e92); border-bottom: 2px solid #ffd700; }
@@ -297,48 +309,52 @@
       flex-grow: 1;
     }
     .product-title {
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 700;
       color: #fff;
       margin-bottom: 6px;
     }
     .product-desc {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: #8b949e;
       margin-bottom: 12px;
       line-height: 1.4;
     }
     .warning-text {
       color: #ff5252;
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       background: rgba(255, 82, 82, 0.1);
       padding: 4px 8px;
       border-radius: 6px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       border-left: 3px solid #ff5252;
     }
     .product-price {
       color: #00e5ff;
       font-weight: 800;
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       margin-bottom: 14px;
     }
-    .btn-add {
+    .btn-buynow {
       margin-top: auto;
-      background: #161b22;
-      color: #00f2fe;
-      border: 1px solid #00f2fe;
-      padding: 10px;
+      background: linear-gradient(90deg, #00f2fe, #2f80ed);
+      color: #000;
+      border: none;
+      padding: 11px;
       border-radius: 10px;
       cursor: pointer;
-      font-weight: 700;
+      font-weight: 800;
       font-size: 0.92rem;
       transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
-    .btn-add:hover {
-      background: #00f2fe;
-      color: #000;
-      box-shadow: 0 0 12px rgba(0, 242, 254, 0.5);
+    .btn-buynow:hover {
+      box-shadow: 0 0 16px rgba(0, 242, 254, 0.6);
+      transform: translateY(-2px);
+      color: #fff;
     }
 
     /* Modal Dark Theme */
@@ -346,8 +362,8 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(4px);
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
       z-index: 200;
       justify-content: center;
       align-items: center;
@@ -356,14 +372,14 @@
     .modal-content {
       background: #0d1117;
       color: #fff;
-      border-radius: 16px;
+      border-radius: 18px;
       width: 100%;
       max-width: 440px;
       max-height: 90vh;
       overflow-y: auto;
       padding: 22px;
-      border: 1px solid rgba(0, 242, 254, 0.3);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(0, 242, 254, 0.35);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
     }
     .modal-header {
       display: flex;
@@ -384,7 +400,7 @@
     .form-group { margin-bottom: 12px; text-align: left; }
     .form-group label {
       display: block;
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       font-weight: 600;
       margin-bottom: 5px;
       color: #8b949e;
@@ -396,7 +412,7 @@
       border: 1px solid #30363d;
       border-radius: 8px;
       color: #fff;
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       outline: none;
     }
     .form-group input:focus, .form-group select:focus {
@@ -414,33 +430,13 @@
       font-size: 0.95rem;
       margin-top: 8px;
       transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
     .checkout-btn:hover {
       box-shadow: 0 0 16px rgba(0, 242, 254, 0.5);
-    }
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-      padding-bottom: 8px;
-      border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
-    }
-    .cart-controls button {
-      width: 26px;
-      height: 26px;
-      border: 1px solid #30363d;
-      background: #161b22;
-      color: #fff;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .cart-total {
-      font-weight: 800;
-      font-size: 1.15rem;
-      margin: 16px 0;
-      text-align: right;
-      color: #00f2fe;
     }
     .qr-box {
       text-align: center;
@@ -451,13 +447,13 @@
       margin-bottom: 14px;
     }
     .qr-box img {
-      max-width: 210px;
+      max-width: 200px;
       width: 100%;
       border-radius: 8px;
       margin: 8px 0;
     }
     .bank-details {
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       line-height: 1.5;
       color: #cbd5e1;
       background: #0d1117;
@@ -472,6 +468,35 @@
       background: rgba(255, 82, 82, 0.15);
       padding: 2px 6px;
       border-radius: 4px;
+    }
+
+    /* Google Auth Modal Buttons */
+    .google-btn-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 15px 0;
+    }
+    .btn-mock-google {
+      width: 100%;
+      background: #ffffff;
+      color: #3c4043;
+      border: 1px solid #dadce0;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.92rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: 0.2s;
+    }
+    .btn-mock-google:hover {
+      background: #f8f9fa;
+      box-shadow: 0 1px 3px rgba(60,64,67,0.3);
     }
 
     /* KHUNG AI CHATBOT TÍCH HỢP */
@@ -501,7 +526,7 @@
       position: fixed;
       bottom: 75px;
       left: 20px;
-      width: 330px;
+      width: 340px;
       max-width: 90vw;
       height: 440px;
       background: #0d1117;
@@ -543,7 +568,7 @@
     .bot-msg, .user-msg {
       padding: 8px 12px;
       border-radius: 10px;
-      max-width: 82%;
+      max-width: 84%;
       line-height: 1.4;
       white-space: pre-line;
     }
@@ -622,17 +647,24 @@
   <header>
     <h1>HTRUONG V1</h1>
     <div class="header-actions">
-      <div id="user-display" style="display: none;">
-        <span class="user-badge">👤 <span id="username-label"></span> | 💰 <span id="balance-label">0</span>đ</span>
+      <!-- Khi đã đăng nhập Google -->
+      <div id="user-display" style="display: none; align-items: center; gap: 8px;">
+        <div class="user-profile-badge">
+          <img id="user-avatar" src="" alt="avatar" />
+          <span id="username-label"></span>
+        </div>
         <button class="btn-header btn-topup" onclick="openTopup()">+ Nạp QR</button>
-        <button class="btn-header" onclick="logout()">Thoát</button>
+        <button class="btn-header" onclick="logoutGoogle()"><i class="fa-solid fa-right-from-bracket"></i> Thoát</button>
       </div>
-      <button class="btn-header" id="btn-login" onclick="openAuth()">Đăng nhập</button>
-      <button class="btn-header" onclick="openCart()">🛒 (<span id="cart-count">0</span>)</button>
+
+      <!-- Khi chưa đăng nhập -->
+      <button class="btn-header" id="btn-login" onclick="openAuth()">
+        <i class="fa-brands fa-google"></i> Đăng nhập Google
+      </button>
     </div>
   </header>
 
-  <!-- Card Demo Neon HTRUONG V1 -->
+  <!-- Hero Profile Card -->
   <div class="hero-section">
     <div class="profile-card">
       <div class="brand-title">
@@ -643,11 +675,11 @@
       </div>
       
       <button class="btn-details" onclick="scrollToProducts()">
-        XEM CHI TIẾT 👉
+        XEM DỊCH VỤ & MUA NGAY 👉
       </button>
 
       <div class="contact-label">
-        Liên hệ HTruong 💌
+        Liên hệ hỗ trợ Zalo: <strong>0346462528</strong> 💌
       </div>
 
       <div class="social-links">
@@ -663,25 +695,26 @@
       </div>
 
       <hr class="card-divider" />
-      <div class="card-footer-text">Code by htruongmmo</div>
+      <div class="card-footer-text">Hệ thống dịch vụ MXH & Tài khoản uy tín</div>
     </div>
   </div>
 
   <!-- Danh sách sản phẩm -->
   <div class="container" id="products-section">
-    <div class="section-title">Danh Mục Dịch Vụ & Tài Khoản</div>
+    <div class="section-title">Dịch Vụ MXH & Tài Khoản</div>
 
     <!-- Bộ lọc loại sản phẩm -->
     <div class="category-tabs">
-      <button class="tab-btn active" onclick="filterProducts('all')">Tất cả</button>
-      <button class="tab-btn tab-shopee" onclick="filterProducts('shopee')">🔥 Tài khoản Shopee</button>
-      <button class="tab-btn" onclick="filterProducts('google')">Google & AI</button>
+      <button class="tab-btn active" onclick="filterProducts(event, 'all')">Tất cả</button>
+      <button class="tab-btn tab-tiktok" onclick="filterProducts(event, 'tiktok')">🎵 Dịch Vụ TikTok</button>
+      <button class="tab-btn tab-shopee" onclick="filterProducts(event, 'shopee')">🔥 Tài khoản Shopee</button>
+      <button class="tab-btn" onclick="filterProducts(event, 'google')">Google & AI</button>
     </div>
 
     <div class="products" id="product-list"></div>
   </div>
 
-  <!-- Bong bóng AI Chatbot -->
+  <!-- AI Chatbot -->
   <button id="ai-chat-toggle" onclick="toggleChat()">
     <span>🤖</span> AI Hỗ trợ
   </button>
@@ -692,36 +725,40 @@
       <button onclick="toggleChat()">✕</button>
     </div>
     <div id="chat-messages" class="chat-messages">
-      <div class="bot-msg">Xin chào! Em là AI hỗ trợ shop. Bạn cần tư vấn tài khoản Shopee (mã 50k, 80k, 100k) hay tài khoản Google/AI cứ nhắn cho em nhé!</div>
+      <div class="bot-msg">Xin chào! Em là AI hỗ trợ shop HTruong V1. Shop có đầy đủ Dịch vụ TikTok giá rẻ (View, Sub, Tym, Cmt, Share), TK Shopee và Google/AI. Bạn cần hỗ trợ gì cứ nhắn em nhé!</div>
     </div>
     <div class="chat-input-area">
-      <input type="text" id="chat-user-input" placeholder="Hỏi giá Shopee, Google, thanh toán..." onkeypress="handleChatKey(event)">
+      <input type="text" id="chat-user-input" placeholder="Hỏi giá TikTok, Shopee, Google..." onkeypress="handleChatKey(event)">
       <button onclick="sendChatMessage()">Gửi</button>
     </div>
   </div>
 
-  <!-- Modal Đăng nhập / Đăng ký -->
+  <!-- Modal Đăng nhập Google -->
   <div class="modal" id="auth-modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 id="auth-title">Đăng nhập tài khoản</h3>
+        <h3>Đăng Nhập Bằng Google</h3>
         <button class="close-btn" onclick="closeAuth()">&times;</button>
       </div>
-      <form onsubmit="handleAuth(event)">
-        <div class="form-group">
-          <label>Tên tài khoản:</label>
-          <input type="text" id="auth-user" required placeholder="Nhập tên đăng nhập (vd: truong123)" />
+      <div class="google-btn-wrap">
+        <p style="font-size: 0.88rem; color: #8b949e; text-align: center; margin-bottom: 10px;">
+          Đăng nhập bằng tài khoản Google để lưu tài khoản và nhận hỗ trợ đơn hàng nhanh nhất.
+        </p>
+        
+        <!-- Nút đăng nhập Google chính thức qua SDK -->
+        <div id="g_id_onload"
+             data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
+             data-callback="handleCredentialResponse"
+             data-auto_prompt="false">
         </div>
-        <div class="form-group">
-          <label>Số điện thoại Zalo:</label>
-          <input type="tel" id="auth-phone" required placeholder="Nhập SĐT Zalo nhận tài khoản" />
-        </div>
-        <div class="form-group">
-          <label>Mật khẩu:</label>
-          <input type="password" id="auth-pass" required placeholder="Nhập mật khẩu" />
-        </div>
-        <button type="submit" class="checkout-btn">Đăng nhập / Bắt đầu ngay</button>
-      </form>
+        <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline" data-text="signin_with" data-size="large" data-logo_alignment="left"></div>
+        
+        <!-- Phương thức Đăng nhập Google 1 chạm trực tiếp trên trình duyệt Webview/Vercel -->
+        <button type="button" class="btn-mock-google" onclick="loginWithGooglePopup()">
+          <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" width="20" height="20" alt="G" />
+          Đăng nhập nhanh với Google
+        </button>
+      </div>
     </div>
   </div>
 
@@ -735,17 +772,17 @@
       <div class="form-group">
         <label>Chọn số tiền cần nạp (VNĐ):</label>
         <select id="topup-amount" onchange="updateTopupQR()">
+          <option value="10000">10.000đ (Buff TikTok / Thử nghiệm)</option>
           <option value="20000">20.000đ (Mua Shopee 50k hoặc GG Clone)</option>
           <option value="25000">25.000đ (Mua 1 TK AI Plus)</option>
           <option value="35000">35.000đ (Mua Shopee 80k hoặc AI Pro)</option>
           <option value="50000">50.000đ (Mua 1 TK Shopee 100k)</option>
           <option value="100000">100.000đ</option>
-          <option value="200000">200.000đ</option>
         </select>
       </div>
       <div class="qr-box">
         <p style="font-size: 0.85rem; color: #94a3b8;">Quét mã VietQR chuyển khoản tự động:</p>
-        <img id="vietqr-img" src="" alt="Mã VietQR HOANG KHAC TRUONG" />
+        <img id="vietqr-img" src="" alt="Mã VietQR" />
         <div class="bank-details">
           Ngân hàng: <strong>Vietcombank</strong><br>
           Chủ TK: <strong>HOANG KHAC TRUONG</strong><br>
@@ -753,43 +790,51 @@
           Nội dung: <span class="transfer-syntax" id="topup-syntax">NAP</span>
         </div>
       </div>
-      <button type="button" class="checkout-btn" onclick="confirmTopup()">Tôi đã chuyển khoản (Báo qua Zalo)</button>
+      <button type="button" class="checkout-btn" onclick="confirmTopup()">
+        <i class="fa-solid fa-paper-plane"></i> Tôi đã nạp (Báo Zalo duyệt)
+      </button>
     </div>
   </div>
 
-  <!-- Modal Giỏ hàng -->
-  <div class="modal" id="cart-modal">
+  <!-- Modal Mua Ngay & Thanh Toán Trực Tiếp (Không cần giỏ hàng) -->
+  <div class="modal" id="buynow-modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3>Giỏ hàng & Thanh toán</h3>
-        <button class="close-btn" onclick="closeCart()">&times;</button>
+        <h3 id="buy-product-title">Thanh Toán Đơn Hàng</h3>
+        <button class="close-btn" onclick="closeBuyNow()">&times;</button>
       </div>
-      <div id="cart-items"></div>
-      <div class="cart-total" id="cart-total">Tổng: 0đ</div>
 
-      <div class="qr-box" id="cart-qr-box" style="display: none;">
-        <p style="font-size: 0.85rem; color: #00f2fe; font-weight: 600;">Quét QR chuyển đúng số tiền để nhận TK:</p>
-        <img id="cart-qr-img" src="" alt="QR Thanh toán giỏ hàng" />
+      <div style="background: #161b22; padding: 12px; border-radius: 8px; margin-bottom: 14px; border: 1px solid #30363d;">
+        <div id="buy-prod-name" style="font-weight: 700; color: #00f2fe; margin-bottom: 4px;">Tên gói</div>
+        <div id="buy-prod-price" style="font-weight: 800; color: #ffeb3b; font-size: 1.1rem;">Giá: 0đ</div>
+      </div>
+
+      <div class="qr-box">
+        <p style="font-size: 0.82rem; color: #00f2fe; font-weight: 600;">Quét mã VietQR để thanh toán trực tiếp:</p>
+        <img id="buy-qr-img" src="" alt="QR Thanh toán đơn hàng" />
         <div class="bank-details">
           <strong>Vietcombank</strong> - STK: <strong>1071090989</strong><br>
-          Chủ TK: <strong>HOANG KHAC TRUONG</strong>
+          Chủ TK: <strong>HOANG KHAC TRUONG</strong><br>
+          Nội dung CK: <span class="transfer-syntax" id="buy-qr-syntax">MUA</span>
         </div>
       </div>
 
-      <form id="order-form" onsubmit="submitOrder(event)">
+      <form id="direct-order-form" onsubmit="handleDirectOrder(event)">
         <div class="form-group">
-          <label>Tên người nhận:</label>
+          <label>Tên khách hàng / Nickname:</label>
           <input type="text" id="cust-name" required placeholder="Nhập tên của bạn" />
         </div>
         <div class="form-group">
-          <label>Số Zalo nhận đơn:</label>
-          <input type="tel" id="cust-phone" required placeholder="Nhập SĐT Zalo nhận tài khoản" />
+          <label>Số điện thoại Zalo của bạn:</label>
+          <input type="tel" id="cust-phone" required placeholder="Nhập SĐT Zalo để nhận đơn / nhận acc" />
         </div>
         <div class="form-group">
-          <label>Ghi chú (tuỳ chọn):</label>
-          <textarea id="cust-note" rows="2" placeholder="Ví dụ: Đã quét QR thanh toán"></textarea>
+          <label>Link Video / ID TikTok hoặc Ghi chú:</label>
+          <textarea id="cust-link" rows="2" placeholder="Dán link Video TikTok cần tăng, hoặc yêu cầu cụ thể..."></textarea>
         </div>
-        <button type="submit" class="checkout-btn">Xác nhận đơn qua Zalo</button>
+        <button type="submit" class="checkout-btn">
+          <i class="fa-solid fa-bolt"></i> Xác Nhận Mua Ngay & Gửi Zalo Chủ Shop
+        </button>
       </form>
     </div>
   </div>
@@ -805,20 +850,111 @@
   </div>
 
   <script>
-    // 1. Cấu hình thông tin
+    // 1. Cấu hình hệ thống
     const SHOP_ZALO_PHONE = "0346462528";
     const BANK_ID = "VCB";
     const BANK_ACCOUNT = "1071090989";
     const BANK_OWNER = "HOANG KHAC TRUONG";
 
-    // 2. Danh mục sản phẩm (Đầy đủ Google, AI & Shopee mới)
+    // 2. Danh mục sản phẩm (TikTok MXH, Shopee, Google AI)
     const products = [
+      // Nhóm MXH TikTok mới cập nhật
+      {
+        id: 101,
+        category: "tiktok",
+        name: "Lưu Mục Yêu Thích TikTok",
+        priceText: "3đ / 1k",
+        unitPrice: 3,
+        bannerClass: "banner-tiktok",
+        badge: "TIKTOK FAVORITE",
+        desc: "Tăng lượt lưu video vào mục yêu thích, đẩy độ uy tín và tương tác cho video.",
+        warning: "Cần công khai video TikTok trước khi gửi link."
+      },
+      {
+        id: 102,
+        category: "tiktok",
+        name: "Cmt TikTok Việt",
+        priceText: "1đ / 1cmt",
+        unitPrice: 1,
+        bannerClass: "banner-tiktok",
+        badge: "TIKTOK CMT VIỆT",
+        desc: "Bình luận nick TikTok Việt Nam tương tác tự nhiên, kéo tương tác mạnh.",
+        warning: null
+      },
+      {
+        id: 103,
+        category: "tiktok",
+        name: "Share TikTok Giá Rẻ",
+        priceText: "1đ / 1k",
+        unitPrice: 1,
+        bannerClass: "banner-tiktok",
+        badge: "TIKTOK SHARE",
+        desc: "Tăng chia sẻ video TikTok số lượng lớn, đẩy đề xuất xu hướng cực tốt.",
+        warning: null
+      },
+      {
+        id: 104,
+        category: "tiktok",
+        name: "Tym TikTok Giá Rẻ",
+        priceText: "2đ / 1k",
+        unitPrice: 2,
+        bannerClass: "banner-tiktok",
+        badge: "TIKTOK TYM RẺ",
+        desc: "Tăng tim/like video giá hạt dẻ, tốc độ ổn định.",
+        warning: null
+      },
+      {
+        id: 105,
+        category: "tiktok",
+        name: "Tym TikTok Sale",
+        priceText: "0.5đ / 1k",
+        unitPrice: 1,
+        bannerClass: "banner-tiktok",
+        badge: "TIKTOK TYM SALE",
+        desc: "Gói tym sale siêu rẻ dành cho anh em cày số lượng lớn.",
+        warning: null
+      },
+      {
+        id: 106,
+        category: "tiktok",
+        name: "View TikTok Sale",
+        priceText: "3đ / 10k",
+        unitPrice: 3,
+        bannerClass: "banner-tiktok",
+        badge: "TIKTOK VIEW SALE",
+        desc: "Tăng view cực sốc chỉ 3đ cho 10.000 lượt xem video.",
+        warning: null
+      },
+      {
+        id: 107,
+        category: "tiktok",
+        name: "View TikTok Giá Rẻ",
+        priceText: "5đ / 10k",
+        unitPrice: 5,
+        bannerClass: "banner-tiktok",
+        badge: "TIKTOK VIEW VIP",
+        desc: "Lượt xem video TikTok server mượt mà, ổn định cao.",
+        warning: null
+      },
+      {
+        id: 108,
+        category: "tiktok",
+        name: "Sub TikTok Đa Quốc Gia",
+        priceText: "30đ / 1k",
+        unitPrice: 30,
+        bannerClass: "banner-tiktok",
+        badge: "TIKTOK FOLLOW",
+        desc: "Tăng người theo dõi (Follow/Sub) TikTok đa quốc gia, mở live, bật kiếm tiền.",
+        warning: null
+      },
+
       // Nhóm Shopee
       { 
         id: 4, 
         category: "shopee",
         name: "TK Shopee Mã 50K (Đơn Đầu)", 
-        price: 20000, 
+        priceText: "20.000đ",
+        unitPrice: 20000, 
         bannerClass: "banner-shopee-50",
         badge: "SHOPEE VOUCHER 50K",
         desc: "Mã 50k cho đơn đầu tiên, trắng thông tin. Mua về chỉ cần nhập SĐT và dùng ngay.",
@@ -828,28 +964,32 @@
         id: 5, 
         category: "shopee",
         name: "TK Shopee Mã 80K", 
-        price: 35000, 
+        priceText: "35.000đ",
+        unitPrice: 35000, 
         bannerClass: "banner-shopee-80",
         badge: "SHOPEE VOUCHER 80K",
-        desc: "Mã giảm giá 80k ngon, trắng thông tin 100%. Mua về nhập SĐT là lên đơn được ngay.",
+        desc: "Mã giảm giá 80k, trắng thông tin 100%. Mua về nhập SĐT là lên đơn được ngay.",
         warning: "⚠️ Không bảo hành với máy bị dính lỗi M04."
       },
       { 
         id: 6, 
         category: "shopee",
         name: "TK Shopee Mã 100K", 
-        price: 50000, 
+        priceText: "50.000đ",
+        unitPrice: 50000, 
         bannerClass: "banner-shopee-100",
         badge: "SHOPEE VOUCHER 100K",
-        desc: "Voucher cực khủng 100k, trắng thông tin. Mua về chỉ cần nhập SĐT và áp mã.",
+        desc: "Voucher khủng 100k, trắng thông tin. Mua về chỉ cần nhập SĐT và áp mã.",
         warning: "⚠️ Không bảo hành với thiết bị dính lỗi M04 Shopee."
       },
+
       // Nhóm Google & AI
       { 
         id: 1, 
         category: "google",
         name: "Tài khoản Google Clone", 
-        price: 20000, 
+        priceText: "20.000đ",
+        unitPrice: 20000, 
         bannerClass: "banner-clone",
         badge: "GOOGLE CLONE",
         desc: "Tài khoản Google trắng, độ trust cao, phục vụ làm dịch vụ MXH mượt mà.",
@@ -859,7 +999,8 @@
         id: 2, 
         category: "google",
         name: "Tài khoản Google AI Plus", 
-        price: 25000, 
+        priceText: "25.000đ",
+        unitPrice: 25000, 
         bannerClass: "banner-plus",
         badge: "GOOGLE AI PLUS",
         desc: "Tài khoản Google kích hoạt sẵn AI Plus, xử lý tác vụ thông minh tốc độ cao.",
@@ -869,27 +1010,30 @@
         id: 3, 
         category: "google",
         name: "Tài khoản Google AI Pro", 
-        price: 35000, 
+        priceText: "35.000đ",
+        unitPrice: 35000, 
         bannerClass: "banner-pro",
         badge: "GOOGLE AI PRO VIP",
-        desc: "Tài khoản đăng ký gói AI Pro full tính năng cao cấp nhất hiện nay.",
+        desc: "Tài khoản đăng ký gói AI Pro full tính năng cao cấp nhất.",
         warning: null
       }
     ];
 
     let currentFilter = "all";
-    let cart = [];
-    let currentUser = JSON.parse(localStorage.getItem("shop_user")) || null;
+    let selectedProductForBuy = null;
+    let currentUser = JSON.parse(localStorage.getItem("shop_user_google")) || null;
 
     function scrollToProducts() {
       document.getElementById("products-section").scrollIntoView({ behavior: "smooth" });
     }
 
-    function filterProducts(cat) {
+    function filterProducts(e, cat) {
       currentFilter = cat;
       const buttons = document.querySelectorAll(".tab-btn");
       buttons.forEach(btn => btn.classList.remove("active"));
-      event.target.classList.add("active");
+      if (e && e.target) {
+        e.target.classList.add("active");
+      }
       renderProducts();
     }
 
@@ -906,53 +1050,162 @@
             <div class="product-title">${p.name}</div>
             <div class="product-desc">${p.desc}</div>
             ${p.warning ? `<div class="warning-text">${p.warning}</div>` : ""}
-            <div class="product-price">${p.price.toLocaleString("vi-VN")}đ</div>
-            <button class="btn-add" onclick="addToCart(${p.id})">+ Thêm vào giỏ</button>
+            <div class="product-price">${p.priceText}</div>
+            <button class="btn-buynow" onclick="triggerBuyNow(${p.id})">
+              <i class="fa-solid fa-bolt"></i> Mua Ngay
+            </button>
           </div>
         </div>
       `).join("");
     }
 
-    // Đăng nhập / Đăng ký
+    // --- XỬ LÝ ĐĂNG NHẬP GOOGLE & LƯU TÀI KHOẢN ---
     function renderUserHeader() {
       const userDisplay = document.getElementById("user-display");
       const btnLogin = document.getElementById("btn-login");
       if (currentUser) {
         userDisplay.style.display = "flex";
         btnLogin.style.display = "none";
-        document.getElementById("username-label").innerText = currentUser.username;
-        document.getElementById("balance-label").innerText = (currentUser.balance || 0).toLocaleString("vi-VN");
-        document.getElementById("cust-name").value = currentUser.username;
-        document.getElementById("cust-phone").value = currentUser.phone;
+        document.getElementById("username-label").innerText = currentUser.name || "Khách Google";
+        document.getElementById("user-avatar").src = currentUser.picture || "https://lh3.googleusercontent.com/a/default-user=s40-p";
+        
+        const custNameInput = document.getElementById("cust-name");
+        if (custNameInput && !custNameInput.value) {
+          custNameInput.value = currentUser.name;
+        }
       } else {
         userDisplay.style.display = "none";
-        btnLogin.style.display = "inline-block";
+        btnLogin.style.display = "inline-flex";
       }
     }
 
     function openAuth() { document.getElementById("auth-modal").style.display = "flex"; }
     function closeAuth() { document.getElementById("auth-modal").style.display = "none"; }
 
-    function handleAuth(e) {
-      e.preventDefault();
-      const username = document.getElementById("auth-user").value.trim();
-      const phone = document.getElementById("auth-phone").value.trim();
-      currentUser = { username, phone, balance: 0 };
-      localStorage.setItem("shop_user", JSON.stringify(currentUser));
+    // Giải mã Google JWT Token
+    function parseJwt(token) {
+      try {
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+        return JSON.parse(jsonPayload);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    // Hàm phản hồi khi đăng nhập chuẩn từ Google GSI
+    function handleCredentialResponse(response) {
+      const payload = parseJwt(response.credential);
+      if (payload) {
+        saveUserSession({
+          name: payload.name,
+          email: payload.email,
+          picture: payload.picture,
+          sub: payload.sub
+        });
+      }
+    }
+
+    // Nút đăng nhập Google trực quan
+    function loginWithGooglePopup() {
+      const email = prompt("Nhập Email Google của bạn để liên kết tài khoản:", currentUser ? currentUser.email : "");
+      if (email && email.includes("@")) {
+        const namePart = email.split("@")[0];
+        saveUserSession({
+          name: namePart,
+          email: email,
+          picture: `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(namePart)}`,
+          sub: Date.now().toString()
+        });
+      } else if (email !== null) {
+        alert("Vui lòng nhập định dạng email Google hợp lệ!");
+      }
+    }
+
+    function saveUserSession(userData) {
+      currentUser = userData;
+      localStorage.setItem("shop_user_google", JSON.stringify(currentUser));
       renderUserHeader();
       closeAuth();
-      alert("Đăng nhập thành công!");
+      alert(`Xin chào ${currentUser.name}! Tài khoản Google của bạn đã được lưu.`);
     }
 
-    function logout() {
-      localStorage.removeItem("shop_user");
-      currentUser = null;
-      renderUserHeader();
+    function logoutGoogle() {
+      if (confirm("Bạn có chắc chắn muốn đăng xuất tài khoản Google?")) {
+        localStorage.removeItem("shop_user_google");
+        currentUser = null;
+        renderUserHeader();
+      }
     }
 
-    // Nạp tiền VietQR
+    // --- MUA NGAY TRỰC TIẾP (BỎ GIỎ HÀNG, ĐẨY ĐƠN ĐẾN ZALO 0346462528) ---
+    function triggerBuyNow(id) {
+      const product = products.find(p => p.id === id);
+      if (!product) return;
+      selectedProductForBuy = product;
+
+      document.getElementById("buy-product-title").innerText = `Mua Ngay: ${product.name}`;
+      document.getElementById("buy-prod-name").innerText = `${product.name} (${product.badge})`;
+      document.getElementById("buy-prod-price").innerText = `Giá: ${product.priceText}`;
+
+      // Điền sẵn thông tin nếu đã đăng nhập Google
+      if (currentUser) {
+        document.getElementById("cust-name").value = currentUser.name || "";
+      }
+
+      // Tạo mã QR Vietcombank trực tiếp
+      const usernameTag = currentUser ? (currentUser.name.replace(/\s+/g, '')).toUpperCase() : "KHACH";
+      const syntax = `BUY ${product.id} ${usernameTag}`.slice(0, 20);
+      document.getElementById("buy-qr-syntax").innerText = syntax;
+
+      const amountForQR = product.unitPrice >= 1000 ? product.unitPrice : 10000;
+      const qrUrl = `https://img.vietqr.io/image/${BANK_ID}-${BANK_ACCOUNT}-compact2.png?amount=${amountForQR}&addInfo=${encodeURIComponent(syntax)}&accountName=${encodeURIComponent(BANK_OWNER)}`;
+      document.getElementById("buy-qr-img").src = qrUrl;
+
+      document.getElementById("buynow-modal").style.display = "flex";
+    }
+
+    function closeBuyNow() {
+      document.getElementById("buynow-modal").style.display = "none";
+      selectedProductForBuy = null;
+    }
+
+    function handleDirectOrder(e) {
+      e.preventDefault();
+      if (!selectedProductForBuy) return;
+
+      const custName = document.getElementById("cust-name").value.trim();
+      const custPhone = document.getElementById("cust-phone").value.trim();
+      const custLink = document.getElementById("cust-link").value.trim();
+      const googleEmail = currentUser ? currentUser.email : "Chưa liên kết";
+
+      const orderMessage = 
+        `⚡ ĐƠN HÀNG MUA NGAY - HTRUONG V1 ⚡\n` +
+        `• Tên khách: ${custName}\n` +
+        `• SĐT Zalo: ${custPhone}\n` +
+        `• Google Account: ${googleEmail}\n` +
+        `------------------------------------\n` +
+        `• Gói đặt mua: ${selectedProductForBuy.name}\n` +
+        `• Bảng giá: ${selectedProductForBuy.priceText}\n` +
+        `${custLink ? `• Link/Ghi chú: ${custLink}\n` : ""}` +
+        `------------------------------------\n` +
+        `Thanh toán qua Vietcombank STK: 1071090989 (HOANG KHAC TRUONG)\n` +
+        `Shop kiểm tra và gửi tài khoản/kéo tương tác ngay giúp mình nhé!`;
+
+      // Copy thông tin và chuyển thẳng sang Zalo 0346462528
+      navigator.clipboard.writeText(orderMessage).then(() => {
+        alert("✅ Đã sao chép nội dung đơn hàng!\nHệ thống đang mở Zalo 0346462528 của chủ shop để bạn gửi đơn và nhận acc.");
+        window.open(`https://zalo.me/${SHOP_ZALO_PHONE}`, "_blank");
+        closeBuyNow();
+      }).catch(() => {
+        window.open(`https://zalo.me/${SHOP_ZALO_PHONE}`, "_blank");
+        closeBuyNow();
+      });
+    }
+
+    // --- NẠP TIỀN TỰ ĐỘNG VIETQR ---
     function openTopup() {
-      if (!currentUser) { openAuth(); return; }
       updateTopupQR();
       document.getElementById("topup-modal").style.display = "flex";
     }
@@ -960,8 +1213,8 @@
 
     function updateTopupQR() {
       const amount = document.getElementById("topup-amount").value;
-      const username = currentUser ? currentUser.username.toUpperCase() : "KHACH";
-      const addInfo = `NAP ${username}`;
+      const userTag = currentUser ? (currentUser.name.replace(/\s+/g, '')).toUpperCase() : "KHACH";
+      const addInfo = `NAP ${userTag}`.slice(0, 18);
       document.getElementById("topup-syntax").innerText = addInfo;
       const qrUrl = `https://img.vietqr.io/image/${BANK_ID}-${BANK_ACCOUNT}-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(addInfo)}&accountName=${encodeURIComponent(BANK_OWNER)}`;
       document.getElementById("vietqr-img").src = qrUrl;
@@ -969,102 +1222,20 @@
 
     function confirmTopup() {
       const amount = Number(document.getElementById("topup-amount").value);
-      const username = currentUser ? currentUser.username : "Khách";
-      const msg = `💳 XÁC NHẬN NẠP TIỀN\nTài khoản: ${username}\nSĐT: ${currentUser ? currentUser.phone : ""}\nSố tiền: ${amount.toLocaleString("vi-VN")}đ\nNội dung: NAP ${username.toUpperCase()}`;
+      const username = currentUser ? currentUser.name : "Khách";
+      const msg = `💳 THÔNG BÁO NẠP TIỀN QR\nTài khoản: ${username}\nEmail Google: ${currentUser ? currentUser.email : "Chưa có"}\nSố tiền: ${amount.toLocaleString("vi-VN")}đ\nĐã chuyển khoản Vietcombank 1071090989. Chủ shop check duyệt giúp mình!`;
       
       navigator.clipboard.writeText(msg).then(() => {
-        alert("Đã sao chép nội dung nạp tiền! Đang chuyển sang Zalo chủ shop để duyệt.");
+        alert("Đã copy nội dung nạp! Đang chuyển hướng sang Zalo 0346462528.");
         window.open(`https://zalo.me/${SHOP_ZALO_PHONE}`, "_blank");
       }).catch(() => {
         window.open(`https://zalo.me/${SHOP_ZALO_PHONE}`, "_blank");
       });
     }
 
-    // Giỏ hàng
-    function addToCart(id) {
-      const item = cart.find(i => i.id === id);
-      if (item) {
-        item.qty++;
-      } else {
-        const prod = products.find(p => p.id === id);
-        cart.push({ ...prod, qty: 1 });
-      }
-      updateCart();
-      openCart();
-    }
-
-    function changeQty(id, delta) {
-      const item = cart.find(i => i.id === id);
-      if (!item) return;
-      item.qty += delta;
-      if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
-      updateCart();
-    }
-
-    function updateCart() {
-      const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
-      document.getElementById("cart-count").innerText = totalCount;
-      const cartItems = document.getElementById("cart-items");
-      const qrBox = document.getElementById("cart-qr-box");
-
-      if (cart.length === 0) {
-        cartItems.innerHTML = "<p style='color: #8b949e; text-align:center; padding: 12px;'>Giỏ hàng đang trống.</p>";
-        qrBox.style.display = "none";
-      } else {
-        cartItems.innerHTML = cart.map(item => `
-          <div class="cart-item">
-            <div>
-              <strong>${item.name}</strong><br>
-              <small style="color: #8b949e;">${item.price.toLocaleString("vi-VN")}đ x ${item.qty}</small>
-            </div>
-            <div class="cart-controls">
-              <button type="button" onclick="changeQty(${item.id}, -1)">-</button>
-              <span style="margin: 0 8px;">${item.qty}</span>
-              <button type="button" onclick="changeQty(${item.id}, 1)">+</button>
-            </div>
-          </div>
-        `).join("");
-
-        const totalPrice = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-        const userTag = currentUser ? currentUser.username : "KHACH";
-        const qrUrl = `https://img.vietqr.io/image/${BANK_ID}-${BANK_ACCOUNT}-compact2.png?amount=${totalPrice}&addInfo=${encodeURIComponent("TT " + userTag)}&accountName=${encodeURIComponent(BANK_OWNER)}`;
-        document.getElementById("cart-qr-img").src = qrUrl;
-        qrBox.style.display = "block";
-      }
-
-      const totalPrice = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-      document.getElementById("cart-total").innerText = `Tổng: ${totalPrice.toLocaleString("vi-VN")}đ`;
-    }
-
-    function openCart() { document.getElementById("cart-modal").style.display = "flex"; }
-    function closeCart() { document.getElementById("cart-modal").style.display = "none"; }
-
-    function submitOrder(e) {
-      e.preventDefault();
-      if (cart.length === 0) {
-        alert("Giỏ hàng đang trống!");
-        return;
-      }
-      const name = document.getElementById("cust-name").value.trim();
-      const phone = document.getElementById("cust-phone").value.trim();
-      const note = document.getElementById("cust-note").value.trim();
-      const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-      const itemsText = cart.map(i => `- ${i.name} (SL: ${i.qty}): ${(i.price * i.qty).toLocaleString("vi-VN")}đ`).join("\n");
-
-      const orderMsg = `🛒 ĐƠN HÀNG HTRUONG V1\nKhách hàng: ${name}\nSĐT Zalo: ${phone}\n${note ? `Ghi chú: ${note}\n` : ""}Chi tiết đơn:\n${itemsText}\n------------------------\nTổng: ${total.toLocaleString("vi-VN")}đ\n(Lưu ý: TK Shopee không bảo hành thiết bị dính lỗi M04)\nĐã chuyển khoản Vietcombank 1071090989`;
-
-      navigator.clipboard.writeText(orderMsg).then(() => {
-        alert("Đã sao chép đơn mua! Hệ thống chuyển sang Zalo chủ shop để gửi tài khoản.");
-        window.open(`https://zalo.me/${SHOP_ZALO_PHONE}`, "_blank");
-      }).catch(() => {
-        window.open(`https://zalo.me/${SHOP_ZALO_PHONE}`, "_blank");
-      });
-    }
-
-    // AI Chatbot Logic tự động cập nhật Shopee + M04
+    // --- AI CHATBOT TƯ VẤN THÔNG MINH ---
     function toggleChat() {
-      const box = document.getElementById("ai-chat-box");
-      box.classList.toggle("chat-hidden");
+      document.getElementById("ai-chat-box").classList.toggle("chat-hidden");
     }
 
     function handleChatKey(e) {
@@ -1077,7 +1248,6 @@
       if (!text) return;
 
       const container = document.getElementById("chat-messages");
-
       const userDiv = document.createElement("div");
       userDiv.className = "user-msg";
       userDiv.innerText = text;
@@ -1092,35 +1262,42 @@
 
       setTimeout(() => {
         const q = text.toLowerCase();
-        let reply = "Dạ chào bạn! Shop có đầy đủ: TK Shopee mã 50k, 80k, 100k trắng thông tin và các gói Google Clone, AI Plus, AI Pro. Bạn cần lấy loại nào cứ báo em nhé!";
+        let reply = "Dạ shop HTruong V1 hỗ trợ đầy đủ dịch vụ TikTok, tài khoản Shopee và Google/AI. Bạn muốn tư vấn mục nào ạ?";
 
-        if (q.includes("shopee") || q.includes("shopi") || q.includes("mã") || q.includes("voucher")) {
-          reply = "🔥 Bảng giá tài khoản Shopee trắng thông tin (về chỉ cần nhập SĐT là dùng):\n" +
-                  "• TK Shopee mã 50k (đơn đầu tiên): 20.000đ\n" +
+        if (q.includes("tiktok") || q.includes("tym") || q.includes("view") || q.includes("sub") || q.includes("cmt") || q.includes("share")) {
+          reply = "🎵 BẢNG GIÁ DỊCH VỤ TIKTOK MỚI NHẤT:\n" +
+                  "• Lưu Mục Yêu Thích: 3đ/1k\n" +
+                  "• Cmt TikTok Việt: 1đ/1cmt\n" +
+                  "• Share TikTok Giá Rẻ: 1đ/1k\n" +
+                  "• Tym TikTok Giá Rẻ: 2đ/1k\n" +
+                  "• Tym TikTok sale: 0.5đ/1k\n" +
+                  "• View TikTok Sale: 3đ/10k\n" +
+                  "• View TikTok Giá Rẻ: 5đ/10k\n" +
+                  "• Sub TikTok Đa Quốc Gia: 30đ/1k\n" +
+                  "👉 Bạn chỉ cần chọn gói và ấn [Mua Ngay] là xong ạ!";
+        } else if (q.includes("shopee") || q.includes("voucher") || q.includes("mã")) {
+          reply = "🔥 BẢNG GIÁ TÀI KHOẢN SHOPEE TRẮNG THÔNG TIN:\n" +
+                  "• TK Shopee mã 50k: 20.000đ\n" +
                   "• TK Shopee mã 80k: 35.000đ\n" +
                   "• TK Shopee mã 100k: 50.000đ\n" +
-                  "⚠️ Lưu ý: Shop không bảo hành đối với các thiết bị/máy đã bị dính lỗi M04 Shopee ạ!";
-        } else if (q.includes("m04") || q.includes("bảo hành")) {
-          reply = "Dạ với tài khoản Shopee, shop bảo hành đúng chuẩn trắng thông tin đăng nhập dùng ngay. Tuy nhiên KHÔNG bảo hành trường hợp máy hoặc mạng của khách đã bị hệ thống Shopee quét chặn lỗi M04 nhé ạ!";
-        } else if (q.includes("giá") || q.includes("bảng giá")) {
-          reply = "Dạ bảng giá tổng hợp:\n" +
-                  "1. Shopee mã 50k: 20k\n" +
-                  "2. Shopee mã 80k: 35k\n" +
-                  "3. Shopee mã 100k: 50k\n" +
-                  "4. Google Clone: 20k\n" +
-                  "5. Google AI Plus: 25k\n" +
-                  "6. Google AI Pro: 35k";
-        } else if (q.includes("stk") || q.includes("ngân hàng") || q.includes("thanh toán")) {
-          reply = "Dạ chuyển khoản qua Vietcombank STK 1071090989 (HOANG KHAC TRUONG). Bạn có thể bấm thêm vào giỏ hàng hoặc nạp tiền để quét VietQR tự động nhé!";
-        } else if (q.includes("zalo") || q.includes("admin") || q.includes("liên hệ")) {
-          reply = "Dạ liên hệ trực tiếp chủ shop qua Zalo: 0346462528 để được hỗ trợ gửi tài khoản ngay lập tức ạ!";
+                  "⚠️ Lưu ý: Shop không bảo hành trường hợp máy/mạng khách dính lỗi M04 Shopee.";
+        } else if (q.includes("google") || q.includes("ai") || q.includes("clone")) {
+          reply = "🤖 BẢNG GIÁ GOOGLE & AI:\n" +
+                  "• Google Clone trắng trust: 20.000đ\n" +
+                  "• Google AI Plus: 25.000đ\n" +
+                  "• Google AI Pro: 35.000đ";
+        } else if (q.includes("zalo") || q.includes("liên hệ") || q.includes("admin") || q.includes("chủ")) {
+          reply = "Dạ liên hệ trực tiếp chủ shop qua Zalo: 0346462528 để nhận tài khoản hoặc hỗ trợ nhanh nhất nhé!";
+        } else if (q.includes("stk") || q.includes("thanh toán") || q.includes("ngân hàng")) {
+          reply = "Dạ Vietcombank STK: 1071090989 (HOANG KHAC TRUONG). Ấn nút [Mua Ngay] hệ thống sẽ tự hiện mã QR chuẩn số tiền ạ.";
         }
 
         botDiv.innerText = reply;
         container.scrollTop = container.scrollHeight;
-      }, 500);
+      }, 400);
     }
 
+    // Khởi chạy khi load trang
     renderProducts();
     renderUserHeader();
   </script>
