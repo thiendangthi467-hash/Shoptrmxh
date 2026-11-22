@@ -813,4 +813,1082 @@
       border: none;
       color: #94a3b8;
       cursor: pointer;
-      font-size: 16
+      font-size: 16px;
+    }
+    .chat-quick-chips {
+      display: flex;
+      gap: 6px;
+      padding: 8px 10px;
+      overflow-x: auto;
+      background: #0b0e14;
+      border-bottom: 1px solid #21262d;
+    }
+    .chip-btn {
+      background: #161b22;
+      color: #00f2fe;
+      border: 1px solid rgba(0, 242, 254, 0.35);
+      border-radius: 14px;
+      padding: 4px 10px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .chat-messages {
+      flex: 1;
+      padding: 12px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 0.85rem;
+    }
+    .bot-msg, .user-msg {
+      padding: 8px 12px;
+      border-radius: 10px;
+      max-width: 86%;
+      line-height: 1.45;
+      white-space: pre-line;
+    }
+    .bot-msg {
+      background: #161b22;
+      color: #e2e8f0;
+      align-self: flex-start;
+      border: 1px solid #30363d;
+    }
+    .user-msg {
+      background: #00f2fe;
+      color: #050507;
+      font-weight: 600;
+      align-self: flex-end;
+    }
+    .chat-input-area {
+      display: flex;
+      border-top: 1px solid #30363d;
+      padding: 8px;
+      background: #161b22;
+    }
+    .chat-input-area input {
+      flex: 1;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 8px 12px;
+      color: #fff;
+      font-size: 0.86rem;
+      outline: none;
+    }
+    .chat-input-area button {
+      background: #00f2fe;
+      color: #050507;
+      border: none;
+      border-radius: 8px;
+      margin-left: 6px;
+      padding: 8px 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Toast thông báo */
+    #toast {
+      position: fixed;
+      top: 72px;
+      right: 16px;
+      background: #0d1117;
+      color: #00e676;
+      border: 1px solid #00e676;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      z-index: 400;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="toast"></div>
+
+  <!-- POPUP BOT GỬI MÃ OTP TỰ ĐỘNG -->
+  <div id="bot-otp-popup">
+    <div class="bot-otp-header">
+      <span><i class="fa-solid fa-robot"></i> BOT OTP TỰ ĐỘNG</span>
+      <button style="background:none;border:none;color:#94a3b8;cursor:pointer;font-size:1rem;" onclick="closeBotOtpPopup()">&times;</button>
+    </div>
+    <div id="bot-otp-channel-info" style="font-size:0.78rem; color:#cbd5e1; line-height:1.4;"></div>
+    <div class="bot-otp-code-big" id="bot-otp-code-display">000000</div>
+    <div style="display:flex; gap:8px; justify-content:space-between; align-items:center;">
+      <span id="bot-otp-expire-hint" style="font-size:0.74rem; color:#94a3b8;">Hiệu lực 120s</span>
+      <div style="display:flex; gap:6px;">
+        <button class="btn-copy-small" style="background:#00f2fe;" onclick="autoFillOtpFromBot()">Điền mã ngay</button>
+        <button class="btn-copy-small" onclick="copyCurrentBotOtp()">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <h1>SHOP DỊCH VỤ MXH</h1>
+    <div class="header-actions">
+      <button class="btn-header btn-orders" onclick="openOrdersModal()">
+        <i class="fa-solid fa-box-open"></i> Đơn hàng <span class="badge-count" id="order-count-badge">0</span>
+      </button>
+
+      <!-- Nút Quản trị chỉ hiện khi đăng nhập tài khoản Chủ Shop -->
+      <button class="btn-header btn-admin" id="btn-admin-panel" style="display: none;" onclick="openAdminModal()">
+        <i class="fa-solid fa-crown"></i> Quản Trị Chủ Shop
+      </button>
+
+      <!-- Khi đã đăng nhập -->
+      <div id="user-display" style="display: none; align-items: center; gap: 6px;">
+        <div class="user-profile-badge">
+          <i class="fa-solid fa-user-check"></i>
+          <span id="username-label"></span>
+          <span class="verified-pill" id="user-verified-pill" style="display: none;">ĐÃ XM</span>
+          <span class="admin-pill" id="admin-role-pill" style="display: none;">CHỦ SHOP</span>
+        </div>
+        <button class="btn-header" onclick="logoutAccount()" title="Đăng xuất">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+      </div>
+
+      <!-- Khi chưa đăng nhập -->
+      <div id="guest-actions" style="display: flex; gap: 6px;">
+        <button class="btn-header btn-register-top" onclick="openAuth('register')">
+          <i class="fa-solid fa-user-plus"></i> Tạo TK
+        </button>
+        <button class="btn-header" id="btn-login" onclick="openAuth('login')">
+          <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Thanh thông báo mã giảm giá -->
+  <div class="promo-banner-bar">
+    🎉 Ưu đãi tự động: Nhập mã <span class="promo-code-chip" id="banner-promo-code" onclick="copyPromoCode()" title="Bấm để copy">SN1802</span> giảm ngay <strong id="banner-promo-percent">20%</strong> • Hàng có sẵn giao trực tiếp trên web 24/7!
+  </div>
+
+  <!-- DANH SÁCH SẢN PHẨM & KHO HÀNG CÓ SẴN -->
+  <div class="container" id="products-section">
+    <div class="section-title">
+      <span>🛒 Kho Hàng Có Sẵn & Dịch Vụ Tự Động</span>
+      <span style="font-size: 0.78rem; color: #00e676; font-weight: 700;">● Mua là nhận ngay trên web</span>
+    </div>
+
+    <div class="category-tabs">
+      <button class="tab-btn active" onclick="filterCategory('all', this)">Tất cả</button>
+      <button class="tab-btn tab-tiktok" onclick="filterCategory('tiktok', this)">
+        <i class="fa-brands fa-tiktok"></i> Dịch vụ TikTok
+      </button>
+      <button class="tab-btn" onclick="filterCategory('ai', this)">
+        <i class="fa-solid fa-robot"></i> Tài khoản AI & Clone
+      </button>
+      <button class="tab-btn tab-shopee" onclick="filterCategory('shopee', this)">
+        <i class="fa-solid fa-bag-shopping"></i> Acc Shopee Sẵn Mã
+      </button>
+    </div>
+
+    <div class="products" id="products-grid"></div>
+  </div>
+
+  <!-- MODAL ĐĂNG NHẬP & TẠO TÀI KHOẢN KHÁCH HÀNG (XÁC MINH SMS / GMAIL CHÍNH CHỦ) -->
+  <div class="modal" id="auth-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="auth-modal-title"><i class="fa-solid fa-user-shield" style="color:#00f2fe;"></i> Tài Khoản Hệ Thống</h3>
+        <button class="close-btn" onclick="closeModal('auth-modal')">&times;</button>
+      </div>
+
+      <div class="auth-switch-tabs">
+        <button type="button" class="auth-tab-btn active" id="tab-auth-login" onclick="switchAuthTab('login')">
+          <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập
+        </button>
+        <button type="button" class="auth-tab-btn" id="tab-auth-register" onclick="switchAuthTab('register')">
+          <i class="fa-solid fa-user-plus"></i> Tạo tài khoản
+        </button>
+      </div>
+
+      <!-- FORM ĐĂNG NHẬP -->
+      <form id="login-form" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>Email chính chủ hoặc Số điện thoại</label>
+          <input type="text" id="login-identifier" placeholder="Nhập Gmail hoặc SĐT đã đăng ký..." required />
+        </div>
+        <div class="form-group">
+          <label>Mật khẩu</label>
+          <input type="password" id="login-password" placeholder="Nhập mật khẩu..." required />
+        </div>
+        <p id="login-error" class="promo-msg promo-error" style="display:none; margin-bottom:8px;"></p>
+        <button type="submit" class="checkout-btn">
+          <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập ngay
+        </button>
+        <p style="font-size: 0.76rem; color: #8b949e; margin-top: 12px; text-align: center;">
+          Chưa có tài khoản? Chuyển sang tab <strong>Tạo tài khoản</strong> để đăng ký & xác minh chính chủ qua Bot OTP.
+        </p>
+      </form>
+
+      <!-- FORM ĐĂNG KÝ KHÁCH HÀNG CÓ BẮT XÁC MINH SMS / GMAIL -->
+      <form id="register-form" style="display:none;" onsubmit="handleRegister(event)">
+        <div class="form-group">
+          <label>Họ và tên khách hàng *</label>
+          <input type="text" id="reg-fullname" placeholder="Ví dụ: Nguyễn Văn A" required />
+        </div>
+
+        <div class="form-group" id="reg-channel-wrap">
+          <label>Chọn kênh xác minh chính chủ *</label>
+          <div class="verify-channel-group">
+            <button type="button" class="channel-btn active" id="btn-ch-email" onclick="selectVerifyChannel('email')">
+              <i class="fa-solid fa-envelope"></i> Gmail chính chủ
+            </button>
+            <button type="button" class="channel-btn" id="btn-ch-sms" onclick="selectVerifyChannel('sms')">
+              <i class="fa-solid fa-comment-sms"></i> SMS qua SĐT
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group" id="reg-email-group">
+          <label>Email chính chủ (Gmail) *</label>
+          <input type="email" id="reg-email" placeholder="tenban@gmail.com" />
+        </div>
+
+        <div class="form-group" id="reg-phone-group" style="display:none;">
+          <label>Số điện thoại chính chủ (nhận mã SMS) *</label>
+          <input type="tel" id="reg-phone" placeholder="Ví dụ: 0912345678" />
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Mật khẩu *</label>
+            <input type="password" id="reg-password" placeholder="Tối thiểu 6 ký tự" required />
+          </div>
+          <div class="form-group">
+            <label>Nhập lại mật khẩu *</label>
+            <input type="password" id="reg-password2" placeholder="Xác nhận mật khẩu" required />
+          </div>
+        </div>
+
+        <!-- KHUNG BOT GỬI MÃ XÁC MINH OTP -->
+        <div class="otp-box-wrapper" id="reg-otp-section">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span style="font-size:0.8rem; font-weight:700; color:#00f2fe;">
+              <i class="fa-solid fa-shield-halved"></i> Xác minh chính chủ qua Bot OTP
+            </span>
+            <span id="reg-otp-mode-badge" style="font-size:0.7rem; color:#00e676; font-weight:700;">Bot tự động 24/7</span>
+          </div>
+          <div class="otp-row">
+            <input type="text" id="reg-otp-input" maxlength="6" placeholder="Nhập 6 số OTP" />
+            <button type="button" class="btn-send-otp" id="btn-send-otp" onclick="sendRegistrationOtp()">
+              <i class="fa-solid fa-paper-plane"></i> Gửi mã OTP
+            </button>
+          </div>
+          <div id="reg-otp-status" class="promo-msg promo-info">
+            Bấm "Gửi mã OTP" để Bot tự động gửi mã xác minh đến Gmail/SĐT của bạn.
+          </div>
+        </div>
+
+        <p id="reg-error" class="promo-msg promo-error" style="display:none; margin-bottom:8px;"></p>
+
+        <button type="submit" class="checkout-btn" style="background: linear-gradient(90deg, #00e676, #00b0ff); color:#050507;">
+          <i class="fa-solid fa-circle-check"></i> Xác Minh & Tạo Tài Khoản
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL ĐẶT MUA & TỰ ĐỘNG THỰC HIỆN TRÊN WEB -->
+  <div class="modal" id="buy-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="buy-modal-title">Đặt Hàng Tự Động</h3>
+        <button class="close-btn" onclick="closeModal('buy-modal')">&times;</button>
+      </div>
+
+      <!-- Bước 1: Form điền thông tin -->
+      <div id="buy-step-form">
+        <div class="form-group">
+          <label>Sản phẩm đã chọn</label>
+          <input type="text" id="buy-product-name" readonly />
+        </div>
+
+        <div class="form-group" id="buy-qty-wrap">
+          <label>Số lượng mua (<span id="buy-stock-hint" style="color:#00e676;"></span>)</label>
+          <input type="number" id="buy-qty" value="1" min="1" onchange="updateOrderPrice()" oninput="updateOrderPrice()" />
+        </div>
+
+        <div class="form-group" id="buy-target-wrap">
+          <label id="buy-target-label">Link video / ID TikTok cần chạy</label>
+          <input type="text" id="buy-target-input" placeholder="https://www.tiktok.com/@..." />
+        </div>
+
+        <div class="form-group">
+          <label>Email hoặc SĐT người mua (để lưu trên đơn)</label>
+          <input type="text" id="buy-customer-name" placeholder="Ví dụ: khachhang@gmail.com hoặc 0912345678" />
+        </div>
+
+        <div class="form-group">
+          <label id="buy-promo-label">Mã giảm giá (Nhập SN1802 giảm 20%)</label>
+          <div class="promo-input-row">
+            <input type="text" id="buy-promo-code" placeholder="Nhập mã giảm giá..." />
+            <button type="button" class="btn-apply-promo" onclick="applyPromo()">Áp dụng</button>
+          </div>
+          <div id="promo-status-msg" class="promo-msg"></div>
+        </div>
+
+        <div class="price-summary-box">
+          <div class="price-row">
+            <span>Tạm tính:</span>
+            <span id="price-subtotal">0đ</span>
+          </div>
+          <div class="price-row">
+            <span>Giảm giá:</span>
+            <span id="price-discount" style="color:#00e676;">-0đ</span>
+          </div>
+          <div class="price-row total">
+            <span>Thanh toán:</span>
+            <span id="price-total">0đ</span>
+          </div>
+        </div>
+
+        <button class="checkout-btn" onclick="confirmAutoOrder()">
+          <i class="fa-solid fa-bolt"></i> Xác Nhận & Tự Động Thực Hiện Ngay
+        </button>
+      </div>
+
+      <!-- Bước 2: Kết quả giao hàng tự động ngay trên web -->
+      <div id="buy-step-receipt" style="display: none; text-align: center;">
+        <div style="font-size: 2.5rem; color: #00e676; margin-bottom: 6px;">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <h3 style="color: #00e676; margin-bottom: 4px;">Đơn Hàng Đã Được Tự Động Xử Lý!</h3>
+        <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 10px;">
+          Đơn đã được chuyển thẳng vào mục Quản Trị của Chủ Shop (không cần gửi Zalo).
+        </p>
+
+        <div id="receipt-content"></div>
+
+        <button class="checkout-btn" onclick="closeModal('buy-modal'); openOrdersModal();">
+          <i class="fa-solid fa-list-check"></i> Xem Trong Lịch Sử Đơn Hàng
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL LỊCH SỬ ĐƠN HÀNG CỦA KHÁCH -->
+  <div class="modal" id="orders-modal">
+    <div class="modal-content modal-wide">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-box-open" style="color:#d8b4fe;"></i> Đơn Hàng Đã Mua Trên Web</h3>
+        <button class="close-btn" onclick="closeModal('orders-modal')">&times;</button>
+      </div>
+      <div id="orders-list-container"></div>
+    </div>
+  </div>
+
+  <!-- MODAL QUẢN TRỊ CHỦ SHOP (CHỈ DÀNH CHO hoangkhactruong1822010@gmail.com) -->
+  <div class="modal" id="admin-modal">
+    <div class="modal-content modal-wide">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-crown" style="color:#ffc107;"></i> Trang Quản Trị Chủ Shop</h3>
+        <button class="close-btn" onclick="closeModal('admin-modal')">&times;</button>
+      </div>
+
+      <div class="admin-stats-grid">
+        <div class="admin-stat-card">
+          <div style="font-size:0.76rem; color:#94a3b8;">Tổng đơn nhận</div>
+          <div class="admin-stat-val" id="admin-total-orders">0</div>
+        </div>
+        <div class="admin-stat-card">
+          <div style="font-size:0.76rem; color:#94a3b8;">Doanh thu tự động</div>
+          <div class="admin-stat-val" id="admin-total-revenue" style="color:#00e676;">0đ</div>
+        </div>
+        <div class="admin-stat-card">
+          <div style="font-size:0.76rem; color:#94a3b8;">Acc còn trong kho</div>
+          <div class="admin-stat-val" id="admin-total-stock" style="color:#ffc107;">0</div>
+        </div>
+        <div class="admin-stat-card">
+          <div style="font-size:0.76rem; color:#94a3b8;">Tài khoản khách</div>
+          <div class="admin-stat-val" id="admin-total-users" style="color:#d8b4fe;">0</div>
+        </div>
+      </div>
+
+      <div class="admin-tabs">
+        <button class="admin-tab-btn active" id="tab-admin-orders" onclick="switchAdminTab('orders')">
+          📥 Đơn hàng
+        </button>
+        <button class="admin-tab-btn" id="tab-admin-stock" onclick="switchAdminTab('stock')">
+          📦 Kho & Giá bán
+        </button>
+        <button class="admin-tab-btn" id="tab-admin-users" onclick="switchAdminTab('users')">
+          👥 Tài khoản khách
+        </button>
+        <button class="admin-tab-btn" id="tab-admin-bot" onclick="switchAdminTab('bot')">
+          🤖 Cài đặt Bot OTP & Shop
+        </button>
+      </div>
+
+      <!-- Tab 1: Quản lý đơn -->
+      <div id="admin-panel-orders"></div>
+
+      <!-- Tab 2: Quản lý kho & điều chỉnh giá -->
+      <div id="admin-panel-stock" style="display: none;">
+        <div class="admin-settings-card">
+          <div class="admin-settings-title"><i class="fa-solid fa-boxes-stacked"></i> Nạp thêm hàng vào kho sẵn</div>
+          <div class="form-group">
+            <label>Chọn sản phẩm cần nạp thêm hàng</label>
+            <select id="admin-stock-select" onchange="renderSelectedStockList()"></select>
+          </div>
+          <div class="form-group">
+            <label>Nhập danh sách tài khoản mới (mỗi dòng 1 tài khoản, ví dụ: user|pass)</label>
+            <textarea id="admin-stock-input" rows="3" placeholder="acc_moi_01@gmail.com|Matkhau123&#10;acc_moi_02@gmail.com|Matkhau456"></textarea>
+          </div>
+          <button class="checkout-btn" style="background: linear-gradient(90deg, #ffc107, #ff9800); color:#000;" onclick="addStockItems()">
+            <i class="fa-solid fa-plus"></i> Nạp Vào Kho Hàng Có Sẵn
+          </button>
+
+          <div style="margin-top: 12px;">
+            <label style="font-size: 0.8rem; color:#94a3b8; font-weight: 700;">Hàng đang có sẵn trong kho sản phẩm này:</label>
+            <div id="admin-current-stock-list" style="margin-top: 8px; max-height: 160px; overflow-y: auto;"></div>
+          </div>
+        </div>
+
+        <div class="admin-settings-card">
+          <div class="admin-settings-title"><i class="fa-solid fa-tags"></i> Điều chỉnh giá bán sản phẩm</div>
+          <div id="admin-price-editor-list"></div>
+        </div>
+      </div>
+
+      <!-- Tab 3: Quản lý tài khoản khách hàng -->
+      <div id="admin-panel-users" style="display: none;">
+        <div class="admin-settings-card">
+          <div class="admin-settings-title"><i class="fa-solid fa-user-plus"></i> Tạo nhanh tài khoản cho khách (Bỏ qua OTP)</div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Tên khách</label>
+              <input type="text" id="admin-new-user-name" placeholder="Nguyễn Văn B" />
+            </div>
+            <div class="form-group">
+              <label>Gmail hoặc SĐT</label>
+              <input type="text" id="admin-new-user-contact" placeholder="khach@gmail.com hoặc 09..." />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Mật khẩu</label>
+            <input type="text" id="admin-new-user-pass" placeholder="Nhập mật khẩu cho khách..." />
+          </div>
+          <button class="checkout-btn" style="background: linear-gradient(90deg, #00e676, #00b0ff); color:#050507;" onclick="adminCreateCustomer()">
+            <i class="fa-solid fa-user-check"></i> Tạo & Kích Hoạt Ngay
+          </button>
+        </div>
+
+        <div style="font-size:0.84rem; font-weight:700; color:#cbd5e1; margin-bottom:8px;">Danh sách tài khoản khách hàng đã tạo:</div>
+        <div id="admin-users-list"></div>
+      </div>
+
+      <!-- Tab 4: Cài đặt Bot OTP & Quyền điều chỉnh hệ thống -->
+      <div id="admin-panel-bot" style="display: none;">
+        <div class="admin-settings-card">
+          <div class="admin-settings-title"><i class="fa-solid fa-robot"></i> Điều chỉnh Bot Xác Minh OTP (SMS / Gmail)</div>
+
+          <div class="switch-row">
+            <div>
+              <strong>Bắt buộc xác minh OTP khi khách tạo tài khoản</strong>
+              <div style="font-size:0.75rem; color:#8b949e;">Khi bật, khách bắt buộc nhập mã OTP do Bot gửi về Gmail hoặc SĐT mới tạo được tài khoản.</div>
+            </div>
+            <input type="checkbox" id="cfg-require-otp" style="width:20px; height:20px; accent-color:#00e676;" />
+          </div>
+
+          <div class="switch-row">
+            <div>
+              <strong>Bắt buộc đăng nhập trước khi mua hàng</strong>
+              <div style="font-size:0.75rem; color:#8b949e;">Nếu bật, khách vãng lai phải tạo tài khoản & xác minh chính chủ trước khi bấm đặt mua.</div>
+            </div>
+            <input type="checkbox" id="cfg-require-login-buy" style="width:20px; height:20px; accent-color:#00e676;" />
+          </div>
+
+          <div class="grid-2" style="margin-top: 10px;">
+            <div class="form-group">
+              <label>Kênh xác minh cho phép</label>
+              <select id="cfg-allowed-channel">
+                <option value="both">Cả Gmail chính chủ & SMS SĐT</option>
+                <option value="email">Chỉ bắt xác minh Gmail chính chủ</option>
+                <option value="sms">Chỉ bắt xác minh SMS qua SĐT</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Thời gian hiệu lực mã OTP (giây)</label>
+              <input type="number" id="cfg-otp-expire" min="30" max="600" value="120" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Chế độ Bot gửi mã xác minh</label>
+            <select id="cfg-bot-mode" onchange="toggleRealApiFields()">
+              <option value="auto_web">Bot Web Tự Động (Miễn phí - Hiện thông báo OTP trực tiếp trên web)</option>
+              <option value="real_api">Gửi Thật qua EmailJS (Gmail) / Webhook (SMS) + Lưu nhật ký</option>
+            </select>
+          </div>
+
+          <!-- Cấu hình API gửi Gmail/SMS thật -->
+          <div id="real-api-config-box" style="display:none; background:#090d14; border:1px solid #30363d; border-radius:10px; padding:12px; margin-top:8px;">
+            <div style="font-size:0.78rem; color:#00f2fe; font-weight:700; margin-bottom:8px;">
+              <i class="fa-solid fa-plug"></i> Kết nối gửi Gmail thật (EmailJS miễn phí) & SMS Webhook
+            </div>
+            <div class="grid-2">
+              <div class="form-group">
+                <label>EmailJS Service ID</label>
+                <input type="text" id="cfg-emailjs-service" placeholder="service_xxxxxxx" />
+              </div>
+              <div class="form-group">
+                <label>EmailJS Template ID</label>
+                <input type="text" id="cfg-emailjs-template" placeholder="template_xxxxxxx" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>EmailJS Public Key</label>
+              <input type="text" id="cfg-emailjs-key" placeholder="Public Key từ emailjs.com" />
+            </div>
+            <div class="form-group">
+              <label>SMS Gateway Webhook URL (POST JSON: {phone, otp, message})</label>
+              <input type="url" id="cfg-sms-webhook" placeholder="https://your-api.com/send-sms" />
+            </div>
+            <p style="font-size:0.73rem; color:#8b949e; line-height:1.4;">
+              * Template EmailJS dùng biến: <code>{{to_email}}</code>, <code>{{to_name}}</code>, <code>{{otp_code}}</code>. Nếu chưa điền đủ key, Bot sẽ tự động dự phòng bằng thông báo OTP trên web để khách không bị kẹt.
+            </p>
+          </div>
+        </div>
+
+        <div class="admin-settings-card">
+          <div class="admin-settings-title"><i class="fa-solid fa-percent"></i> Điều chỉnh Mã Giảm Giá Shop</div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Mã giảm giá hiện tại</label>
+              <input type="text" id="cfg-promo-code" style="text-transform:uppercase;" />
+            </div>
+            <div class="form-group">
+              <label>Phần trăm giảm (%)</label>
+              <input type="number" id="cfg-promo-percent" min="0" max="90" />
+            </div>
+          </div>
+          <button class="checkout-btn" style="background: linear-gradient(90deg, #ffc107, #ff9800); color:#000;" onclick="saveAdminSettings()">
+            <i class="fa-solid fa-floppy-disk"></i> Lưu Toàn Bộ Cài Đặt Chủ Shop
+          </button>
+        </div>
+
+        <div class="admin-settings-card">
+          <div class="admin-settings-title" style="justify-content:space-between;">
+            <span><i class="fa-solid fa-clock-rotate-left"></i> Nhật ký mã OTP Bot đã gửi</span>
+            <button class="btn-copy-small" style="background:#ff5252; color:#fff;" onclick="clearOtpLogs()">Xóa nhật ký</button>
+          </div>
+          <div id="admin-otp-logs-list" style="max-height:200px; overflow-y:auto;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI CHATBOT -->
+  <button id="ai-chat-toggle" onclick="toggleChat()">
+    <i class="fa-solid fa-robot"></i> Trợ lý AI
+  </button>
+
+  <div id="ai-chat-box" class="chat-hidden">
+    <div class="chat-header">
+      <span>🤖 Trợ lý Shop</span>
+      <button onclick="toggleChat()">&times;</button>
+    </div>
+    <div class="chat-quick-chips">
+      <button class="chip-btn" onclick="quickAsk('Cách tạo tài khoản?')">Tạo tài khoản</button>
+      <button class="chip-btn" onclick="quickAsk('Mã giảm giá là gì?')">Mã giảm giá</button>
+      <button class="chip-btn" onclick="quickAsk('Còn acc Shopee không?')">Check kho Shopee</button>
+    </div>
+    <div class="chat-messages" id="chat-messages">
+      <div class="bot-msg">Xin chào! Hệ thống có Bot tự động gửi mã xác minh tạo tài khoản qua Gmail/SMS và giao hàng tự động 24/7 trên web. Bạn cần hỗ trợ gì?</div>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" id="chat-input" placeholder="Nhập câu hỏi..." onkeypress="if(event.key==='Enter') sendChat()" />
+      <button onclick="sendChat()">Gửi</button>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // CẤU HÌNH TÀI KHOẢN CHỦ SHOP (ADMIN TOÀN QUYỀN)
+    // =========================================================================
+    const OWNER_EMAIL = "hoangkhactruong1822010@gmail.com";
+    const OWNER_PASS = "Matkhau.123";
+
+    // =========================================================================
+    // DỮ LIỆU SẢN PHẨM & KHO HÀNG CÓ SẴN MẶC ĐỊNH TRÊN WEB
+    // =========================================================================
+    const DEFAULT_PRODUCTS = [
+      {
+        id: "tiktok-view-10k",
+        name: "Buff 10.000 View TikTok Tự Động",
+        category: "tiktok",
+        type: "service",
+        price: 5000,
+        bannerClass: "banner-tiktok",
+        bannerTitle: "10K VIEW TIKTOK",
+        bannerSub: "Chạy tự động trên web",
+        desc: "Tăng nhanh 10.000 lượt xem video TikTok. Tự động khởi chạy ngay sau khi đặt đơn."
+      },
+      {
+        id: "tiktok-like-1k",
+        name: "Buff 1.000 Tym ❤️ TikTok",
+        category: "tiktok",
+        type: "service",
+        price: 15000,
+        bannerClass: "banner-tiktok",
+        bannerTitle: "1K TYM TIKTOK",
+        bannerSub: "Tốc độ cao • Không tụt",
+        desc: "Tăng 1.000 lượt tim cho video TikTok, hệ thống tự động xử lý trực tiếp trên web."
+      },
+      {
+        id: "tiktok-sub-1k",
+        name: "Buff 1.000 Follow TikTok",
+        category: "tiktok",
+        type: "service",
+        price: 45000,
+        bannerClass: "banner-tiktok",
+        bannerTitle: "1K FOLLOW TIKTOK",
+        bannerSub: "Mở livestream & gắn link",
+        desc: "Tăng 1.000 người theo dõi kênh TikTok, chạy tự động liên tục cho đến khi đủ."
+      },
+      {
+        id: "acc-clone-vn",
+        name: "Acc Clone Nuôi Sẵn (Giao Ngay)",
+        category: "ai",
+        type: "stock",
+        price: 10000,
+        bannerClass: "banner-clone",
+        bannerTitle: "ACC CLONE SẴN",
+        bannerSub: "Nhận tài khoản lập tức",
+        desc: "Tài khoản clone đã xác minh, có sẵn trong kho web. Mua xong nhận ngay user|pass."
+      },
+      {
+        id: "ai-chatgpt-plus",
+        name: "Tài Khoản ChatGPT Plus 1 Tháng",
+        category: "ai",
+        type: "stock",
+        price: 89000,
+        bannerClass: "banner-plus",
+        bannerTitle: "CHATGPT PLUS",
+        bannerSub: "Kho sẵn • Bảo hành full",
+        desc: "Dùng đầy đủ tính năng GPT cao cấp, tốc độ nhanh. Trả tài khoản trực tiếp ngay trên web."
+      },
+      {
+        id: "ai-pro-vip",
+        name: "Tài Khoản AI Pro VIP",
+        category: "ai",
+        type: "stock",
+        price: 149000,
+        bannerClass: "banner-pro",
+        bannerTitle: "AI PRO VIP",
+        bannerSub: "Sẵn kho giao tự động",
+        desc: "Gói AI cao cấp phục vụ học tập và làm việc. Giao thông tin đăng nhập tức thì."
+      },
+      {
+        id: "shopee-50k",
+        name: "Acc Shopee Sẵn Voucher 50K",
+        category: "shopee",
+        type: "stock",
+        price: 25000,
+        bannerClass: "banner-shopee-50",
+        bannerTitle: "SHOPEE MÃ 50K",
+        bannerSub: "Hàng sẵn giao ngay",
+        desc: "Tài khoản Shopee có sẵn mã giảm 50K + freeship. Nhận tài khoản ngay khi bấm mua."
+      },
+      {
+        id: "shopee-80k",
+        name: "Acc Shopee Sẵn Voucher 80K",
+        category: "shopee",
+        type: "stock",
+        price: 40000,
+        bannerClass: "banner-shopee-80",
+        bannerTitle: "SHOPEE MÃ 80K",
+        bannerSub: "Hàng sẵn giao ngay",
+        desc: "Tài khoản Shopee săn sale có sẵn mã giảm 80K. Tự động xuất kho trực tiếp trên web."
+      },
+      {
+        id: "shopee-100k",
+        name: "Acc Shopee VIP Sẵn Mã 100K",
+        category: "shopee",
+        type: "stock",
+        price: 55000,
+        bannerClass: "banner-shopee-100",
+        bannerTitle: "SHOPEE VIP 100K",
+        bannerSub: "Sẵn kho • Số lượng có hạn",
+        desc: "Tài khoản Shopee VIP sẵn mã giảm sâu 100K, giao tự động không cần chờ duyệt."
+      }
+    ];
+
+    const DEFAULT_INVENTORY = {
+      "acc-clone-vn": [
+        "clone_ht01@mail.vn|HtClone@2026",
+        "clone_ht02@mail.vn|HtClone@2026",
+        "clone_ht03@mail.vn|HtClone@2026",
+        "clone_ht04@mail.vn|HtClone@2026",
+        "clone_ht05@mail.vn|HtClone@2026"
+      ],
+      "ai-chatgpt-plus": [
+        "gptplus01@shop.vn|Plus#8821",
+        "gptplus02@shop.vn|Plus#9914",
+        "gptplus03@shop.vn|Plus#4472"
+      ],
+      "ai-pro-vip": [
+        "aipro01@shop.vn|ProVip@771",
+        "aipro02@shop.vn|ProVip@882"
+      ],
+      "shopee-50k": [
+        "shp50_user01|Shopee50#11|OTP_San",
+        "shp50_user02|Shopee50#22|OTP_San",
+        "shp50_user03|Shopee50#33|OTP_San",
+        "shp50_user04|Shopee50#44|OTP_San"
+      ],
+      "shopee-80k": [
+        "shp80_vip01|Shopee80#91|OTP_San",
+        "shp80_vip02|Shopee80#92|OTP_San",
+        "shp80_vip03|Shopee80#93|OTP_San"
+      ],
+      "shopee-100k": [
+        "shp100_pro01|Shopee100#01|VIP",
+        "shp100_pro02|Shopee100#02|VIP"
+      ]
+    };
+
+    const DEFAULT_SETTINGS = {
+      requireOtp: true,
+      requireLoginToBuy: false,
+      allowedChannel: "both", // both | email | sms
+      otpExpireSec: 120,
+      botMode: "auto_web", // auto_web | real_api
+      emailjsServiceId: "",
+      emailjsTemplateId: "",
+      emailjsPublicKey: "",
+      smsWebhookUrl: "",
+      promoCode: "SN1802",
+      promoPercent: 20
+    };
+
+    // =========================================================================
+    // QUẢN LÝ TRẠNG THÁI (LOCALSTORAGE)
+    // =========================================================================
+    let inventory = JSON.parse(localStorage.getItem("htruong_inventory")) || DEFAULT_INVENTORY;
+    let orders = JSON.parse(localStorage.getItem("htruong_orders")) || [];
+    let currentUser = JSON.parse(localStorage.getItem("htruong_user")) || null;
+    let users = JSON.parse(localStorage.getItem("htruong_users")) || [];
+    let settings = Object.assign({}, DEFAULT_SETTINGS, JSON.parse(localStorage.getItem("htruong_settings")) || {});
+    let otpLogs = JSON.parse(localStorage.getItem("htruong_otp_logs")) || [];
+    let customPrices = JSON.parse(localStorage.getItem("htruong_prices")) || {};
+
+    let currentFilter = "all";
+    let selectedProduct = null;
+    let appliedDiscount = 0;
+
+    // Trạng thái OTP đang chờ xác minh khi đăng ký
+    let activeRegChannel = "email";
+    let pendingOtp = null; // { code, target, channel, expiresAt }
+    let otpCooldownTimer = null;
+
+    function saveData() {
+      localStorage.setItem("htruong_inventory", JSON.stringify(inventory));
+      localStorage.setItem("htruong_orders", JSON.stringify(orders));
+      localStorage.setItem("htruong_users", JSON.stringify(users));
+      localStorage.setItem("htruong_settings", JSON.stringify(settings));
+      localStorage.setItem("htruong_otp_logs", JSON.stringify(otpLogs.slice(0, 50)));
+      localStorage.setItem("htruong_prices", JSON.stringify(customPrices));
+      if (currentUser) {
+        localStorage.setItem("htruong_user", JSON.stringify(currentUser));
+      } else {
+        localStorage.removeItem("htruong_user");
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function getProductPrice(p) {
+      return customPrices[p.id] !== undefined ? Number(customPrices[p.id]) : p.price;
+    }
+
+    function formatVND(n) {
+      return Number(n).toLocaleString("vi-VN") + "đ";
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.innerText = msg;
+      t.style.display = "block";
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => { t.style.display = "none"; }, 3000);
+    }
+
+    function updatePromoBanner() {
+      document.getElementById("banner-promo-code").innerText = settings.promoCode;
+      document.getElementById("banner-promo-percent").innerText = settings.promoPercent + "%";
+      document.getElementById("buy-promo-label").innerText = `Mã giảm giá (Nhập ${settings.promoCode} giảm ${settings.promoPercent}%)`;
+      document.getElementById("buy-promo-code").placeholder = settings.promoCode;
+    }
+
+    // =========================================================================
+    // HIỂN THỊ SẢN PHẨM & KHO SẴN
+    // =========================================================================
+    function renderProducts() {
+      const grid = document.getElementById("products-grid");
+      const list = currentFilter === "all"
+        ? DEFAULT_PRODUCTS
+        : DEFAULT_PRODUCTS.filter(p => p.category === currentFilter);
+
+      grid.innerHTML = list.map(p => {
+        const price = getProductPrice(p);
+        let stockHtml = "";
+        let disabledAttr = "";
+        let btnText = `<i class="fa-solid fa-bolt"></i> Mua & Nhận Ngay`;
+
+        if (p.type === "stock") {
+          const count = (inventory[p.id] || []).length;
+          if (count > 0) {
+            stockHtml = `<span class="stock-pill stock-available"><i class="fa-solid fa-box"></i> Kho có sẵn: ${count}</span>`;
+          } else {
+            stockHtml = `<span class="stock-pill stock-out"><i class="fa-solid fa-circle-xmark"></i> Tạm hết kho</span>`;
+            disabledAttr = "disabled";
+            btnText = "Hết hàng (Chờ Chủ Shop nạp)";
+          }
+        } else {
+          stockHtml = `<span class="stock-pill stock-available"><i class="fa-solid fa-gears"></i> Tự động chạy 24/7</span>`;
+          btnText = `<i class="fa-solid fa-rocket"></i> Đặt Chạy Tự Động`;
+        }
+
+        return `
+          <div class="product-card">
+            <div class="product-banner ${p.bannerClass}">
+              <div>${p.bannerTitle}</div>
+              <div style="font-size:0.75rem; opacity:0.85; font-weight:600; margin-top:4px;">${p.bannerSub}</div>
+            </div>
+            <div class="product-info">
+              ${stockHtml}
+              <div class="product-title">${p.name}</div>
+              <div class="product-desc">${p.desc}</div>
+              <div class="product-price">${formatVND(price)}</div>
+              <button class="btn-buynow" ${disabledAttr} onclick="openBuyModal('${p.id}')">
+                ${btnText}
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function filterCategory(cat, btn) {
+      currentFilter = cat;
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderProducts();
+    }
+
+    // =========================================================================
+    // ĐĂNG NHẬP & TẠO TÀI KHOẢN KHÁCH HÀNG + BOT OTP SMS/GMAIL
+    // =========================================================================
+    function openAuth(mode = "login") {
+      document.getElementById("login-error").style.display = "none";
+      document.getElementById("reg-error").style.display = "none";
+      document.getElementById("login-identifier").value = "";
+      document.getElementById("login-password").value = "";
+      switchAuthTab(mode);
+      document.getElementById("auth-modal").style.display = "flex";
+    }
+
+    function switchAuthTab(mode) {
+      const isLogin = mode === "login";
+      document.getElementById("tab-auth-login").classList.toggle("active", isLogin);
+      document.getElementById("tab-auth-register").classList.toggle("active", !isLogin);
+      document.getElementById("login-form").style.display = isLogin ? "block" : "none";
+      document.getElementById("register-form").style.display = isLogin ? "none" : "block";
+      document.getElementById("auth-modal-title").innerHTML = isLogin
+        ? `<i class="fa-solid fa-user-shield" style="color:#00f2fe;"></i> Đăng Nhập Hệ Thống`
+        : `<i class="fa-solid fa-user-plus" style="color:#00e676;"></i> Tạo Tài Khoản Khách Hàng`;
+
+      if (!isLogin) {
+        applyRegistrationChannelRules();
+      }
+    }
+
+    function applyRegistrationChannelRules() {
+      const btnEmail = document.getElementById("btn-ch-email");
+      const btnSms = document.getElementById("btn-ch-sms");
+      const otpSec = document.getElementById("reg-otp-section");
+
+      otpSec.style.display = settings.requireOtp ? "block" : "none";
+      document.getElementById("reg-otp-mode-badge").innerText =
+        settings.botMode === "real_api" ? "Bot gửi Gmail/SMS thật" : "Bot tự động 24/7";
+
+      if (settings.allowedChannel === "email") {
+        btnEmail.style.display = "flex";
+        btnSms.style.display = "none";
+        selectVerifyChannel("email");
+      } else if (settings.allowedChannel === "sms") {
+        btnEmail.style.display = "none";
+        btnSms.style.display = "flex";
+        selectVerifyChannel("sms");
+      } else {
+        btnEmail.style.display = "flex";
+        btnSms.style.display = "flex";
+        selectVerifyChannel(activeRegChannel);
+      }
+    }
+
+    function selectVerifyChannel(ch) {
+      activeRegChannel = ch;
+      pendingOtp = null;
+      document.getElementById("btn-ch-email").classList.toggle("active", ch === "email");
+      document.getElementById("btn-ch-sms").classList.toggle("active", ch === "sms");
+      document.getElementById("reg-email-group").style.display = ch === "email" ? "block" : "none";
+      document.getElementById("reg-phone-group").style.display = ch === "sms" ? "block" : "none";
+      document.getElementById("reg-otp-input").value = "";
+      document.getElementById("reg-otp-status").className = "promo-msg promo-info";
+      document.getElementById("reg-otp-status").innerText = ch === "email"
+        ? "Bấm \"Gửi mã OTP\" để Bot tự động gửi mã xác minh đến Gmail chính chủ."
+        : "Bấm \"Gửi mã OTP\" để Bot tự động gửi tin nhắn SMS chứa mã xác minh đến SĐT.";
+    }
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function isValidVNPhone(phone) {
+      const cleaned = phone.replace(/[\s.-]/g, "");
+      return /^(0|\+84)(3|5|7|8|9)[0-9]{8}$/.test(cleaned);
+    }
+
+    function normalizePhone(phone) {
+      let cleaned = phone.replace(/[\s.-]/g, "");
+      if (cleaned.startsWith("+84")) cleaned = "0" + cleaned.slice(3);
+      return cleaned;
+    }
+
+    // BOT TỰ ĐỘNG GỬI MÃ OTP ĐẾN GMAIL HOẶC SĐT
+    async function sendRegistrationOtp() {
+      const errEl = document.getElementById("reg-error");
+      const statusEl = document.getElementById("reg-otp-status");
+      const fullname = document.getElementById("reg-fullname").value.trim() || "Khách hàng";
+      errEl.style.display = "none";
+
+      let target = "";
+      if (activeRegChannel === "email") {
+        target = document.getElementById("reg-email").value.trim().toLowerCase();
+        if (!isValidEmail(target)) {
+          errEl.innerText = "❌ Vui lòng nhập đúng định dạng Email / Gmail chính chủ!";
+          errEl.style.display = "block";
+          return;
+        }
+        if (target === OWNER_EMAIL) {
+          errEl.innerText = "❌ Email này thuộc tài khoản Chủ Shop, không thể đăng ký lại.";
+          errEl.style.display = "block";
+          return;
+        }
+        if (users.some(u => u.email && u.email.toLowerCase() === target)) {
+          errEl.innerText = "❌ Gmail này đã được đăng ký tài khoản rồi!";
+          errEl.style.display = "block";
+          return;
+        }
+      } else {
+        const rawPhone = document.getElementById("reg-phone").value.trim();
+        if (!isValidVNPhone(rawPhone)) {
+          errEl.innerText = "❌ Vui lòng nhập đúng SĐT Việt Nam (10 số, đầu 03/05/07/08/09)!";
+          errEl.style.display = "block";
+          return;
+        }
+        target = normalizePhone(rawPhone);
+        if (users.some(u => u.phone && u.phone === target)) {
+          errEl.innerText = "❌ Số điện thoại này đã được đăng ký tài khoản rồi!";
+          errEl.style.display = "block";
+          return;
+        }
+      }
+
+      // Tạo mã OTP ngẫu nhiên 6 chữ số
+      const otpCode = String(Math.floor(100000 + Math.random() * 900000));
+      const expireSec = Math.max(30, parseInt(settings.otpExpireSec) || 120);
+      pendingOtp = {
+        code: otpCode,
+        target: target,
+        channel: activeRegChannel,
+        expiresAt: Date.now() + expireSec * 1000
+      };
+
+      const btn = document.getElementById("btn-send-otp");
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Bot đang gửi...`;
+
+      let deliveryNote = "Bot Web Tự Động";
+      let sentViaRealApi = false;
+
+      // Nếu Chủ Shop bật chế độ gửi API thật (EmailJS / SMS Webhook)
+      if (settings.botMode === "real_api") {
+        if (activeRegChannel === "email" && settings.emailjsServiceId && settings.emailjsTemplateId && settings.emailjsPublicKey) {
+          try {
+            const resp = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                service_id: settings.emailjsServiceId,
+                template_id: settings.emailjsTemplateId,
+                user_id: settings.emailjsPublicKey,
+                template_params: {
+                  to_email: target,
+                  to_name: fullname,
+                  otp_code: otpCode,
+                  shop_name: "Shop Dịch Vụ MXH"
+                }
+              })
+            });
+            if (resp.ok) {
+              sentViaRealApi = true;
+              deliveryNote = "EmailJS (Gmail thật)";
+            }
+          } catch (e) {
+            console.warn("EmailJS error:", e);
+          }
+        } else if (activeRegChannel === "sms" && settings.smsWebhookUrl) {
+          try {
+            const resp = await fetch(settings.smsWebhookUrl, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                phone: target,
+                otp: otpCode,
+                message: `[SHOP MXH] Ma xac minh tao tai khoan cua ban la ${otpCode}. Hieu luc ${expireSec} giay.`
+              })
+            });
+            if (resp.ok) {
+              sentViaRealApi = true;
+              deliveryNote = "SMS Gateway Webhook";
+            }
+          } catch (e) {
+            console.warn("SMS Webhook error:", e);
+          }
+        }
+      }
+
+      // Lưu nhật ký Bot gửi mã cho Chủ Shop quản lý
+      otpLogs.unshift({
+        id: "OTP" + Math.floor(10000 + Math.random() * 90000),
+        channel: activeRegChannel === "email" ? "Gmail" : "SMS",
+        target: target,
+        code: otpCode,
+        method: deliveryNote,
+        used: false,
+        createdAt: new Date().toLocaleString("vi-VN")
+      });
+      saveData();
+
+      if (sentViaRealApi) {
+        statusEl.className
