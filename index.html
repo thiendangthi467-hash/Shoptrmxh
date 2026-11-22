@@ -1002,4 +1002,1886 @@
         </button>
       </form>
 
-      <p style="font
+      <p style="font-size: 0.76rem; color: #8b949e; margin-top: 12px; text-align: center;">
+        Khách hàng tạo tài khoản để nạp tiền vào ví web và theo dõi đơn hàng. Chủ Shop đăng nhập bằng tài khoản Admin để duyệt nạp tiền &amp; duyệt đơn hàng.
+      </p>
+    </div>
+  </div>
+
+  <!-- MODAL NẠP TIỀN QUA WEB (VIETQR VIETCOMBANK) -->
+  <div class="modal" id="deposit-modal">
+    <div class="modal-content modal-wide">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-building-columns" style="color:#00e676;"></i> Nạp Tiền Vào Ví Web (Vietcombank)</h3>
+        <button class="close-btn" onclick="closeModal('deposit-modal')">&times;</button>
+      </div>
+
+      <div id="deposit-login-notice" style="display:none; text-align:center; padding: 20px 10px;">
+        <p style="color:#cbd5e1; margin-bottom:14px;">Bạn cần đăng nhập hoặc tạo tài khoản trước khi nạp tiền để Admin cộng tiền đúng vào tài khoản của bạn.</p>
+        <button class="checkout-btn" onclick="closeModal('deposit-modal'); openAuth('register');">
+          <i class="fa-solid fa-user-plus"></i> Đăng nhập / Tạo tài khoản ngay
+        </button>
+      </div>
+
+      <div id="deposit-main-body">
+        <div class="wallet-check-box" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <span>Tài khoản nạp: <strong id="dep-user-email" style="color:#00f2fe;"></strong></span>
+          <span>Số dư hiện tại: <strong id="dep-user-balance" style="color:#00e676; font-size:1rem;">0đ</strong></span>
+        </div>
+
+        <div class="deposit-grid">
+          <div class="bank-card-box">
+            <div style="font-weight:800; color:#00e676; font-size:0.95rem;">
+              <i class="fa-solid fa-qrcode"></i> Quét Mã VietQR • Vietcombank
+            </div>
+            <img id="vietqr-preview" class="bank-qr-img" src="" alt="Mã QR Vietcombank HOANG KHAC TRUONG" />
+            <div style="font-size:0.74rem; color:#94a3b8; margin-bottom:8px;">
+              Quét bằng app ngân hàng sẽ tự điền đúng số tiền &amp; nội dung nạp
+            </div>
+
+            <div class="bank-info-row">
+              <span>Ngân hàng:</span>
+              <strong style="color:#00e676;">Vietcombank (VCB)</strong>
+            </div>
+            <div class="bank-info-row">
+              <span>Chủ TK:</span>
+              <strong style="color:#fff;">HOANG KHAC TRUONG</strong>
+            </div>
+            <div class="bank-info-row">
+              <span>Số TK: <strong style="color:#00f2fe;">1071090989</strong></span>
+              <button type="button" class="btn-copy-small" onclick="copyText('1071090989')">Copy STK</button>
+            </div>
+            <div class="bank-info-row">
+              <span>Nội dung CK: <strong id="dep-transfer-code" style="color:#ffc107;"></strong></span>
+              <button type="button" class="btn-copy-small" onclick="copyTransferCode()">Copy ND</button>
+            </div>
+          </div>
+
+          <div>
+            <div class="form-group">
+              <label>Chọn nhanh mệnh giá nạp</label>
+              <div class="quick-amounts">
+                <button type="button" class="quick-amt-btn" onclick="selectQuickAmount(10000, this)">10.000đ</button>
+                <button type="button" class="quick-amt-btn" onclick="selectQuickAmount(20000, this)">20.000đ</button>
+                <button type="button" class="quick-amt-btn active" onclick="selectQuickAmount(50000, this)">50.000đ</button>
+                <button type="button" class="quick-amt-btn" onclick="selectQuickAmount(100000, this)">100.000đ</button>
+                <button type="button" class="quick-amt-btn" onclick="selectQuickAmount(200000, this)">200.000đ</button>
+                <button type="button" class="quick-amt-btn" onclick="selectQuickAmount(500000, this)">500.000đ</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Số tiền cần nạp (VNĐ, tối thiểu 5.000đ)</label>
+              <input type="number" id="dep-amount" value="50000" min="5000" step="1000" oninput="updateVietQR()" />
+            </div>
+
+            <div class="form-group">
+              <label>Tên người chuyển / Mã giao dịch (tùy chọn)</label>
+              <input type="text" id="dep-note" placeholder="Ví dụ: Nguyễn Văn A - Đã CK Vietcombank" />
+            </div>
+
+            <button type="button" class="checkout-btn btn-green" id="btn-submit-deposit" onclick="submitDepositRequest()">
+              <i class="fa-solid fa-paper-plane"></i> Tôi Đã Chuyển Khoản — Gửi Admin Duyệt
+            </button>
+
+            <p style="font-size:0.75rem; color:#8b949e; margin-top:8px; line-height:1.4;">
+              Yêu cầu nạp sẽ gửi thẳng lên máy chủ về trang Quản Trị của Admin (<strong style="color:#ffc107;">hoangkhactruong1822010@gmail.com</strong>). Admin duyệt xong số dư sẽ tự cập nhật ngay trên máy bạn.
+            </p>
+          </div>
+        </div>
+
+        <div style="margin-top:18px; border-top:1px solid #262c36; padding-top:14px;">
+          <h4 style="font-size:0.92rem; color:#fff; margin-bottom:10px;">
+            <i class="fa-solid fa-clock-rotate-left" style="color:#00f2fe;"></i> Lịch sử nạp tiền của tài khoản này
+          </h4>
+          <div id="user-deposit-history"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL ĐẶT MUA & THANH TOÁN TRỪ TRỰC TIẾP SỐ DƯ WEB -->
+  <div class="modal" id="buy-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="buy-modal-title">Đặt Hàng Tự Động</h3>
+        <button class="close-btn" onclick="closeModal('buy-modal')">&times;</button>
+      </div>
+
+      <div id="buy-step-form">
+        <div id="buy-wallet-box" class="wallet-check-box"></div>
+
+        <div class="form-group">
+          <label>Sản phẩm đã chọn</label>
+          <input type="text" id="buy-product-name" readonly />
+        </div>
+
+        <div class="form-group" id="buy-qty-wrap">
+          <label>Số lượng mua (<span id="buy-stock-hint" style="color:#00e676;"></span>)</label>
+          <input type="number" id="buy-qty" value="1" min="1" onchange="updateOrderPrice()" oninput="updateOrderPrice()" />
+        </div>
+
+        <div class="form-group" id="buy-target-wrap">
+          <label id="buy-target-label">Link video / ID TikTok cần chạy</label>
+          <input type="text" id="buy-target-input" placeholder="https://www.tiktok.com/@..." />
+        </div>
+
+        <div class="form-group">
+          <label>Email tài khoản mua (tự động lấy theo tài khoản đang đăng nhập)</label>
+          <input type="text" id="buy-customer-name" readonly placeholder="Vui lòng đăng nhập..." />
+        </div>
+
+        <div class="form-group">
+          <label>Mã giảm giá (Nhập SN1802 giảm 20%)</label>
+          <div class="promo-input-row">
+            <input type="text" id="buy-promo-code" placeholder="SN1802" />
+            <button type="button" class="btn-apply-promo" onclick="applyPromo()">Áp dụng</button>
+          </div>
+          <div id="promo-status-msg" class="promo-msg"></div>
+        </div>
+
+        <div class="price-summary-box">
+          <div class="price-row">
+            <span>Tạm tính:</span>
+            <span id="price-subtotal">0đ</span>
+          </div>
+          <div class="price-row">
+            <span>Giảm giá:</span>
+            <span id="price-discount" style="color:#00e676;">-0đ</span>
+          </div>
+          <div class="price-row total">
+            <span>Trừ từ ví web:</span>
+            <span id="price-total">0đ</span>
+          </div>
+        </div>
+
+        <button class="checkout-btn" id="btn-confirm-order" onclick="confirmAutoOrder()">
+          <i class="fa-solid fa-bolt"></i> Thanh Toán Từ Ví &amp; Gửi Admin Duyệt Đơn
+        </button>
+      </div>
+
+      <div id="buy-step-receipt" style="display: none; text-align: center;">
+        <div style="font-size: 2.5rem; color: #00e676; margin-bottom: 6px;">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <h3 style="color: #00e676; margin-bottom: 4px;">Đã Thanh Toán &amp; Chuyển Thẳng Về Admin!</h3>
+        <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 10px;">
+          Tiền đã trừ từ ví web và đơn đã đẩy thẳng lên máy chủ về tài khoản Admin để duyệt.
+        </p>
+
+        <div id="receipt-content"></div>
+
+        <button class="checkout-btn" onclick="closeModal('buy-modal'); openOrdersModal();">
+          <i class="fa-solid fa-list-check"></i> Xem Trong Lịch Sử Đơn Hàng
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL LỊCH SỬ ĐƠN HÀNG CỦA KHÁCH -->
+  <div class="modal" id="orders-modal">
+    <div class="modal-content modal-wide">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-box-open" style="color:#d8b4fe;"></i> Đơn Hàng Đã Mua Trên Web</h3>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button class="btn-copy-small" onclick="manualRefresh()"><i class="fa-solid fa-rotate"></i> Cập nhật</button>
+          <button class="close-btn" onclick="closeModal('orders-modal')">&times;</button>
+        </div>
+      </div>
+      <div id="orders-list-container"></div>
+    </div>
+  </div>
+
+  <!-- MODAL QUẢN TRỊ CHỦ SHOP -->
+  <div class="modal" id="admin-modal">
+    <div class="modal-content modal-wide">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-crown" style="color:#ffc107;"></i> Quản Trị Chủ Shop</h3>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button class="btn-copy-small" onclick="manualRefresh()"><i class="fa-solid fa-rotate"></i> Đồng bộ ngay</button>
+          <button class="close-btn" onclick="closeModal('admin-modal')">&times;</button>
+        </div>
+      </div>
+
+      <div class="admin-stats-grid">
+        <div class="admin-stat-card">
+          <div style="font-size:0.76rem; color:#94a3b8;">Tổng đơn nhận</div>
+          <div class="admin-stat-val" id="admin-total-orders">0</div>
+        </div>
+        <div class="admin-stat-card">
+          <div style="font-size:0.76rem; color:#94a3b8;">Doanh thu đã duyệt</div>
+          <div class="admin-stat-val" id="admin-total-revenue" style="color:#00e676;">0đ</div>
+        </div>
+        <div class="admin-stat-card">
+          <div style="font-size:0.76rem; color:#94a3b8;">Lệnh nạp chờ duyệt</div>
+          <div class="admin-stat-val" id="admin-pending-deposits" style="color:#ff5252;">0</div>
+        </div>
+        <div class="admin-stat-card">
+          <div style="font-size:0.76rem; color:#94a3b8;">Tổng acc trong kho</div>
+          <div class="admin-stat-val" id="admin-total-stock" style="color:#ffc107;">0</div>
+        </div>
+      </div>
+
+      <div class="admin-tabs">
+        <button class="admin-tab-btn active" id="tab-admin-orders" onclick="switchAdminTab('orders')">
+          📥 Nhận &amp; Duyệt đơn hàng <span class="badge-count" id="tab-badge-orders" style="display:none;">0</span>
+        </button>
+        <button class="admin-tab-btn" id="tab-admin-deposits" onclick="switchAdminTab('deposits')">
+          💳 Duyệt nạp tiền <span class="badge-count" id="tab-badge-deposits" style="display:none;">0</span>
+        </button>
+        <button class="admin-tab-btn" id="tab-admin-users" onclick="switchAdminTab('users')">
+          👥 Tài khoản &amp; Cộng tiền
+        </button>
+        <button class="admin-tab-btn" id="tab-admin-stock" onclick="switchAdminTab('stock')">
+          📦 Quản lý &amp; Nạp kho sẵn
+        </button>
+      </div>
+
+      <div id="admin-panel-orders"></div>
+      <div id="admin-panel-deposits" style="display: none;"></div>
+
+      <div id="admin-panel-users" style="display: none;">
+        <div class="order-item-card" style="border-color: rgba(0, 230, 118, 0.4);">
+          <div style="font-weight:800; color:#00e676; margin-bottom:8px;">
+            <i class="fa-solid fa-coins"></i> Cộng / Trừ Tiền Trực Tiếp Cho Tài Khoản
+          </div>
+          <div class="form-group">
+            <label>Chọn tài khoản khách hàng</label>
+            <select id="admin-user-select"></select>
+          </div>
+          <div class="form-group">
+            <label>Số tiền (VNĐ)</label>
+            <input type="number" id="admin-adjust-amount" placeholder="Ví dụ: 50000" min="1000" step="1000" />
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button type="button" class="checkout-btn btn-green" style="margin-top:0;" onclick="adminAdjustBalance(1)">
+              <i class="fa-solid fa-plus"></i> Cộng tiền vào ví
+            </button>
+            <button type="button" class="checkout-btn" style="margin-top:0; background:#ff5252;" onclick="adminAdjustBalance(-1)">
+              <i class="fa-solid fa-minus"></i> Trừ tiền ví
+            </button>
+          </div>
+        </div>
+        <div id="admin-users-list"></div>
+      </div>
+
+      <div id="admin-panel-stock" style="display: none;">
+        <div class="form-group">
+          <label>Chọn sản phẩm cần nạp thêm hàng vào kho sẵn</label>
+          <select id="admin-stock-select" onchange="renderSelectedStockList()"></select>
+        </div>
+        <div class="form-group">
+          <label>Nhập danh sách tài khoản / mã hàng mới (mỗi dòng 1 tài khoản, ví dụ: user|pass)</label>
+          <textarea id="admin-stock-input" rows="4" placeholder="acc_moi_01@gmail.com|Matkhau123&#10;acc_moi_02@gmail.com|Matkhau456"></textarea>
+        </div>
+        <button class="checkout-btn" style="background: linear-gradient(90deg, #ffc107, #ff9800); color:#000;" onclick="addStockItems()">
+          <i class="fa-solid fa-plus"></i> Nạp Vào Kho Hàng Có Sẵn
+        </button>
+
+        <div style="margin-top: 14px;">
+          <label style="font-size: 0.82rem; color:#94a3b8; font-weight: 700;">Hàng đang có sẵn trong kho sản phẩm này:</label>
+          <div id="admin-current-stock-list" style="margin-top: 8px; max-height: 180px; overflow-y: auto;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI CHATBOT -->
+  <button id="ai-chat-toggle" onclick="toggleChat()">
+    <i class="fa-solid fa-robot"></i> Trợ lý AI
+  </button>
+
+  <div id="ai-chat-box" class="chat-hidden">
+    <div class="chat-header">
+      <span>🤖 Trợ lý Shop</span>
+      <button onclick="toggleChat()">&times;</button>
+    </div>
+    <div class="chat-quick-chips">
+      <button class="chip-btn" onclick="quickAsk('Cách nạp tiền vào web?')">Cách nạp tiền</button>
+      <button class="chip-btn" onclick="quickAsk('Mã giảm giá là gì?')">Mã giảm giá</button>
+      <button class="chip-btn" onclick="quickAsk('Còn acc Shopee không?')">Check kho Shopee</button>
+    </div>
+    <div class="chat-messages" id="chat-messages">
+      <div class="bot-msg">Xin chào! Bạn có thể tạo tài khoản, nạp tiền qua Vietcombank (HOANG KHAC TRUONG - 1071090989) và đặt mua trừ trực tiếp số dư ví trên web. Bạn cần hỗ trợ gì?</div>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" id="chat-input" placeholder="Nhập câu hỏi..." onkeypress="if(event.key==='Enter') sendChat()" />
+      <button onclick="sendChat()">Gửi</button>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // 1. CẤU HÌNH MÁY CHỦ ĐỒNG BỘ (FIREBASE REALTIME DATABASE)
+    // Dán link Realtime Database của bạn vào giữa dấu ngoặc kép bên dưới!
+    // Ví dụ: "https://shop-mxh-12345-default-rtdb.asia-southeast1.firebasedatabase.app"
+    // =========================================================================
+    const FIREBASE_DB_URL = "";
+
+    const CLEAN_DB_URL = FIREBASE_DB_URL.trim().replace(/\/+$/, "");
+    const IS_CLOUD = CLEAN_DB_URL.startsWith("https://");
+
+    // =========================================================================
+    // 2. CẤU HÌNH TÀI KHOẢN CHỦ SHOP (ADMIN) & NGÂN HÀNG NẠP TIỀN
+    // =========================================================================
+    const OWNER_EMAIL = "hoangkhactruong1822010@gmail.com";
+    const OWNER_PASS = "Matkhau.123";
+    const PROMO_CODE = "SN1802";
+    const PROMO_RATE = 0.2;
+
+    const BANK_INFO = {
+      bankCode: "VCB",
+      bankName: "Vietcombank",
+      accountNumber: "1071090989",
+      accountName: "HOANG KHAC TRUONG"
+    };
+
+    // =========================================================================
+    // 3. DANH SÁCH SẢN PHẨM & KHO MẶC ĐỊNH
+    // =========================================================================
+    const DEFAULT_PRODUCTS = [
+      {
+        id: "tiktok-view-10k",
+        name: "Buff 10.000 View TikTok Tự Động",
+        category: "tiktok",
+        type: "service",
+        price: 5000,
+        bannerClass: "banner-tiktok",
+        bannerTitle: "10K VIEW TIKTOK",
+        bannerSub: "Chạy tự động trên web",
+        desc: "Tăng nhanh 10.000 lượt xem video TikTok. Tự động khởi chạy ngay khi Admin duyệt đơn."
+      },
+      {
+        id: "tiktok-like-1k",
+        name: "Buff 1.000 Tym ❤️ TikTok",
+        category: "tiktok",
+        type: "service",
+        price: 15000,
+        bannerClass: "banner-tiktok",
+        bannerTitle: "1K TYM TIKTOK",
+        bannerSub: "Tốc độ cao • Không tụt",
+        desc: "Tăng 1.000 lượt tim cho video TikTok, hệ thống tự động xử lý trực tiếp trên web."
+      },
+      {
+        id: "tiktok-sub-1k",
+        name: "Buff 1.000 Follow TikTok",
+        category: "tiktok",
+        type: "service",
+        price: 45000,
+        bannerClass: "banner-tiktok",
+        bannerTitle: "1K FOLLOW TIKTOK",
+        bannerSub: "Mở livestream & gắn link",
+        desc: "Tăng 1.000 người theo dõi kênh TikTok, chạy tự động liên tục cho đến khi đủ."
+      },
+      {
+        id: "acc-clone-vn",
+        name: "Acc Clone Nuôi Sẵn (Giao Ngay)",
+        category: "ai",
+        type: "stock",
+        price: 10000,
+        bannerClass: "banner-clone",
+        bannerTitle: "ACC CLONE SẴN",
+        bannerSub: "Nhận tài khoản sau duyệt",
+        desc: "Tài khoản clone đã xác minh, có sẵn trong kho web. Trả user|pass trực tiếp trên web."
+      },
+      {
+        id: "ai-chatgpt-plus",
+        name: "Tài Khoản ChatGPT Plus 1 Tháng",
+        category: "ai",
+        type: "stock",
+        price: 89000,
+        bannerClass: "banner-plus",
+        bannerTitle: "CHATGPT PLUS",
+        bannerSub: "Kho sẵn • Bảo hành full",
+        desc: "Dùng đầy đủ tính năng GPT cao cấp, tốc độ nhanh. Trả tài khoản trực tiếp ngay trên web."
+      },
+      {
+        id: "ai-pro-vip",
+        name: "Tài Khoản AI Pro VIP",
+        category: "ai",
+        type: "stock",
+        price: 149000,
+        bannerClass: "banner-pro",
+        bannerTitle: "AI PRO VIP",
+        bannerSub: "Sẵn kho giao tự động",
+        desc: "Gói AI cao cấp phục vụ học tập và làm việc. Giao thông tin đăng nhập tức thì."
+      },
+      {
+        id: "shopee-50k",
+        name: "Acc Shopee Sẵn Voucher 50K",
+        category: "shopee",
+        type: "stock",
+        price: 25000,
+        bannerClass: "banner-shopee-50",
+        bannerTitle: "SHOPEE MÃ 50K",
+        bannerSub: "Hàng sẵn giao ngay",
+        desc: "Tài khoản Shopee có sẵn mã giảm 50K + freeship. Nhận tài khoản ngay trên web."
+      },
+      {
+        id: "shopee-80k",
+        name: "Acc Shopee Sẵn Voucher 80K",
+        category: "shopee",
+        type: "stock",
+        price: 40000,
+        bannerClass: "banner-shopee-80",
+        bannerTitle: "SHOPEE MÃ 80K",
+        bannerSub: "Hàng sẵn giao ngay",
+        desc: "Tài khoản Shopee săn sale có sẵn mã giảm 80K. Tự động xuất kho trực tiếp trên web."
+      },
+      {
+        id: "shopee-100k",
+        name: "Acc Shopee VIP Sẵn Mã 100K",
+        category: "shopee",
+        type: "stock",
+        price: 55000,
+        bannerClass: "banner-shopee-100",
+        bannerTitle: "SHOPEE VIP 100K",
+        bannerSub: "Sẵn kho • Số lượng có hạn",
+        desc: "Tài khoản Shopee VIP sẵn mã giảm sâu 100K, giao trực tiếp trong mục Đơn hàng."
+      }
+    ];
+
+    const DEFAULT_INVENTORY = {
+      "acc-clone-vn": [
+        "clone_ht01@mail.vn|HtClone@2026",
+        "clone_ht02@mail.vn|HtClone@2026",
+        "clone_ht03@mail.vn|HtClone@2026",
+        "clone_ht04@mail.vn|HtClone@2026",
+        "clone_ht05@mail.vn|HtClone@2026"
+      ],
+      "ai-chatgpt-plus": [
+        "gptplus01@shop.vn|Plus#8821",
+        "gptplus02@shop.vn|Plus#9914",
+        "gptplus03@shop.vn|Plus#4472"
+      ],
+      "ai-pro-vip": [
+        "aipro01@shop.vn|ProVip@771",
+        "aipro02@shop.vn|ProVip@882"
+      ],
+      "shopee-50k": [
+        "shp50_user01|Shopee50#11|OTP_San",
+        "shp50_user02|Shopee50#22|OTP_San",
+        "shp50_user03|Shopee50#33|OTP_San",
+        "shp50_user04|Shopee50#44|OTP_San"
+      ],
+      "shopee-80k": [
+        "shp80_vip01|Shopee80#91|OTP_San",
+        "shp80_vip02|Shopee80#92|OTP_San",
+        "shp80_vip03|Shopee80#93|OTP_San"
+      ],
+      "shopee-100k": [
+        "shp100_pro01|Shopee100#01|VIP",
+        "shp100_pro02|Shopee100#02|VIP"
+      ]
+    };
+
+    // =========================================================================
+    // 4. TRẠNG THÁI & LỚP ĐỒNG BỘ CLOUD (FIREBASE + LOCALSTORAGE BACKUP)
+    // =========================================================================
+    let inventory = JSON.parse(localStorage.getItem("htruong_inventory")) || JSON.parse(JSON.stringify(DEFAULT_INVENTORY));
+    let orders = JSON.parse(localStorage.getItem("htruong_orders")) || [];
+    let accounts = JSON.parse(localStorage.getItem("htruong_accounts")) || [];
+    let depositRequests = JSON.parse(localStorage.getItem("htruong_deposits")) || [];
+    let currentUser = JSON.parse(localStorage.getItem("htruong_user")) || null;
+
+    let currentFilter = "all";
+    let currentAdminTab = "orders";
+    let selectedProduct = null;
+    let appliedDiscount = 0;
+    let currentTransferCode = "";
+    let isSyncing = false;
+    let knownPendingOrderIds = new Set();
+    let knownPendingDepositIds = new Set();
+    let hasSyncedOnce = false;
+    const activeRunners = new Set();
+
+    function emailToKey(email) {
+      return btoa(unescape(encodeURIComponent(String(email || "").toLowerCase())))
+        .replace(/=/g, "")
+        .replace(/\+/g, "-")
+        .replace(/\//g, "_");
+    }
+
+    async function cloudGet(path = "") {
+      if (!IS_CLOUD) return null;
+      const url = path ? `${CLEAN_DB_URL}/${path}.json` : `${CLEAN_DB_URL}/.json`;
+      const res = await fetch(url, { cache: "no-store" });
+      if (!res.ok) throw new Error("Cloud GET failed: " + res.status);
+      return await res.json();
+    }
+
+    async function cloudPut(path, data) {
+      if (!IS_CLOUD) return;
+      const res = await fetch(`${CLEAN_DB_URL}/${path}.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error("Cloud PUT failed: " + res.status);
+    }
+
+    async function cloudDelete(path) {
+      if (!IS_CLOUD) return;
+      const res = await fetch(`${CLEAN_DB_URL}/${path}.json`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Cloud DELETE failed: " + res.status);
+    }
+
+    function ensureOwnerAccount() {
+      let ownerAcc = accounts.find(a => a.email === OWNER_EMAIL);
+      if (!ownerAcc) {
+        ownerAcc = {
+          email: OWNER_EMAIL,
+          name: "Chủ Shop (Admin)",
+          password: OWNER_PASS,
+          role: "admin",
+          balance: 1000000,
+          createdAt: new Date().toLocaleString("vi-VN")
+        };
+        accounts.unshift(ownerAcc);
+      }
+      return ownerAcc;
+    }
+    ensureOwnerAccount();
+
+    function saveLocal() {
+      localStorage.setItem("htruong_inventory", JSON.stringify(inventory));
+      localStorage.setItem("htruong_orders", JSON.stringify(orders));
+      localStorage.setItem("htruong_accounts", JSON.stringify(accounts));
+      localStorage.setItem("htruong_deposits", JSON.stringify(depositRequests));
+      if (currentUser) {
+        localStorage.setItem("htruong_user", JSON.stringify(currentUser));
+      } else {
+        localStorage.removeItem("htruong_user");
+      }
+    }
+
+    // Đồng bộ toàn bộ dữ liệu từ Firebase về máy hiện tại
+    async function syncFromCloud(showErrorToast = false) {
+      if (!IS_CLOUD || isSyncing) return;
+      isSyncing = true;
+      try {
+        const data = (await cloudGet("")) || {};
+
+        // 1) Tài khoản
+        if (data.accounts && typeof data.accounts === "object") {
+          accounts = Object.values(data.accounts).filter(Boolean);
+        }
+        const ownerAcc = ensureOwnerAccount();
+        if (!data.accounts || !data.accounts[emailToKey(OWNER_EMAIL)]) {
+          await cloudPut("accounts/" + emailToKey(OWNER_EMAIL), ownerAcc);
+        }
+
+        // 2) Đơn hàng
+        if (data.orders && typeof data.orders === "object") {
+          orders = Object.values(data.orders)
+            .filter(Boolean)
+            .map(o => ({
+              ...o,
+              reservedItems: Array.isArray(o.reservedItems) ? o.reservedItems : [],
+              delivered: Array.isArray(o.delivered) ? o.delivered : []
+            }))
+            .sort((a, b) => (b.createdTs || 0) - (a.createdTs || 0));
+        } else {
+          orders = [];
+        }
+
+        // 3) Yêu cầu nạp tiền
+        if (data.deposits && typeof data.deposits === "object") {
+          depositRequests = Object.values(data.deposits)
+            .filter(Boolean)
+            .sort((a, b) => (b.createdTs || 0) - (a.createdTs || 0));
+        } else {
+          depositRequests = [];
+        }
+
+        // 4) Kho hàng
+        if (!data.inventory || !data.inventory._initialized) {
+          const seed = { _initialized: true, ...JSON.parse(JSON.stringify(DEFAULT_INVENTORY)) };
+          await cloudPut("inventory", seed);
+          inventory = JSON.parse(JSON.stringify(DEFAULT_INVENTORY));
+        } else {
+          const nextInv = {};
+          DEFAULT_PRODUCTS.filter(p => p.type === "stock").forEach(p => {
+            const raw = data.inventory[p.id];
+            nextInv[p.id] = Array.isArray(raw) ? raw : [];
+          });
+          inventory = nextInv;
+        }
+
+        saveLocal();
+
+        // Báo thông báo real-time cho Admin khi có đơn hoặc lệnh nạp mới từ khách
+        const pendingOrders = orders.filter(o => o.status === "Chờ Admin duyệt");
+        const pendingDeps = depositRequests.filter(d => d.status === "Chờ Admin xác nhận");
+
+        if (hasSyncedOnce && currentUser && currentUser.role === "admin") {
+          const hasNewOrder = pendingOrders.some(o => !knownPendingOrderIds.has(o.id));
+          const hasNewDep = pendingDeps.some(d => !knownPendingDepositIds.has(d.id));
+          if (hasNewOrder && hasNewDep) {
+            showToast("🔔 Có ĐƠN HÀNG & YÊU CẦU NẠP TIỀN mới từ khách!");
+          } else if (hasNewOrder) {
+            showToast("🔔 Có ĐƠN HÀNG MỚI cần Admin duyệt!");
+          } else if (hasNewDep) {
+            showToast("💳 Có YÊU CẦU NẠP TIỀN MỚI cần Admin xác nhận!");
+          }
+        }
+        knownPendingOrderIds = new Set(pendingOrders.map(o => o.id));
+        knownPendingDepositIds = new Set(pendingDeps.map(d => d.id));
+        hasSyncedOnce = true;
+
+        document.getElementById("cloud-status-pill").innerText = "● Đã đồng bộ Cloud Real-time";
+        document.getElementById("cloud-status-pill").style.color = "#00e676";
+
+        refreshAllVisibleUI();
+      } catch (err) {
+        console.error(err);
+        document.getElementById("cloud-status-pill").innerText = "● Lỗi kết nối Firebase (kiểm tra Rules)";
+        document.getElementById("cloud-status-pill").style.color = "#ff5252";
+        if (showErrorToast) {
+          showToast("❌ Không kết nối được Firebase! Kiểm tra lại link & Rules.");
+        }
+      } finally {
+        isSyncing = false;
+      }
+    }
+
+    function refreshAllVisibleUI() {
+      updateAuthUI();
+      renderProducts();
+      updateBadges();
+
+      if (document.getElementById("orders-modal").style.display === "flex") {
+        renderCustomerOrders();
+      }
+      if (document.getElementById("deposit-modal").style.display === "flex") {
+        const acc = getCurrentAccount();
+        if (acc) {
+          document.getElementById("dep-user-balance").innerText = formatVND(acc.balance);
+          renderUserDepositHistory();
+        }
+      }
+      if (document.getElementById("buy-modal").style.display === "flex" &&
+          document.getElementById("buy-step-form").style.display !== "none") {
+        updateOrderPrice();
+      }
+      if (document.getElementById("admin-modal").style.display === "flex") {
+        updateAdminStatsAndBadges();
+        if (currentAdminTab === "orders") renderAdminOrdersList();
+        if (currentAdminTab === "deposits") renderAdminDeposits();
+        if (currentAdminTab === "users") renderAdminUsersListOnly();
+        if (currentAdminTab === "stock") renderSelectedStockList();
+      }
+
+      // Tiếp tục chạy dịch vụ nếu đang chạy tự động (chỉ Admin máy nào duyệt chạy tiếp)
+      if (currentUser && currentUser.role === "admin") {
+        orders
+          .filter(o => o.type === "service" && o.status === "Đang chạy tự động")
+          .forEach(o => startAutoServiceRunner(o.id));
+      }
+    }
+
+    async function manualRefresh() {
+      if (!IS_CLOUD) {
+        reloadFromLocalStorage();
+        showToast("🔄 Đã tải lại dữ liệu nội bộ!");
+        return;
+      }
+      await syncFromCloud(true);
+      showToast("🔄 Đã đồng bộ dữ liệu mới nhất từ máy chủ!");
+    }
+
+    // Tự đồng bộ giữa 2 tab trên cùng 1 máy ngay cả khi chưa gắn Firebase
+    function reloadFromLocalStorage() {
+      inventory = JSON.parse(localStorage.getItem("htruong_inventory")) || inventory;
+      orders = JSON.parse(localStorage.getItem("htruong_orders")) || [];
+      accounts = JSON.parse(localStorage.getItem("htruong_accounts")) || [];
+      depositRequests = JSON.parse(localStorage.getItem("htruong_deposits")) || [];
+      ensureOwnerAccount();
+      refreshAllVisibleUI();
+    }
+    window.addEventListener("storage", () => {
+      if (!IS_CLOUD) reloadFromLocalStorage();
+    });
+
+    function getAccountByEmail(email) {
+      if (!email) return null;
+      return accounts.find(a => a.email.toLowerCase() === email.toLowerCase()) || null;
+    }
+
+    function getCurrentAccount() {
+      if (!currentUser) return null;
+      return getAccountByEmail(currentUser.email);
+    }
+
+    function formatVND(n) {
+      return Number(n || 0).toLocaleString("vi-VN") + "đ";
+    }
+
+    function escapeHtml(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.innerText = msg;
+      t.style.display = "block";
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => { t.style.display = "none"; }, 3200);
+    }
+
+    // =========================================================================
+    // 5. HIỂN THỊ SẢN PHẨM & KHO SẴN
+    // =========================================================================
+    function renderProducts() {
+      const grid = document.getElementById("products-grid");
+      const list = currentFilter === "all"
+        ? DEFAULT_PRODUCTS
+        : DEFAULT_PRODUCTS.filter(p => p.category === currentFilter);
+
+      grid.innerHTML = list.map(p => {
+        let stockHtml = "";
+        let disabledAttr = "";
+        let btnText = `<i class="fa-solid fa-bolt"></i> Mua & Thanh Toán Ví`;
+
+        if (p.type === "stock") {
+          const count = (inventory[p.id] || []).length;
+          if (count > 0) {
+            stockHtml = `<span class="stock-pill stock-available"><i class="fa-solid fa-box"></i> Kho có sẵn: ${count}</span>`;
+          } else {
+            stockHtml = `<span class="stock-pill stock-out"><i class="fa-solid fa-circle-xmark"></i> Tạm hết kho</span>`;
+            disabledAttr = "disabled";
+            btnText = "Hết hàng (Chờ Chủ Shop nạp)";
+          }
+        } else {
+          stockHtml = `<span class="stock-pill stock-available"><i class="fa-solid fa-gears"></i> Tự động chạy sau duyệt</span>`;
+          btnText = `<i class="fa-solid fa-rocket"></i> Đặt Chạy Tự Động`;
+        }
+
+        return `
+          <div class="product-card">
+            <div class="product-banner ${p.bannerClass}">
+              <div>${p.bannerTitle}</div>
+              <div style="font-size:0.75rem; opacity:0.85; font-weight:600; margin-top:4px;">${p.bannerSub}</div>
+            </div>
+            <div class="product-info">
+              ${stockHtml}
+              <div class="product-title">${p.name}</div>
+              <div class="product-desc">${p.desc}</div>
+              <div class="product-price">${formatVND(p.price)}</div>
+              <button class="btn-buynow" ${disabledAttr} onclick="openBuyModal('${p.id}')">
+                ${btnText}
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function filterCategory(cat, btn) {
+      currentFilter = cat;
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderProducts();
+    }
+
+    // =========================================================================
+    // 6. ĐĂNG NHẬP & ĐĂNG KÝ TÀI KHOẢN KHÁCH HÀNG
+    // =========================================================================
+    function openAuth(tab = "login") {
+      document.getElementById("login-error").style.display = "none";
+      document.getElementById("reg-error").style.display = "none";
+      document.getElementById("login-email").value = "";
+      document.getElementById("login-password").value = "";
+      document.getElementById("reg-name").value = "";
+      document.getElementById("reg-email").value = "";
+      document.getElementById("reg-password").value = "";
+      document.getElementById("reg-password2").value = "";
+      switchAuthTab(tab);
+      document.getElementById("auth-modal").style.display = "flex";
+    }
+
+    function switchAuthTab(tab) {
+      const isLogin = tab === "login";
+      document.getElementById("auth-tab-login").classList.toggle("active", isLogin);
+      document.getElementById("auth-tab-register").classList.toggle("active", !isLogin);
+      document.getElementById("form-login").style.display = isLogin ? "block" : "none";
+      document.getElementById("form-register").style.display = isLogin ? "none" : "block";
+    }
+
+    async function handleRegister(e) {
+      e.preventDefault();
+      const name = document.getElementById("reg-name").value.trim();
+      const email = document.getElementById("reg-email").value.trim().toLowerCase();
+      const pass = document.getElementById("reg-password").value;
+      const pass2 = document.getElementById("reg-password2").value;
+      const errEl = document.getElementById("reg-error");
+      const btn = document.getElementById("btn-submit-register");
+
+      errEl.style.display = "none";
+
+      if (!name || !email) {
+        errEl.innerText = "❌ Vui lòng nhập đầy đủ họ tên và email.";
+        errEl.style.display = "block";
+        return;
+      }
+      if (email === OWNER_EMAIL) {
+        errEl.innerText = "❌ Email này là tài khoản Chủ Shop, không thể đăng ký mới.";
+        errEl.style.display = "block";
+        return;
+      }
+      if (pass.length < 4) {
+        errEl.innerText = "❌ Mật khẩu tối thiểu 4 ký tự.";
+        errEl.style.display = "block";
+        return;
+      }
+      if (pass !== pass2) {
+        errEl.innerText = "❌ Mật khẩu nhập lại không khớp.";
+        errEl.style.display = "block";
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerText = "Đang tạo tài khoản...";
+
+      try {
+        if (IS_CLOUD) await syncFromCloud();
+
+        if (getAccountByEmail(email)) {
+          errEl.innerText = "❌ Email này đã được đăng ký. Vui lòng chuyển sang tab Đăng nhập.";
+          errEl.style.display = "block";
+          return;
+        }
+
+        const newAcc = {
+          email: email,
+          name: name,
+          password: pass,
+          role: "user",
+          balance: 0,
+          createdAt: new Date().toLocaleString("vi-VN")
+        };
+
+        await cloudPut("accounts/" + emailToKey(email), newAcc);
+        accounts.push(newAcc);
+        currentUser = { email: newAcc.email, name: newAcc.name, role: "user" };
+        saveLocal();
+        updateAuthUI();
+        updateBadges();
+        closeModal("auth-modal");
+        showToast("🎉 Tạo tài khoản thành công! Hãy nạp tiền để bắt đầu mua hàng.");
+      } catch (err) {
+        errEl.innerText = "❌ Lỗi kết nối máy chủ, vui lòng thử lại!";
+        errEl.style.display = "block";
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-user-plus"></i> Tạo Tài Khoản Khách Hàng`;
+      }
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById("login-email").value.trim().toLowerCase();
+      const pass = document.getElementById("login-password").value;
+      const errEl = document.getElementById("login-error");
+      const btn = document.getElementById("btn-submit-login");
+
+      errEl.style.display = "none";
+      btn.disabled = true;
+      btn.innerText = "Đang đăng nhập...";
+
+      try {
+        if (IS_CLOUD) await syncFromCloud();
+
+        if (email === OWNER_EMAIL) {
+          if (pass === OWNER_PASS) {
+            ensureOwnerAccount();
+            currentUser = { email: OWNER_EMAIL, name: "Chủ Shop", role: "admin" };
+            saveLocal();
+            updateAuthUI();
+            updateBadges();
+            closeModal("auth-modal");
+            showToast("👑 Đã đăng nhập tài khoản Chủ Shop!");
+            openAdminModal();
+          } else {
+            errEl.innerText = "❌ Sai mật khẩu tài khoản Chủ Shop!";
+            errEl.style.display = "block";
+          }
+          return;
+        }
+
+        const acc = getAccountByEmail(email);
+        if (!acc) {
+          errEl.innerText = "❌ Tài khoản chưa tồn tại! Hãy bấm tab 'Tạo tài khoản' để đăng ký.";
+          errEl.style.display = "block";
+          return;
+        }
+        if (acc.password !== pass) {
+          errEl.innerText = "❌ Sai mật khẩu! Vui lòng kiểm tra lại.";
+          errEl.style.display = "block";
+          return;
+        }
+
+        currentUser = { email: acc.email, name: acc.name, role: acc.role || "user" };
+        saveLocal();
+        updateAuthUI();
+        updateBadges();
+        closeModal("auth-modal");
+        showToast("✅ Đăng nhập thành công: " + acc.name);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-right-to-bracket"></i> Đăng nhập ngay`;
+      }
+    }
+
+    function logoutAccount() {
+      currentUser = null;
+      saveLocal();
+      updateAuthUI();
+      updateBadges();
+      showToast("Đã đăng xuất khỏi hệ thống.");
+    }
+
+    function updateAuthUI() {
+      const btnLogin = document.getElementById("btn-login");
+      const userDisplay = document.getElementById("user-display");
+      const btnAdmin = document.getElementById("btn-admin-panel");
+      const adminPill = document.getElementById("admin-role-pill");
+
+      const acc = getCurrentAccount();
+      if (currentUser && acc) {
+        btnLogin.style.display = "none";
+        userDisplay.style.display = "flex";
+        document.getElementById("username-label").innerText = acc.name || acc.email.split("@")[0];
+        document.getElementById("user-balance-label").innerText = formatVND(acc.balance);
+        if (currentUser.role === "admin") {
+          btnAdmin.style.display = "inline-flex";
+          adminPill.style.display = "inline-block";
+        } else {
+          btnAdmin.style.display = "none";
+          adminPill.style.display = "none";
+        }
+      } else {
+        btnLogin.style.display = "inline-flex";
+        userDisplay.style.display = "none";
+        btnAdmin.style.display = "none";
+      }
+    }
+
+    // =========================================================================
+    // 7. NẠP TIỀN QUA WEB -> ĐẨY THẲNG LÊN CLOUD CHO ADMIN DUYỆT
+    // =========================================================================
+    function openDepositModal() {
+      const acc = getCurrentAccount();
+      const notice = document.getElementById("deposit-login-notice");
+      const mainBody = document.getElementById("deposit-main-body");
+
+      if (!acc) {
+        notice.style.display = "block";
+        mainBody.style.display = "none";
+      } else {
+        notice.style.display = "none";
+        mainBody.style.display = "block";
+        document.getElementById("dep-user-email").innerText = `${acc.name} (${acc.email})`;
+        document.getElementById("dep-user-balance").innerText = formatVND(acc.balance);
+        const cleanPrefix = acc.email.split("@")[0].replace(/[^a-zA-Z0-9]/g, "").toUpperCase().slice(0, 10);
+        currentTransferCode = "NAP" + cleanPrefix + Math.floor(100 + Math.random() * 900);
+        document.getElementById("dep-transfer-code").innerText = currentTransferCode;
+        document.getElementById("dep-note").value = "";
+        updateVietQR();
+        renderUserDepositHistory();
+      }
+      document.getElementById("deposit-modal").style.display = "flex";
+      if (IS_CLOUD) syncFromCloud();
+    }
+
+    function selectQuickAmount(amt, btn) {
+      document.getElementById("dep-amount").value = amt;
+      document.querySelectorAll(".quick-amt-btn").forEach(b => b.classList.remove("active"));
+      if (btn) btn.classList.add("active");
+      updateVietQR();
+    }
+
+    function updateVietQR() {
+      const amt = Math.max(0, parseInt(document.getElementById("dep-amount").value) || 0);
+      const qrUrl = `https://img.vietqr.io/image/${BANK_INFO.bankCode}-${BANK_INFO.accountNumber}-compact2.png?amount=${amt}&addInfo=${encodeURIComponent(currentTransferCode)}&accountName=${encodeURIComponent(BANK_INFO.accountName)}`;
+      document.getElementById("vietqr-preview").src = qrUrl;
+    }
+
+    function copyTransferCode() {
+      copyText(currentTransferCode);
+      showToast("📋 Đã copy nội dung chuyển khoản: " + currentTransferCode);
+    }
+
+    async function submitDepositRequest() {
+      const acc = getCurrentAccount();
+      if (!acc) {
+        showToast("⚠️ Vui lòng đăng nhập trước khi nạp tiền!");
+        return;
+      }
+
+      const amount = parseInt(document.getElementById("dep-amount").value) || 0;
+      const note = document.getElementById("dep-note").value.trim();
+
+      if (amount < 5000) {
+        showToast("⚠️ Số tiền nạp tối thiểu là 5.000đ!");
+        return;
+      }
+
+      const btn = document.getElementById("btn-submit-deposit");
+      btn.disabled = true;
+      btn.innerText = "Đang gửi yêu cầu tới Admin...";
+
+      try {
+        const req = {
+          id: "NAP" + Date.now().toString().slice(-6) + Math.floor(10 + Math.random() * 90),
+          userEmail: acc.email,
+          userName: acc.name,
+          amount: amount,
+          transferCode: currentTransferCode,
+          note: note || "Chuyển khoản Vietcombank",
+          status: "Chờ Admin xác nhận",
+          createdTs: Date.now(),
+          createdAt: new Date().toLocaleString("vi-VN")
+        };
+
+        await cloudPut("deposits/" + req.id, req);
+        depositRequests.unshift(req);
+        saveLocal();
+        updateBadges();
+        renderUserDepositHistory();
+
+        const cleanPrefix = acc.email.split("@")[0].replace(/[^a-zA-Z0-9]/g, "").toUpperCase().slice(0, 10);
+        currentTransferCode = "NAP" + cleanPrefix + Math.floor(100 + Math.random() * 900);
+        document.getElementById("dep-transfer-code").innerText = currentTransferCode;
+        document.getElementById("dep-note").value = "";
+        updateVietQR();
+
+        showToast("✅ Đã gửi lệnh nạp " + formatVND(amount) + " thẳng tới Admin!");
+      } catch (err) {
+        showToast("❌ Gửi thất bại! Kiểm tra kết nối mạng / Firebase.");
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Tôi Đã Chuyển Khoản — Gửi Admin Duyệt`;
+      }
+    }
+
+    function renderUserDepositHistory() {
+      const acc = getCurrentAccount();
+      const box = document.getElementById("user-deposit-history");
+      if (!acc) return;
+
+      const list = depositRequests.filter(d => d.userEmail === acc.email);
+      if (list.length === 0) {
+        box.innerHTML = `<p style="font-size:0.8rem; color:#8b949e; text-align:center; padding:10px;">Bạn chưa có giao dịch nạp tiền nào.</p>`;
+        return;
+      }
+
+      box.innerHTML = list.map(d => {
+        let cls = "status-pending";
+        if (d.status === "Đã cộng tiền") cls = "status-done";
+        if (d.status === "Bị từ chối") cls = "status-rejected";
+        return `
+          <div class="order-item-card">
+            <div class="order-top">
+              <strong>#${d.id} • +${formatVND(d.amount)}</strong>
+              <span class="status-tag ${cls}">${d.status}</span>
+            </div>
+            <div style="font-size:0.78rem; color:#94a3b8;">
+              Nội dung CK: <strong style="color:#ffc107;">${escapeHtml(d.transferCode)}</strong> • Ghi chú: ${escapeHtml(d.note)}<br/>
+              Thời gian: ${d.createdAt}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // =========================================================================
+    // 8. ĐẶT ĐƠN -> TRỪ VÍ & ĐẨY THẲNG ĐƠN LÊN CLOUD VỀ ADMIN
+    // =========================================================================
+    function openBuyModal(productId) {
+      selectedProduct = DEFAULT_PRODUCTS.find(p => p.id === productId);
+      if (!selectedProduct) return;
+
+      appliedDiscount = 0;
+      document.getElementById("buy-step-form").style.display = "block";
+      document.getElementById("buy-step-receipt").style.display = "none";
+      document.getElementById("buy-modal-title").innerText = "Đặt Đơn & Thanh Toán Số Dư Ví";
+      document.getElementById("buy-product-name").value = selectedProduct.name;
+      document.getElementById("buy-promo-code").value = "";
+      document.getElementById("promo-status-msg").innerText = "";
+
+      const acc = getCurrentAccount();
+      document.getElementById("buy-customer-name").value = acc ? `${acc.name} (${acc.email})` : "";
+
+      const qtyInput = document.getElementById("buy-qty");
+      qtyInput.value = 1;
+
+      if (selectedProduct.type === "stock") {
+        const avail = (inventory[selectedProduct.id] || []).length;
+        qtyInput.max = avail;
+        document.getElementById("buy-stock-hint").innerText = `Còn sẵn ${avail}`;
+        document.getElementById("buy-target-label").innerText = "Ghi chú thêm cho Chủ Shop (không bắt buộc)";
+        document.getElementById("buy-target-input").placeholder = "Ví dụ: Gửi nhanh giúp mình nhé...";
+        document.getElementById("buy-target-input").value = "";
+      } else {
+        qtyInput.max = 20;
+        document.getElementById("buy-stock-hint").innerText = "Chạy tự động sau khi Admin duyệt";
+        document.getElementById("buy-target-label").innerText = "Link video / ID TikTok cần chạy *";
+        document.getElementById("buy-target-input").placeholder = "https://www.tiktok.com/@username/video/...";
+        document.getElementById("buy-target-input").value = "";
+      }
+
+      updateOrderPrice();
+      document.getElementById("buy-modal").style.display = "flex";
+    }
+
+    function updateOrderPrice() {
+      if (!selectedProduct) return;
+      let qty = parseInt(document.getElementById("buy-qty").value) || 1;
+      if (qty < 1) qty = 1;
+      if (selectedProduct.type === "stock") {
+        const avail = (inventory[selectedProduct.id] || []).length;
+        if (avail > 0 && qty > avail) {
+          qty = avail;
+          document.getElementById("buy-qty").value = qty;
+        }
+      }
+      const subtotal = selectedProduct.price * qty;
+      const discount = Math.round(subtotal * appliedDiscount);
+      const total = subtotal - discount;
+
+      document.getElementById("price-subtotal").innerText = formatVND(subtotal);
+      document.getElementById("price-discount").innerText = "-" + formatVND(discount);
+      document.getElementById("price-total").innerText = formatVND(total);
+
+      const walletBox = document.getElementById("buy-wallet-box");
+      const acc = getCurrentAccount();
+
+      if (!acc) {
+        walletBox.className = "wallet-check-box low";
+        walletBox.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+            <span style="color:#ff8a80;">⚠️ Bạn chưa đăng nhập tài khoản để trừ số dư ví.</span>
+            <button type="button" class="btn-copy-small" onclick="closeModal('buy-modal'); openAuth('login');">Đăng nhập / Tạo TK</button>
+          </div>
+        `;
+      } else if (acc.balance < total) {
+        const missing = total - acc.balance;
+        walletBox.className = "wallet-check-box low";
+        walletBox.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+            <span>Số dư ví: <strong style="color:#ff5252;">${formatVND(acc.balance)}</strong> (Thiếu ${formatVND(missing)})</span>
+            <button type="button" class="btn-copy-small" onclick="closeModal('buy-modal'); openDepositModal();">Nạp tiền ngay</button>
+          </div>
+        `;
+      } else {
+        walletBox.className = "wallet-check-box";
+        walletBox.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+            <span>Số dư ví hiện tại: <strong style="color:#00e676;">${formatVND(acc.balance)}</strong></span>
+            <span style="color:#94a3b8;">Còn lại sau mua: <strong style="color:#00f2fe;">${formatVND(acc.balance - total)}</strong></span>
+          </div>
+        `;
+      }
+    }
+
+    function applyPromo() {
+      const code = document.getElementById("buy-promo-code").value.trim().toUpperCase();
+      const msg = document.getElementById("promo-status-msg");
+      if (code === PROMO_CODE) {
+        appliedDiscount = PROMO_RATE;
+        msg.className = "promo-msg promo-success";
+        msg.innerText = "✅ Áp dụng thành công mã SN1802 (-20%)!";
+      } else {
+        appliedDiscount = 0;
+        msg.className = "promo-msg promo-error";
+        msg.innerText = "❌ Mã giảm giá không hợp lệ. Thử mã: SN1802";
+      }
+      updateOrderPrice();
+    }
+
+    async function confirmAutoOrder() {
+      if (!selectedProduct) return;
+
+      const btn = document.getElementById("btn-confirm-order");
+      btn.disabled = true;
+      btn.innerText = "Đang xử lý & gửi đơn về Admin...";
+
+      try {
+        if (IS_CLOUD) await syncFromCloud();
+
+        const acc = getCurrentAccount();
+        if (!acc) {
+          showToast("⚠️ Vui lòng đăng nhập hoặc tạo tài khoản trước khi mua!");
+          closeModal("buy-modal");
+          openAuth("login");
+          return;
+        }
+
+        const qty = Math.max(1, parseInt(document.getElementById("buy-qty").value) || 1);
+        const target = document.getElementById("buy-target-input").value.trim();
+
+        if (selectedProduct.type === "service" && !target) {
+          showToast("⚠️ Vui lòng nhập link video hoặc ID TikTok!");
+          return;
+        }
+
+        const subtotal = selectedProduct.price * qty;
+        const discount = Math.round(subtotal * appliedDiscount);
+        const total = subtotal - discount;
+
+        if (acc.balance < total) {
+          showToast("❌ Số dư ví không đủ! Vui lòng nạp thêm tiền vào web.");
+          closeModal("buy-modal");
+          openDepositModal();
+          return;
+        }
+
+        let reservedItems = [];
+        if (selectedProduct.type === "stock") {
+          const stockArr = inventory[selectedProduct.id] || [];
+          if (stockArr.length < qty) {
+            showToast("❌ Kho không đủ hàng!");
+            renderProducts();
+            return;
+          }
+          reservedItems = stockArr.splice(0, qty);
+          inventory[selectedProduct.id] = stockArr;
+        }
+
+        acc.balance -= total;
+
+        const orderId = "HT" + Date.now().toString().slice(-6) + Math.floor(10 + Math.random() * 90);
+        const newOrder = {
+          id: orderId,
+          ownerReceiver: OWNER_EMAIL,
+          customerEmail: acc.email,
+          customer: `${acc.name} (${acc.email})`,
+          productId: selectedProduct.id,
+          productName: selectedProduct.name,
+          type: selectedProduct.type,
+          qty: qty,
+          target: target,
+          reservedItems: reservedItems,
+          delivered: [],
+          total: total,
+          promoUsed: appliedDiscount > 0 ? PROMO_CODE : "",
+          status: "Chờ Admin duyệt",
+          progress: 0,
+          createdTs: Date.now(),
+          createdAt: new Date().toLocaleString("vi-VN")
+        };
+
+        // Đẩy đồng thời số dư mới + kho mới + đơn mới thẳng lên máy chủ cho Admin nhận
+        const tasks = [
+          cloudPut("accounts/" + emailToKey(acc.email), acc),
+          cloudPut("orders/" + newOrder.id, newOrder)
+        ];
+        if (selectedProduct.type === "stock") {
+          tasks.push(cloudPut("inventory/" + selectedProduct.id, inventory[selectedProduct.id]));
+        }
+        await Promise.all(tasks);
+
+        orders.unshift(newOrder);
+        saveLocal();
+        updateAuthUI();
+        renderProducts();
+        updateBadges();
+
+        renderReceipt(newOrder, acc.balance);
+        document.getElementById("buy-step-form").style.display = "none";
+        document.getElementById("buy-step-receipt").style.display = "block";
+        showToast("✅ Đã trừ " + formatVND(total) + " & gửi thẳng đơn về Admin!");
+      } catch (err) {
+        showToast("❌ Lỗi gửi đơn lên máy chủ! Vui lòng thử lại.");
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-bolt"></i> Thanh Toán Từ Ví & Gửi Admin Duyệt Đơn`;
+      }
+    }
+
+    function renderReceipt(order, remainBalance) {
+      const bodyHtml = `
+        <div class="delivered-box">
+          <div style="font-size:0.82rem; color:#cbd5e1; margin-bottom:6px; line-height:1.6;">
+            <strong>Mã đơn:</strong> <span style="color:#00f2fe;">#${order.id}</span><br/>
+            <strong>Tài khoản đặt:</strong> ${escapeHtml(order.customer)}<br/>
+            <strong>Đã trừ từ ví web:</strong> <span style="color:#ffeb3b;">-${formatVND(order.total)}</span><br/>
+            <strong>Số dư ví còn lại:</strong> <span style="color:#00e676;">${formatVND(remainBalance)}</span><br/>
+            <strong>Trạng thái:</strong> <span style="color:#ffc107; font-weight:700;">⏳ Chờ Chủ Shop duyệt đơn</span>
+          </div>
+          <div style="font-size:0.78rem; color:#94a3b8; margin-top:8px;">
+            Ngay khi Admin (<strong>${order.ownerReceiver}</strong>) bấm duyệt đơn, ${
+              order.type === "stock"
+                ? "thông tin tài khoản (user|pass) sẽ tự động hiện trong mục Đơn hàng của bạn."
+                : "dịch vụ TikTok cho link/ID của bạn sẽ tự động khởi chạy từ 0% đến 100%."
+            }
+          </div>
+        </div>
+      `;
+      document.getElementById("receipt-content").innerHTML = bodyHtml;
+    }
+
+    // Tự động chạy tiến độ dịch vụ sau khi Admin duyệt và đồng bộ tiến độ lên Cloud
+    function startAutoServiceRunner(orderId) {
+      if (activeRunners.has(orderId)) return;
+      activeRunners.add(orderId);
+
+      const interval = setInterval(async () => {
+        const order = orders.find(o => o.id === orderId);
+        if (!order || order.status !== "Đang chạy tự động") {
+          clearInterval(interval);
+          activeRunners.delete(orderId);
+          return;
+        }
+        order.progress = Math.min(100, (order.progress || 10) + Math.floor(15 + Math.random() * 20));
+        if (order.progress >= 100) {
+          order.progress = 100;
+          order.status = "Hoàn thành";
+          clearInterval(interval);
+          activeRunners.delete(orderId);
+          showToast(`🎉 Đơn #${order.id} đã chạy hoàn thành 100%!`);
+        }
+        saveLocal();
+        try {
+          await cloudPut("orders/" + order.id, order);
+        } catch (e) {}
+        refreshAllVisibleUI();
+      }, 2000);
+    }
+
+    // =========================================================================
+    // 9. ĐƠN HÀNG CỦA KHÁCH
+    // =========================================================================
+    function openOrdersModal() {
+      renderCustomerOrders();
+      document.getElementById("orders-modal").style.display = "flex";
+      if (IS_CLOUD) syncFromCloud();
+    }
+
+    function renderCustomerOrders() {
+      const wrap = document.getElementById("orders-list-container");
+      const acc = getCurrentAccount();
+
+      if (!acc) {
+        wrap.innerHTML = `
+          <div style="text-align:center; padding:24px;">
+            <p style="color:#8b949e; margin-bottom:12px;">Vui lòng đăng nhập để xem lịch sử đơn hàng của tài khoản bạn.</p>
+            <button class="checkout-btn" style="max-width:260px; margin:0 auto;" onclick="closeModal('orders-modal'); openAuth('login');">Đăng nhập ngay</button>
+          </div>`;
+        return;
+      }
+
+      const visibleOrders = acc.role === "admin"
+        ? orders
+        : orders.filter(o => o.customerEmail === acc.email);
+
+      if (visibleOrders.length === 0) {
+        wrap.innerHTML = `<p style="text-align:center; color:#8b949e; padding:24px;">Tài khoản của bạn chưa có đơn hàng nào. Hãy nạp tiền và chọn dịch vụ ở trang chủ!</p>`;
+        return;
+      }
+
+      wrap.innerHTML = visibleOrders.map(o => {
+        let statusClass = "status-running";
+        if (o.status === "Hoàn thành") statusClass = "status-done";
+        else if (o.status === "Chờ Admin duyệt") statusClass = "status-pending";
+        else if (o.status.includes("Từ chối")) statusClass = "status-rejected";
+
+        let extraHtml = "";
+
+        if (o.status === "Chờ Admin duyệt") {
+          extraHtml = `<div style="margin-top:6px; font-size:0.78rem; color:#ffc107;">⏳ Đơn đã chuyển thẳng tới Chủ Shop và đang chờ duyệt.</div>`;
+        } else if (o.status.includes("Từ chối")) {
+          extraHtml = `<div style="margin-top:6px; font-size:0.78rem; color:#ff8a80;">💸 Chủ Shop đã từ chối đơn và hoàn lại ${formatVND(o.total)} vào ví web của bạn.</div>`;
+        } else if (o.type === "stock" && o.delivered && o.delivered.length > 0) {
+          extraHtml = o.delivered.map(accStr => `
+            <div class="delivered-code">
+              <span>${escapeHtml(accStr)}</span>
+              <button class="btn-copy-small" onclick="copyText('${accStr.replace(/'/g, "\\'")}')">Copy</button>
+            </div>
+          `).join("");
+        } else if (o.type === "service") {
+          extraHtml = `
+            <div style="margin-top:6px; font-size:0.78rem; color:#94a3b8;">
+              Link/ID: <strong style="color:#fff;">${escapeHtml(o.target)}</strong> • Tiến độ: <strong style="color:#00f2fe;">${o.progress}%</strong>
+            </div>
+            <div class="progress-wrap"><div class="progress-fill" style="width:${o.progress}%;"></div></div>
+          `;
+        }
+
+        return `
+          <div class="order-item-card">
+            <div class="order-top">
+              <strong>#${o.id} — ${escapeHtml(o.productName)} (x${o.qty})</strong>
+              <span class="status-tag ${statusClass}">${o.status}</span>
+            </div>
+            <div style="font-size:0.78rem; color:#94a3b8;">
+              Thời gian: ${o.createdAt} • Thanh toán từ ví: <strong style="color:#ffeb3b;">${formatVND(o.total)}</strong>
+            </div>
+            ${extraHtml}
+          </div>
+        `;
+      }).join("");
+    }
+
+    // =========================================================================
+    // 10. QUẢN TRỊ CHỦ SHOP: NHẬN & DUYỆT ĐƠN, DUYỆT NẠP TIỀN, CỘNG TIỀN, KHO
+    // =========================================================================
+    function openAdminModal() {
+      if (!currentUser || currentUser.role !== "admin") {
+        showToast("⛔ Chỉ tài khoản Chủ Shop mới truy cập được!");
+        return;
+      }
+      updateAdminStatsAndBadges();
+      renderAdminOrdersList();
+      renderAdminDeposits();
+      renderAdminUsersFull();
+      populateStockSelect();
+      document.getElementById("admin-modal").style.display = "flex";
+      if (IS_CLOUD) syncFromCloud();
+    }
+
+    function switchAdminTab(tab) {
+      currentAdminTab = tab;
+      ["orders", "deposits", "users", "stock"].forEach(t => {
+        document.getElementById("tab-admin-" + t).classList.toggle("active", tab === t);
+        document.getElementById("admin-panel-" + t).style.display = tab === t ? "block" : "none";
+      });
+      if (tab === "orders") renderAdminOrdersList();
+      if (tab === "deposits") renderAdminDeposits();
+      if (tab === "users") renderAdminUsersFull();
+      if (tab === "stock") populateStockSelect();
+    }
+
+    function updateAdminStatsAndBadges() {
+      const approvedRevenue = orders
+        .filter(o => !o.status.includes("Từ chối"))
+        .reduce((sum, o) => sum + (o.total || 0), 0);
+      const totalStock = Object.values(inventory).reduce((sum, arr) => sum + arr.length, 0);
+      const pendingDepCount = depositRequests.filter(d => d.status === "Chờ Admin xác nhận").length;
+      const pendingOrderCount = orders.filter(o => o.status === "Chờ Admin duyệt").length;
+
+      document.getElementById("admin-total-orders").innerText = orders.length;
+      document.getElementById("admin-total-revenue").innerText = formatVND(approvedRevenue);
+      document.getElementById("admin-pending-deposits").innerText = pendingDepCount;
+      document.getElementById("admin-total-stock").innerText = totalStock;
+
+      const tabOrdBadge = document.getElementById("tab-badge-orders");
+      tabOrdBadge.style.display = pendingOrderCount > 0 ? "inline-block" : "none";
+      tabOrdBadge.innerText = pendingOrderCount;
+
+      const tabDepBadge = document.getElementById("tab-badge-deposits");
+      tabDepBadge.style.display = pendingDepCount > 0 ? "inline-block" : "none";
+      tabDepBadge.innerText = pendingDepCount;
+    }
+
+    function renderAdminOrdersList() {
+      updateAdminStatsAndBadges();
+      const wrap = document.getElementById("admin-panel-orders");
+      if (orders.length === 0) {
+        wrap.innerHTML = `<p style="text-align:center; color:#8b949e; padding:20px;">Chưa có đơn hàng nào từ khách hàng gửi về.</p>`;
+        return;
+      }
+
+      wrap.innerHTML = orders.map(o => {
+        let statusClass = "status-running";
+        if (o.status === "Hoàn thành") statusClass = "status-done";
+        else if (o.status === "Chờ Admin duyệt") statusClass = "status-pending";
+        else if (o.status.includes("Từ chối")) statusClass = "status-rejected";
+
+        const itemsPreview = o.type === "service"
+          ? `Link/ID chạy: <span style="color:#00f2fe;">${escapeHtml(o.target)}</span>`
+          : `Hàng kho (${o.delivered && o.delivered.length ? "Đã giao" : "Đang giữ"}): <span style="color:#00f2fe;">${escapeHtml((o.delivered && o.delivered.length ? o.delivered : (o.reservedItems || [])).join(" | "))}</span>`;
+
+        return `
+          <div class="order-item-card">
+            <div class="order-top">
+              <span><strong>#${o.id}</strong> • ${escapeHtml(o.productName)} (x${o.qty})</span>
+              <span class="status-tag ${statusClass}">${o.status}${o.type === "service" && o.status === "Đang chạy tự động" ? ` (${o.progress}%)` : ""}</span>
+            </div>
+            <div style="font-size:0.78rem; color:#94a3b8; line-height:1.5;">
+              Tài khoản mua: <strong style="color:#fff;">${escapeHtml(o.customer)}</strong> • Đã trừ ví: <strong style="color:#00e676;">${formatVND(o.total)}</strong> ${o.promoUsed ? `(Mã ${o.promoUsed})` : ""}<br/>
+              ${itemsPreview}<br/>
+              Thời gian: ${o.createdAt}
+            </div>
+            <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+              ${o.status === "Chờ Admin duyệt" ? `
+                <button class="btn-copy-small" onclick="approveOrder('${o.id}')">✅ Duyệt đơn</button>
+                <button class="btn-copy-small" style="background:#ff9800; color:#000;" onclick="rejectOrder('${o.id}')">↩️ Từ chối & Hoàn tiền</button>
+              ` : ""}
+              ${o.status === "Đang chạy tự động" ? `<button class="btn-copy-small" onclick="forceCompleteOrder('${o.id}')">Hoàn tất ngay</button>` : ""}
+              <button class="btn-copy-small" style="background:#ff5252; color:#fff;" onclick="deleteOrder('${o.id}')">Xóa đơn</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    async function approveOrder(orderId) {
+      const o = orders.find(x => x.id === orderId);
+      if (!o || o.status !== "Chờ Admin duyệt") return;
+
+      if (o.type === "stock") {
+        o.delivered = o.reservedItems && o.reservedItems.length > 0 ? [...o.reservedItems] : [];
+        o.reservedItems = [];
+        o.progress = 100;
+        o.status = "Hoàn thành";
+      } else {
+        o.status = "Đang chạy tự động";
+        o.progress = 15;
+      }
+
+      try {
+        await cloudPut("orders/" + o.id, o);
+        saveLocal();
+        renderAdminOrdersList();
+        updateBadges();
+        if (o.type === "stock") {
+          showToast("✅ Đã duyệt đơn #" + orderId + " & giao tài khoản cho khách!");
+        } else {
+          showToast("🚀 Đã duyệt đơn #" + orderId + " & bắt đầu chạy tự động!");
+          startAutoServiceRunner(o.id);
+        }
+      } catch (err) {
+        showToast("❌ Lỗi cập nhật lên Cloud!");
+      }
+    }
+
+    async function rejectOrder(orderId) {
+      const o = orders.find(x => x.id === orderId);
+      if (!o || o.status !== "Chờ Admin duyệt") return;
+
+      try {
+        if (IS_CLOUD) await syncFromCloud();
+        const freshOrder = orders.find(x => x.id === orderId);
+        if (!freshOrder || freshOrder.status !== "Chờ Admin duyệt") return;
+
+        const customerAcc = getAccountByEmail(freshOrder.customerEmail);
+        const tasks = [];
+
+        if (customerAcc) {
+          customerAcc.balance += freshOrder.total;
+          tasks.push(cloudPut("accounts/" + emailToKey(customerAcc.email), customerAcc));
+        }
+        if (freshOrder.type === "stock" && freshOrder.reservedItems && freshOrder.reservedItems.length > 0) {
+          if (!inventory[freshOrder.productId]) inventory[freshOrder.productId] = [];
+          inventory[freshOrder.productId].unshift(...freshOrder.reservedItems);
+          freshOrder.reservedItems = [];
+          tasks.push(cloudPut("inventory/" + freshOrder.productId, inventory[freshOrder.productId]));
+        }
+
+        freshOrder.status = "Đã từ chối (Đã hoàn tiền)";
+        freshOrder.progress = 0;
+        tasks.push(cloudPut("orders/" + freshOrder.id, freshOrder));
+
+        await Promise.all(tasks);
+        saveLocal();
+        refreshAllVisibleUI();
+        showToast("↩️ Đã từ chối đơn #" + orderId + " & hoàn " + formatVND(freshOrder.total) + " vào ví khách!");
+      } catch (err) {
+        showToast("❌ Lỗi cập nhật lên Cloud!");
+      }
+    }
+
+    async function forceCompleteOrder(orderId) {
+      const o = orders.find(x => x.id === orderId);
+      if (!o) return;
+      o.progress = 100;
+      o.status = "Hoàn thành";
+      await cloudPut("orders/" + o.id, o);
+      saveLocal();
+      renderAdminOrdersList();
+      updateBadges();
+      showToast("✅ Đã hoàn tất đơn #" + orderId);
+    }
+
+    async function deleteOrder(orderId) {
+      await cloudDelete("orders/" + orderId);
+      orders = orders.filter(x => x.id !== orderId);
+      saveLocal();
+      renderAdminOrdersList();
+      updateBadges();
+      showToast("🗑️ Đã xóa đơn #" + orderId);
+    }
+
+    function renderAdminDeposits() {
+      updateAdminStatsAndBadges();
+      const wrap = document.getElementById("admin-panel-deposits");
+      if (depositRequests.length === 0) {
+        wrap.innerHTML = `<p style="text-align:center; color:#8b949e; padding:20px;">Chưa có yêu cầu nạp tiền nào từ khách hàng.</p>`;
+        return;
+      }
+
+      wrap.innerHTML = depositRequests.map(d => {
+        let cls = "status-pending";
+        if (d.status === "Đã cộng tiền") cls = "status-done";
+        if (d.status === "Bị từ chối") cls = "status-rejected";
+
+        return `
+          <div class="order-item-card">
+            <div class="order-top">
+              <strong>#${d.id} • <span style="color:#00e676;">+${formatVND(d.amount)}</span></strong>
+              <span class="status-tag ${cls}">${d.status}</span>
+            </div>
+            <div style="font-size:0.78rem; color:#94a3b8; line-height:1.5;">
+              Tài khoản nạp: <strong style="color:#fff;">${escapeHtml(d.userName)} (${escapeHtml(d.userEmail)})</strong><br/>
+              Nội dung CK: <strong style="color:#ffc107;">${escapeHtml(d.transferCode)}</strong> • Ghi chú: ${escapeHtml(d.note)}<br/>
+              Thời gian: ${d.createdAt}
+            </div>
+            <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+              ${d.status === "Chờ Admin xác nhận" ? `
+                <button class="btn-copy-small" onclick="approveDeposit('${d.id}')">✅ Xác nhận & Cộng tiền</button>
+                <button class="btn-copy-small" style="background:#ff5252; color:#fff;" onclick="rejectDeposit('${d.id}')">❌ Từ chối</button>
+              ` : ""}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    async function approveDeposit(depId) {
+      try {
+        if (IS_CLOUD) await syncFromCloud();
+        const req = depositRequests.find(d => d.id === depId);
+        if (!req || req.status !== "Chờ Admin xác nhận") return;
+
+        const acc = getAccountByEmail(req.userEmail);
+        if (!acc) {
+          showToast("❌ Không tìm thấy tài khoản " + req.userEmail);
+          return;
+        }
+
+        acc.balance += req.amount;
+        req.status = "Đã cộng tiền";
+
+        await Promise.all([
+          cloudPut("accounts/" + emailToKey(acc.email), acc),
+          cloudPut("deposits/" + req.id, req)
+        ]);
+
+        saveLocal();
+        refreshAllVisibleUI();
+        renderAdminUsersFull();
+        showToast(`💰 Đã cộng thẳng ${formatVND(req.amount)} vào tài khoản ${acc.email}!`);
+      } catch (err) {
+        showToast("❌ Lỗi cộng tiền lên Cloud!");
+      }
+    }
+
+    async function rejectDeposit(depId) {
+      const req = depositRequests.find(d => d.id === depId);
+      if (!req || req.status !== "Chờ Admin xác nhận") return;
+
+      req.status = "Bị từ chối";
+      await cloudPut("deposits/" + req.id, req);
+      saveLocal();
+      refreshAllVisibleUI();
+      showToast("❌ Đã từ chối yêu cầu nạp #" + depId);
+    }
+
+    function renderAdminUsersFull() {
+      const sel = document.getElementById("admin-user-select");
+      const prevVal = sel.value;
+      sel.innerHTML = accounts.map(a =>
+        `<option value="${escapeHtml(a.email)}">${escapeHtml(a.name)} (${escapeHtml(a.email)}) — Số dư: ${formatVND(a.balance)}</option>`
+      ).join("");
+      if (prevVal && accounts.some(a => a.email === prevVal)) sel.value = prevVal;
+      renderAdminUsersListOnly();
+    }
+
+    function renderAdminUsersListOnly() {
+      const listBox = document.getElementById("admin-users-list");
+      listBox.innerHTML = accounts.map(a => `
+        <div class="order-item-card">
+          <div class="order-top">
+            <strong>${escapeHtml(a.name)} ${a.role === "admin" ? '<span class="admin-pill">CHỦ SHOP</span>' : ""}</strong>
+            <span class="balance-pill">${formatVND(a.balance)}</span>
+          </div>
+          <div style="font-size:0.78rem; color:#94a3b8;">
+            Email: <strong style="color:#00f2fe;">${escapeHtml(a.email)}</strong> • Ngày tạo: ${a.createdAt || "Hệ thống"}
+          </div>
+        </div>
+      `).join("");
+    }
+
+    async function adminAdjustBalance(sign) {
+      const email = document.getElementById("admin-user-select").value;
+      const amt = parseInt(document.getElementById("admin-adjust-amount").value) || 0;
+      if (amt <= 0) {
+        showToast("⚠️ Vui lòng nhập số tiền hợp lệ!");
+        return;
+      }
+
+      if (IS_CLOUD) await syncFromCloud();
+      const acc = getAccountByEmail(email);
+      if (!acc) return;
+
+      if (sign < 0 && acc.balance < amt) {
+        acc.balance = 0;
+      } else {
+        acc.balance += sign * amt;
+      }
+
+      await cloudPut("accounts/" + emailToKey(acc.email), acc);
+      document.getElementById("admin-adjust-amount").value = "";
+      saveLocal();
+      updateAuthUI();
+      renderAdminUsersFull();
+      showToast(`${sign > 0 ? "✅ Đã cộng" : "✅ Đã trừ"} ${formatVND(amt)} cho ${acc.email}!`);
+    }
+
+    function populateStockSelect() {
+      const select = document.getElementById("admin-stock-select");
+      const prevVal = select.value;
+      const stockProducts = DEFAULT_PRODUCTS.filter(p => p.type === "stock");
+      select.innerHTML = stockProducts.map(p => {
+        const count = (inventory[p.id] || []).length;
+        return `<option value="${p.id}">${p.name} (Hiện có: ${count})</option>`;
+      }).join("");
+      if (prevVal && stockProducts.some(p => p.id === prevVal)) select.value = prevVal;
+      renderSelectedStockList();
+    }
+
+    function renderSelectedStockList() {
+      const pid = document.getElementById("admin-stock-select").value;
+      const items = inventory[pid] || [];
+      const box = document.getElementById("admin-current-stock-list");
+      if (items.length === 0) {
+        box.innerHTML = `<div style="font-size:0.8rem; color:#ff5252;">Kho sản phẩm này đang trống.</div>`;
+        return;
+      }
+      box.innerHTML = items.map((line, idx) => `
+        <div class="delivered-code">
+          <span>${idx + 1}. ${escapeHtml(line)}</span>
+          <button class="btn-copy-small" style="background:#ff5252; color:#fff;" onclick="removeStockItem('${pid}', ${idx})">Xóa</button>
+        </div>
+      `).join("");
+    }
+
+    async function addStockItems() {
+      const pid = document.getElementById("admin-stock-select").value;
+      const raw = document.getElementById("admin-stock-input").value;
+      const lines = raw.split("\n").map(s => s.trim()).filter(Boolean);
+      if (lines.length === 0) {
+        showToast("⚠️ Vui lòng nhập ít nhất 1 dòng tài khoản!");
+        return;
+      }
+      if (!inventory[pid]) inventory[pid] = [];
+      inventory[pid].push(...lines);
+      await cloudPut("inventory/" + pid, inventory[pid]);
+      document.getElementById("admin-stock-input").value = "";
+      saveLocal();
+      renderProducts();
+      populateStockSelect();
+      updateAdminStatsAndBadges();
+      showToast(`✅ Đã nạp thêm ${lines.length} hàng lên kho máy chủ!`);
+    }
+
+    async function removeStockItem(pid, idx) {
+      inventory[pid].splice(idx, 1);
+      await cloudPut("inventory/" + pid, inventory[pid]);
+      saveLocal();
+      renderProducts();
+      populateStockSelect();
+      updateAdminStatsAndBadges();
+    }
+
+    // =========================================================================
+    // 11. TIỆN ÍCH & CHATBOT
+    // =========================================================================
+    function updateBadges() {
+      const acc = getCurrentAccount();
+      const myCount = !acc ? 0 : (acc.role === "admin" ? orders.length : orders.filter(o => o.customerEmail === acc.email).length);
+      document.getElementById("order-count-badge").innerText = myCount;
+
+      const pendingTotal =
+        orders.filter(o => o.status === "Chờ Admin duyệt").length +
+        depositRequests.filter(d => d.status === "Chờ Admin xác nhận").length;
+      const adminBadge = document.getElementById("admin-pending-badge");
+      if (pendingTotal > 0) {
+        adminBadge.style.display = "inline-block";
+        adminBadge.innerText = pendingTotal;
+      } else {
+        adminBadge.style.display = "none";
+      }
+    }
+
+    function copyPromoCode() {
+      copyText(PROMO_CODE);
+      showToast("📋 Đã copy mã giảm giá SN1802 (-20%)!");
+    }
+
+    function copyText(text) {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text);
+      }
+      showToast("📋 Đã sao chép!");
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).style.display = "none";
+    }
+
+    function toggleChat() {
+      document.getElementById("ai-chat-box").classList.toggle("chat-hidden");
+    }
+    function quickAsk(q) {
+      document.getElementById("chat-input").value = q;
+      sendChat();
+    }
+    function sendChat() {
+      const input = document.getElementById("chat-input");
+      const text = input.value.trim();
+      if (!text) return;
+
+      const msgs = document.getElementById("chat-messages");
+      msgs.innerHTML += `<div class="user-msg">${escapeHtml(text)}</div>`;
+      input.value = "";
+
+      const lower = text.toLowerCase();
+      let reply = "Bạn hãy tạo tài khoản → Nạp tiền qua mục Nạp tiền (Vietcombank 1071090989 - HOANG KHAC TRUONG) → Admin xác nhận cộng tiền vào ví → Mua hàng trừ thẳng số dư ví và nhận đơn ngay trên web!";
+      if (lower.includes("nạp") || lower.includes("tiền") || lower.includes("bank") || lower.includes("stk")) {
+        reply = "Bấm nút 'Nạp tiền' màu xanh trên thanh menu, chuyển khoản Vietcombank STK 1071090989 (HOANG KHAC TRUONG) kèm nội dung nạp rồi bấm gửi xác nhận. Chủ Shop duyệt là tiền cộng thẳng vào tài khoản của bạn!";
+      } else if (lower.includes("mã") || lower.includes("giảm")) {
+        reply = "Bạn nhập mã SN1802 trong bước đặt hàng để được giảm ngay 20% nhé!";
+      } else if (lower.includes("shopee")) {
+        const s50 = (inventory["shopee-50k"] || []).length;
+        const s80 = (inventory["shopee-80k"] || []).length;
+        const s100 = (inventory["shopee-100k"] || []).length;
+        reply = `Kho Acc Shopee hiện còn sẵn:\n• Mã 50K: ${s50} acc\n• Mã 80K: ${s80} acc\n• VIP 100K: ${s100} acc\nThanh toán bằng số dư ví trên web và Admin duyệt giao ngay!`;
+      } else if (lower.includes("nhận ngay") || lower.includes("tự động") || lower.includes("duyệt")) {
+        reply = "Mọi đơn hàng đều trừ trực tiếp tiền trong ví web và gửi thẳng về tài khoản Chủ Shop duyệt. Ngay khi Admin bấm duyệt, tài khoản hoặc tiến độ dịch vụ TikTok sẽ hiển thị trong mục Đơn hàng của bạn.";
+      }
+
+      setTimeout(() => {
+        msgs.innerHTML += `<div class="bot-msg">${reply}</div>`;
+        msgs.scrollTop = msgs.scrollHeight;
+      }, 250);
+    }
+
+    // =========================================================================
+    // 12. KHỞI CHẠY & TỰ ĐỘNG ĐỒNG BỘ MỖI 3 GIÂY
+    // =========================================================================
+    saveLocal();
+    updateAuthUI();
+    renderProducts();
+    updateBadges();
+
+    if (IS_CLOUD) {
+      syncFromCloud(true);
+      setInterval(() => syncFromCloud(false), 3000);
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) syncFromCloud(false);
+      });
+    } else {
+      document.getElementById("sync-warning-bar").style.display = "block";
+      document.getElementById("cloud-status-pill").innerText = "● Chế độ nội bộ (chưa gắn Firebase)";
+      document.getElementById("cloud-status-pill").style.color = "#ffc107";
+    }
+  </script>
+</body>
+</html>
