@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HTRUONG 🐬🌐- Shop Dịch Vụ MXH TikTok, AI & Shopee Tự Động</title>
+  <title>Shop Dịch Vụ MXH TikTok, AI & Shopee Tự Động</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     * {
@@ -139,110 +139,6 @@
       margin: 0 4px;
     }
 
-    /* CARD CHÍNH PHONG CÁCH NEON */
-    .hero-section {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 24px 16px 10px;
-    }
-    .profile-card {
-      position: relative;
-      background: #0a0b10;
-      border-radius: 28px;
-      width: 100%;
-      max-width: 390px;
-      padding: 28px 22px 20px;
-      text-align: center;
-      box-shadow: 0 0 35px rgba(0, 242, 254, 0.15);
-    }
-    .profile-card::before {
-      content: "";
-      position: absolute;
-      inset: -3px;
-      border-radius: 31px;
-      background: linear-gradient(135deg, #00f2fe, #4facfe, #9b51e0, #ff0844, #00f2fe);
-      background-size: 300% 300%;
-      z-index: -1;
-      animation: neonBorder 6s linear infinite;
-    }
-    @keyframes neonBorder {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    .brand-title {
-      font-size: 1.6rem;
-      font-weight: 900;
-      letter-spacing: 1px;
-      color: #00e5ff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 10px;
-    }
-    .status-badge {
-      display: inline-block;
-      border: 1.5px solid #00e676;
-      color: #00e676;
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 1px;
-      padding: 5px 14px;
-      border-radius: 20px;
-      margin-bottom: 18px;
-      background: rgba(0, 230, 118, 0.08);
-      box-shadow: 0 0 10px rgba(0, 230, 118, 0.2);
-    }
-    .btn-details {
-      display: block;
-      width: 100%;
-      background: linear-gradient(90deg, #00f2fe 0%, #2f80ed 100%);
-      color: #ffffff;
-      font-weight: 800;
-      font-size: 0.94rem;
-      padding: 12px 18px;
-      border-radius: 26px;
-      box-shadow: 0 0 20px rgba(0, 242, 254, 0.55);
-      border: none;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-      margin-bottom: 10px;
-    }
-    .btn-details:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 28px rgba(0, 242, 254, 0.8);
-    }
-    .btn-demo-hero {
-      display: block;
-      width: 100%;
-      background: rgba(254, 44, 85, 0.14);
-      color: #ff4d79;
-      border: 1px solid #fe2c55;
-      font-weight: 700;
-      font-size: 0.86rem;
-      padding: 10px 14px;
-      border-radius: 24px;
-      cursor: pointer;
-      margin-bottom: 16px;
-      transition: 0.2s;
-    }
-    .btn-demo-hero:hover {
-      background: #fe2c55;
-      color: #fff;
-    }
-    .card-divider {
-      border: none;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      margin: 12px 0 10px;
-    }
-    .card-footer-text {
-      font-size: 0.76rem;
-      color: #94a3b8;
-      line-height: 1.4;
-    }
-
     /* Container chung */
     .container {
       max-width: 1080px;
@@ -261,118 +157,6 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 8px;
-    }
-
-    /* KHU VỰC DEMO TƯƠNG TÁC TRỰC TIẾP */
-    .demo-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 16px;
-      margin-bottom: 26px;
-    }
-    .demo-card {
-      background: linear-gradient(145deg, #0d1117, #111625);
-      border: 1px solid rgba(0, 242, 254, 0.28);
-      border-radius: 18px;
-      padding: 18px;
-      position: relative;
-      overflow: hidden;
-    }
-    .demo-tag {
-      display: inline-block;
-      font-size: 0.7rem;
-      font-weight: 800;
-      background: rgba(0, 242, 254, 0.15);
-      color: #00f2fe;
-      border: 1px solid rgba(0, 242, 254, 0.4);
-      padding: 3px 8px;
-      border-radius: 12px;
-      margin-bottom: 10px;
-    }
-    .demo-tiktok-screen {
-      background: #050507;
-      border: 1px solid #262c36;
-      border-radius: 14px;
-      padding: 14px;
-      margin: 10px 0 14px;
-    }
-    .demo-video-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 0.85rem;
-      margin-bottom: 12px;
-    }
-    .demo-stats-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      text-align: center;
-    }
-    .stat-box {
-      background: #111521;
-      border-radius: 10px;
-      padding: 8px 4px;
-      border: 1px solid rgba(255,255,255,0.06);
-    }
-    .stat-num {
-      font-size: 0.95rem;
-      font-weight: 800;
-      color: #00f2fe;
-    }
-    .stat-label {
-      font-size: 0.68rem;
-      color: #94a3b8;
-      margin-top: 2px;
-    }
-    .demo-controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .btn-demo-sim {
-      flex: 1;
-      min-width: 85px;
-      background: #161b22;
-      color: #fff;
-      border: 1px solid #30363d;
-      padding: 8px 10px;
-      border-radius: 10px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .btn-demo-sim:hover {
-      border-color: #fe2c55;
-      background: rgba(254, 44, 85, 0.18);
-      color: #fff;
-    }
-    .live-feed-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      max-height: 190px;
-      overflow-y: auto;
-      margin: 10px 0 10px;
-    }
-    .feed-item {
-      background: #090c12;
-      border: 1px solid #21262d;
-      border-left: 3px solid #00e676;
-      border-radius: 8px;
-      padding: 8px 10px;
-      font-size: 0.8rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-    }
-    .feed-status {
-      color: #00e676;
-      font-size: 0.72rem;
-      font-weight: 700;
-      white-space: nowrap;
     }
 
     /* Bộ lọc danh mục */
@@ -941,7 +725,7 @@
 
   <!-- Header -->
   <header>
-    <h1>HTRUONG V1</h1>
+    <h1>SHOP DỊCH VỤ MXH</h1>
     <div class="header-actions">
       <button class="btn-header btn-orders" onclick="openOrdersModal()">
         <i class="fa-solid fa-box-open"></i> Đơn hàng <span class="badge-count" id="order-count-badge">0</span>
@@ -974,92 +758,6 @@
   <!-- Thanh thông báo mã giảm giá -->
   <div class="promo-banner-bar">
     🎉 Ưu đãi tự động: Nhập mã <span class="promo-code-chip" onclick="copyPromoCode()" title="Bấm để copy">SN1802</span> giảm ngay <strong>20%</strong> • Hàng có sẵn giao trực tiếp trên web 24/7!
-  </div>
-
-  <!-- Hero Profile Card -->
-  <div class="hero-section">
-    <div class="profile-card">
-      <div class="brand-title">
-        HTRUONG <span>❤️</span> V1
-      </div>
-      <div>
-        <span class="status-badge">KHO SẴN • TỰ ĐỘNG XỬ LÝ 100%</span>
-      </div>
-
-      <button class="btn-details" onclick="scrollToProducts()">
-        MUA HÀNG CÓ SẴN & CHẠY ĐƠN NGAY 👉
-      </button>
-
-      <button class="btn-demo-hero" onclick="scrollToDemo()">
-        🎮 XEM DEMO CHẠY THỬ & ĐƠN TỰ ĐỘNG
-      </button>
-
-      <hr class="card-divider" />
-      <div class="card-footer-text">
-        Đơn hàng tự động lưu về tài khoản Chủ Shop & thực hiện ngay trên web • Không cần gửi tin nhắn Zalo
-      </div>
-    </div>
-  </div>
-
-  <!-- KHU VỰC DEMO TƯƠNG TÁC -->
-  <div class="container" id="demo-section">
-    <div class="section-title">
-      <span>🎮 Khu Vực Demo & Tiến Độ Tự Động</span>
-      <span style="font-size: 0.78rem; color: #00f2fe; font-weight: 600;">Xử lý hoàn toàn trên web</span>
-    </div>
-
-    <div class="demo-grid">
-      <!-- Demo 1: Mô phỏng tăng tương tác TikTok -->
-      <div class="demo-card">
-        <span class="demo-tag">LIVE DEMO TIKTOK</span>
-        <h3 style="font-size: 1rem; margin-bottom: 4px;">Mô Phỏng Tăng Tương Tác Video</h3>
-        <p style="font-size: 0.8rem; color: #94a3b8;">Bấm các nút bên dưới để xem tốc độ chạy tự động trên hệ thống:</p>
-
-        <div class="demo-tiktok-screen">
-          <div class="demo-video-header">
-            <span><i class="fa-brands fa-tiktok" style="color:#fe2c55;"></i> <strong>@htruong.demo</strong></span>
-            <span id="demo-status-pill" style="font-size: 0.72rem; color: #00e676;">● Sẵn sàng chạy</span>
-          </div>
-          <div class="demo-stats-row">
-            <div class="stat-box">
-              <div class="stat-num" id="sim-views">120</div>
-              <div class="stat-label">Lượt xem</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-num" id="sim-likes">15</div>
-              <div class="stat-label">Tym ❤️</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-num" id="sim-favs">4</div>
-              <div class="stat-label">Lưu ⭐</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-num" id="sim-subs">88</div>
-              <div class="stat-label">Follow</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="demo-controls">
-          <button class="btn-demo-sim" onclick="runTikTokDemo('views', 10000)">+10K View</button>
-          <button class="btn-demo-sim" onclick="runTikTokDemo('likes', 1000)">+1K Tym</button>
-          <button class="btn-demo-sim" onclick="runTikTokDemo('favs', 1000)">+1K Lưu</button>
-          <button class="btn-demo-sim" onclick="runTikTokDemo('subs', 1000)">+1K Sub</button>
-          <button class="btn-demo-sim" style="border-color:#64748b; color:#94a3b8;" onclick="resetTikTokDemo()">Reset</button>
-        </div>
-      </div>
-
-      <!-- Demo 2: Bảng đơn tự động thực hiện trực tiếp trên web -->
-      <div class="demo-card">
-        <span class="demo-tag" style="background: rgba(0,230,118,0.12); color:#00e676; border-color: rgba(0,230,118,0.4);">
-          ĐƠN HÀNG TỰ ĐỘNG TRỰC TIẾP
-        </span>
-        <h3 style="font-size: 1rem; margin-bottom: 4px;">Hoạt Động Hệ Thống Thời Gian Thực</h3>
-        <p style="font-size: 0.8rem; color: #94a3b8;">Đơn đặt mới sẽ tự động trừ kho / chạy tiến độ và gửi về bảng Chủ Shop:</p>
-
-        <div class="live-feed-list" id="live-feed-list"></div>
-      </div>
-    </div>
   </div>
 
   <!-- DANH SÁCH SẢN PHẨM & KHO HÀNG CÓ SẴN -->
@@ -1201,11 +899,11 @@
     </div>
   </div>
 
-  <!-- MODAL QUẢN TRỊ CHỦ SHOP (CHỈ DÀNH CHO hoangtruong12345@gmail.com) -->
+  <!-- MODAL QUẢN TRỊ CHỦ SHOP (CHỈ DÀNH CHO hoangkhactruong1822010@gmail.com) -->
   <div class="modal" id="admin-modal">
     <div class="modal-content modal-wide">
       <div class="modal-header">
-        <h3><i class="fa-solid fa-crown" style="color:#ffc107;"></i> Trang Chủ Shop: hoangtruong12345@gmail.com</h3>
+        <h3><i class="fa-solid fa-crown" style="color:#ffc107;"></i> Trang Chủ Shop: hoangkhactruong1822010@gmail.com</h3>
         <button class="close-btn" onclick="closeModal('admin-modal')">&times;</button>
       </div>
 
@@ -1265,7 +963,7 @@
 
   <div id="ai-chat-box" class="chat-hidden">
     <div class="chat-header">
-      <span>🤖 Trợ lý HTRUONG V1</span>
+      <span>🤖 Trợ lý Shop</span>
       <button onclick="toggleChat()">&times;</button>
     </div>
     <div class="chat-quick-chips">
@@ -1274,7 +972,7 @@
       <button class="chip-btn" onclick="quickAsk('Còn acc Shopee không?')">Check kho Shopee</button>
     </div>
     <div class="chat-messages" id="chat-messages">
-      <div class="bot-msg">Xin chào! Hệ thống HTRUONG V1 giao tài khoản có sẵn và chạy dịch vụ TikTok tự động 100% trực tiếp trên web. Bạn cần hỗ trợ gì?</div>
+      <div class="bot-msg">Xin chào! Hệ thống giao tài khoản có sẵn và chạy dịch vụ TikTok tự động 100% trực tiếp trên web. Bạn cần hỗ trợ gì?</div>
     </div>
     <div class="chat-input-area">
       <input type="text" id="chat-input" placeholder="Nhập câu hỏi..." onkeypress="if(event.key==='Enter') sendChat()" />
@@ -1286,7 +984,7 @@
     // =========================================================================
     // CẤU HÌNH TÀI KHOẢN CHỦ SHOP (ADMIN)
     // =========================================================================
-    const OWNER_EMAIL = "hoangtruong12345@gmail.com";
+    const OWNER_EMAIL = "hoangkhactruong1822010@gmail.com";
     const OWNER_PASS = "Matkhau.123";
     const PROMO_CODE = "SN1802";
     const PROMO_RATE = 0.2; // Giảm 20%
@@ -1406,13 +1104,13 @@
         "clone_ht05@mail.vn|HtClone@2026"
       ],
       "ai-chatgpt-plus": [
-        "gptplus01@htruong.shop|Plus#8821",
-        "gptplus02@htruong.shop|Plus#9914",
-        "gptplus03@htruong.shop|Plus#4472"
+        "gptplus01@shop.vn|Plus#8821",
+        "gptplus02@shop.vn|Plus#9914",
+        "gptplus03@shop.vn|Plus#4472"
       ],
       "ai-pro-vip": [
-        "aipro01@htruong.shop|ProVip@771",
-        "aipro02@htruong.shop|ProVip@882"
+        "aipro01@shop.vn|ProVip@771",
+        "aipro02@shop.vn|ProVip@882"
       ],
       "shopee-50k": [
         "shp50_user01|Shopee50#11|OTP_San",
@@ -1647,7 +1345,7 @@
       orders.unshift(newOrder);
       saveData();
       renderProducts();
-      updateBadgesAndFeed();
+      updateBadges();
 
       // Nếu là dịch vụ TikTok, kích hoạt tự động chạy 10% -> 100% trên web
       if (newOrder.type === "service") {
@@ -1712,14 +1410,14 @@
           showToast(`🎉 Đơn #${order.id} đã chạy hoàn thành 100%!`);
         }
         saveData();
-        updateBadgesAndFeed();
+        updateBadges();
         if (document.getElementById("orders-modal").style.display === "flex") renderCustomerOrders();
         if (document.getElementById("admin-modal").style.display === "flex") renderAdminDashboard();
       }, 1500);
     }
 
     // =========================================================================
-    // ĐĂNG NHẬP TÀI KHOẢN CHỦ SHOP (hoangtruong12345@gmail.com / Matkhau.123)
+    // ĐĂNG NHẬP TÀI KHOẢN CHỦ SHOP (hoangkhactruong1822010@gmail.com / Matkhau.123)
     // =========================================================================
     function openAuth() {
       document.getElementById("login-error").style.display = "none";
@@ -1901,7 +1599,7 @@
         o.status = "Hoàn thành";
         saveData();
         renderAdminDashboard();
-        updateBadgesAndFeed();
+        updateBadges();
         showToast("✅ Đã hoàn tất đơn #" + orderId);
       }
     }
@@ -1910,7 +1608,7 @@
       orders = orders.filter(x => x.id !== orderId);
       saveData();
       renderAdminDashboard();
-      updateBadgesAndFeed();
+      updateBadges();
       showToast("🗑️ Đã xóa đơn #" + orderId);
     }
 
@@ -1967,57 +1665,10 @@
     }
 
     // =========================================================================
-    // LIVE FEED, DEMO TIKTOK, TIỆN ÍCH & CHATBOT
+    // TIỆN ÍCH & CHATBOT
     // =========================================================================
-    function updateBadgesAndFeed() {
+    function updateBadges() {
       document.getElementById("order-count-badge").innerText = orders.length;
-      const feed = document.getElementById("live-feed-list");
-
-      const sampleFeed = [
-        { text: "Hệ thống kho sẵn đang trực tuyến 24/7", status: "● Sẵn sàng" },
-        { text: "Đơn tự động chuyển về hoangtruong12345@gmail.com", status: "● Không qua Zalo" }
-      ];
-
-      const realItems = orders.slice(0, 6).map(o => ({
-        text: `#${o.id} • ${o.productName} (x${o.qty})`,
-        status: o.status === "Hoàn thành" ? "✅ Đã giao" : `⚡ ${o.progress}%`
-      }));
-
-      const allFeed = [...realItems, ...sampleFeed];
-      feed.innerHTML = allFeed.map(item => `
-        <div class="feed-item">
-          <span>${item.text}</span>
-          <span class="feed-status">${item.status}</span>
-        </div>
-      `).join("");
-    }
-
-    const demoCounts = { views: 120, likes: 15, favs: 4, subs: 88 };
-    function runTikTokDemo(key, addAmount) {
-      const pill = document.getElementById("demo-status-pill");
-      pill.innerText = "⚡ Đang chạy tự động...";
-      pill.style.color = "#00f2fe";
-      const steps = 12;
-      const inc = Math.ceil(addAmount / steps);
-      let currentStep = 0;
-      const timer = setInterval(() => {
-        demoCounts[key] += inc;
-        document.getElementById("sim-" + key).innerText = demoCounts[key].toLocaleString("vi-VN");
-        currentStep++;
-        if (currentStep >= steps) {
-          clearInterval(timer);
-          pill.innerText = "● Hoàn tất chạy thử";
-          pill.style.color = "#00e676";
-        }
-      }, 80);
-    }
-
-    function resetTikTokDemo() {
-      demoCounts.views = 120; demoCounts.likes = 15; demoCounts.favs = 4; demoCounts.subs = 88;
-      ["views", "likes", "favs", "subs"].forEach(k => {
-        document.getElementById("sim-" + k).innerText = demoCounts[k];
-      });
-      document.getElementById("demo-status-pill").innerText = "● Sẵn sàng chạy";
     }
 
     function copyPromoCode() {
@@ -2034,14 +1685,6 @@
 
     function closeModal(id) {
       document.getElementById(id).style.display = "none";
-    }
-
-    function scrollToProducts() {
-      document.getElementById("products-section").scrollIntoView({ behavior: "smooth" });
-    }
-
-    function scrollToDemo() {
-      document.getElementById("demo-section").scrollIntoView({ behavior: "smooth" });
     }
 
     // Chatbot
@@ -2083,7 +1726,7 @@
     // Khởi chạy ban đầu
     updateAuthUI();
     renderProducts();
-    updateBadgesAndFeed();
+    updateBadges();
     // Tiếp tục chạy các đơn dịch vụ còn dang dở nếu tải lại trang
     orders.filter(o => o.type === "service" && o.status !== "Hoàn thành").forEach(o => startAutoServiceRunner(o.id));
   </script>
