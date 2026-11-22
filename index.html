@@ -5,10 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shop Dịch Vụ MXH TikTok, AI & Shopee Tự Động</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <!-- Firebase SDK (Hệ thống Tài khoản thật & Dữ liệu đám mây miễn phí) -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -73,16 +69,6 @@
       color: #000;
       box-shadow: 0 0 14px rgba(0, 242, 254, 0.6);
     }
-    .btn-register-top {
-      background: rgba(0, 230, 118, 0.14);
-      color: #00e676;
-      border-color: #00e676;
-    }
-    .btn-register-top:hover {
-      background: #00e676;
-      color: #000;
-      box-shadow: 0 0 14px rgba(0, 230, 118, 0.6);
-    }
     .btn-admin {
       background: linear-gradient(135deg, #ffc107, #ff9800);
       color: #000;
@@ -130,15 +116,6 @@
       padding: 1px 6px;
       border-radius: 8px;
       font-weight: 900;
-    }
-    .verified-pill {
-      background: rgba(0, 230, 118, 0.2);
-      color: #00e676;
-      border: 1px solid rgba(0, 230, 118, 0.5);
-      font-size: 0.65rem;
-      padding: 1px 6px;
-      border-radius: 8px;
-      font-weight: 800;
     }
 
     /* Thanh thông báo mã giảm giá */
@@ -347,7 +324,7 @@
       color: #fff;
       border-radius: 18px;
       width: 100%;
-      max-width: 490px;
+      max-width: 480px;
       max-height: 92vh;
       overflow-y: auto;
       padding: 20px;
@@ -355,7 +332,7 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.75);
     }
     .modal-content.modal-wide {
-      max-width: 820px;
+      max-width: 780px;
     }
     .modal-header {
       display: flex;
@@ -395,73 +372,6 @@
       border-color: #00f2fe;
     }
 
-    /* Tabs Auth */
-    .auth-switch-tabs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 14px;
-      background: #161b22;
-      padding: 4px;
-      border-radius: 10px;
-      border: 1px solid #30363d;
-    }
-    .auth-tab-btn {
-      background: transparent;
-      color: #94a3b8;
-      border: none;
-      padding: 9px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 0.86rem;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .auth-tab-btn.active {
-      background: linear-gradient(90deg, #00f2fe, #2f80ed);
-      color: #050507;
-    }
-
-    .server-mode-badge {
-      font-size: 0.74rem;
-      font-weight: 700;
-      padding: 7px 10px;
-      border-radius: 8px;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      line-height: 1.35;
-    }
-    .mode-cloud {
-      background: rgba(0, 230, 118, 0.12);
-      color: #00e676;
-      border: 1px solid rgba(0, 230, 118, 0.4);
-    }
-    .mode-local {
-      background: rgba(255, 193, 7, 0.12);
-      color: #ffd54f;
-      border: 1px solid rgba(255, 193, 7, 0.4);
-    }
-
-    .verify-pending-box {
-      background: #0b1623;
-      border: 1px solid #00f2fe;
-      border-radius: 12px;
-      padding: 16px;
-      text-align: center;
-    }
-
-    .link-btn {
-      background: none;
-      border: none;
-      color: #00f2fe;
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: underline;
-    }
-
     /* Mã giảm giá */
     .promo-input-row {
       display: flex;
@@ -491,7 +401,6 @@
     }
     .promo-success { color: #00e676; }
     .promo-error { color: #ff5252; }
-    .promo-info { color: #00f2fe; }
 
     .price-summary-box {
       background: #161b22;
@@ -533,12 +442,8 @@
       justify-content: center;
       gap: 6px;
     }
-    .checkout-btn:hover:not(:disabled) {
+    .checkout-btn:hover {
       box-shadow: 0 0 16px rgba(0, 242, 254, 0.5);
-    }
-    .checkout-btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
     }
 
     /* Hộp giao hàng tự động */
@@ -557,7 +462,7 @@
       color: #00f2fe;
       padding: 9px 10px;
       border-radius: 8px;
-      font-size: 0.84rem;
+      font-size: 0.85rem;
       word-break: break-all;
       margin: 6px 0;
       display: flex;
@@ -570,7 +475,7 @@
       color: #000;
       border: none;
       border-radius: 6px;
-      padding: 5px 9px;
+      padding: 4px 8px;
       font-size: 0.74rem;
       font-weight: 800;
       cursor: pointer;
@@ -626,15 +531,10 @@
       color: #00f2fe;
       border: 1px solid rgba(0, 242, 254, 0.4);
     }
-    .status-locked {
-      background: rgba(255, 82, 82, 0.16);
-      color: #ff5252;
-      border: 1px solid rgba(255, 82, 82, 0.45);
-    }
 
     .admin-stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 10px;
       margin-bottom: 16px;
     }
@@ -646,7 +546,7 @@
       text-align: center;
     }
     .admin-stat-val {
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       font-weight: 800;
       color: #00f2fe;
       margin-top: 4px;
@@ -661,46 +561,16 @@
       background: #161b22;
       color: #94a3b8;
       border: 1px solid #30363d;
-      padding: 7px 13px;
+      padding: 7px 14px;
       border-radius: 8px;
       font-weight: 700;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       cursor: pointer;
     }
     .admin-tab-btn.active {
       background: #ffc107;
       color: #000;
       border-color: #ffc107;
-    }
-    .admin-settings-card {
-      background: #111521;
-      border: 1px solid #262c36;
-      border-radius: 12px;
-      padding: 14px;
-      margin-bottom: 14px;
-    }
-    .admin-settings-title {
-      font-size: 0.92rem;
-      font-weight: 800;
-      color: #ffc107;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .switch-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      gap: 10px;
-      font-size: 0.84rem;
-    }
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 10px;
     }
 
     /* KHUNG AI CHATBOT */
@@ -843,7 +713,7 @@
       border-radius: 10px;
       font-size: 0.84rem;
       font-weight: 700;
-      z-index: 400;
+      z-index: 300;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
       display: none;
     }
@@ -871,7 +741,6 @@
         <div class="user-profile-badge">
           <i class="fa-solid fa-user-check"></i>
           <span id="username-label"></span>
-          <span class="verified-pill" id="user-verified-pill" style="display: none;">ĐÃ XM</span>
           <span class="admin-pill" id="admin-role-pill" style="display: none;">CHỦ SHOP</span>
         </div>
         <button class="btn-header" onclick="logoutAccount()" title="Đăng xuất">
@@ -880,24 +749,986 @@
       </div>
 
       <!-- Khi chưa đăng nhập -->
-      <div id="guest-actions" style="display: flex; gap: 6px;">
-        <button class="btn-header btn-register-top" onclick="openAuth('register')">
-          <i class="fa-solid fa-user-plus"></i> Tạo TK
-        </button>
-        <button class="btn-header" id="btn-login" onclick="openAuth('login')">
-          <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập
-        </button>
-      </div>
+      <button class="btn-header" id="btn-login" onclick="openAuth()">
+        <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập
+      </button>
     </div>
   </header>
 
   <!-- Thanh thông báo mã giảm giá -->
   <div class="promo-banner-bar">
-    🎉 Ưu đãi tự động: Nhập mã <span class="promo-code-chip" id="banner-promo-code" onclick="copyPromoCode()" title="Bấm để copy">SN1802</span> giảm ngay <strong id="banner-promo-percent">20%</strong> • Hàng có sẵn giao trực tiếp trên web 24/7!
+    🎉 Ưu đãi tự động: Nhập mã <span class="promo-code-chip" onclick="copyPromoCode()" title="Bấm để copy">SN1802</span> giảm ngay <strong>20%</strong> • Hàng có sẵn giao trực tiếp trên web 24/7!
   </div>
 
-  <!-- DANH SÁCH SẢN PHẨM & KHO HÀNG CÓ SẴN (GIỮ NGUYÊN 100%) -->
+  <!-- DANH SÁCH SẢN PHẨM & KHO HÀNG CÓ SẴN -->
   <div class="container" id="products-section">
     <div class="section-title">
       <span>🛒 Kho Hàng Có Sẵn & Dịch Vụ Tự Động</span>
-      <span style="font-size: 0.78rem; color: #00e676; font-weight: 
+      <span style="font-size: 0.78rem; color: #00e676; font-weight: 700;">● Mua là nhận ngay trên web</span>
+    </div>
+
+    <div class="category-tabs">
+      <button class="tab-btn active" onclick="filterCategory('all', this)">Tất cả</button>
+      <button class="tab-btn tab-tiktok" onclick="filterCategory('tiktok', this)">
+        <i class="fa-brands fa-tiktok"></i> Dịch vụ TikTok
+      </button>
+      <button class="tab-btn" onclick="filterCategory('ai', this)">
+        <i class="fa-solid fa-robot"></i> Tài khoản AI & Clone
+      </button>
+      <button class="tab-btn tab-shopee" onclick="filterCategory('shopee', this)">
+        <i class="fa-solid fa-bag-shopping"></i> Acc Shopee Sẵn Mã
+      </button>
+    </div>
+
+    <div class="products" id="products-grid"></div>
+  </div>
+
+  <!-- MODAL ĐĂNG NHẬP (TÀI KHOẢN CHỦ SHOP & KHÁCH HÀNG) -->
+  <div class="modal" id="auth-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-user-shield" style="color:#00f2fe;"></i> Đăng Nhập Hệ Thống</h3>
+        <button class="close-btn" onclick="closeModal('auth-modal')">&times;</button>
+      </div>
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>Email tài khoản</label>
+          <input type="email" id="login-email" placeholder="Nhập email của bạn..." required />
+        </div>
+        <div class="form-group">
+          <label>Mật khẩu</label>
+          <input type="password" id="login-password" placeholder="Nhập mật khẩu..." required />
+        </div>
+        <p id="login-error" class="promo-msg promo-error" style="display:none; margin-bottom:8px;"></p>
+        <button type="submit" class="checkout-btn">
+          <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập ngay
+        </button>
+      </form>
+      <p style="font-size: 0.76rem; color: #8b949e; margin-top: 12px; text-align: center;">
+        Khách hàng có thể đăng nhập bằng email bất kỳ để lưu đơn, hoặc dùng tài khoản Chủ Shop để mở trang Quản Trị nhận đơn & nạp kho hàng.
+      </p>
+    </div>
+  </div>
+
+  <!-- MODAL ĐẶT MUA & TỰ ĐỘNG THỰC HIỆN TRÊN WEB -->
+  <div class="modal" id="buy-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="buy-modal-title">Đặt Hàng Tự Động</h3>
+        <button class="close-btn" onclick="closeModal('buy-modal')">&times;</button>
+      </div>
+
+      <!-- Bước 1: Form điền thông tin -->
+      <div id="buy-step-form">
+        <div class="form-group">
+          <label>Sản phẩm đã chọn</label>
+          <input type="text" id="buy-product-name" readonly />
+        </div>
+
+        <div class="form-group" id="buy-qty-wrap">
+          <label>Số lượng mua (<span id="buy-stock-hint" style="color:#00e676;"></span>)</label>
+          <input type="number" id="buy-qty" value="1" min="1" onchange="updateOrderPrice()" oninput="updateOrderPrice()" />
+        </div>
+
+        <div class="form-group" id="buy-target-wrap">
+          <label id="buy-target-label">Link video / ID TikTok cần chạy</label>
+          <input type="text" id="buy-target-input" placeholder="https://www.tiktok.com/@..." />
+        </div>
+
+        <div class="form-group">
+          <label>Email hoặc Tên người mua (để lưu trên đơn)</label>
+          <input type="text" id="buy-customer-name" placeholder="Ví dụ: khachhang@gmail.com" />
+        </div>
+
+        <div class="form-group">
+          <label>Mã giảm giá (Nhập SN1802 giảm 20%)</label>
+          <div class="promo-input-row">
+            <input type="text" id="buy-promo-code" placeholder="SN1802" />
+            <button type="button" class="btn-apply-promo" onclick="applyPromo()">Áp dụng</button>
+          </div>
+          <div id="promo-status-msg" class="promo-msg"></div>
+        </div>
+
+        <div class="price-summary-box">
+          <div class="price-row">
+            <span>Tạm tính:</span>
+            <span id="price-subtotal">0đ</span>
+          </div>
+          <div class="price-row">
+            <span>Giảm giá:</span>
+            <span id="price-discount" style="color:#00e676;">-0đ</span>
+          </div>
+          <div class="price-row total">
+            <span>Thanh toán:</span>
+            <span id="price-total">0đ</span>
+          </div>
+        </div>
+
+        <button class="checkout-btn" onclick="confirmAutoOrder()">
+          <i class="fa-solid fa-bolt"></i> Xác Nhận & Tự Động Thực Hiện Ngay
+        </button>
+      </div>
+
+      <!-- Bước 2: Kết quả giao hàng tự động ngay trên web -->
+      <div id="buy-step-receipt" style="display: none; text-align: center;">
+        <div style="font-size: 2.5rem; color: #00e676; margin-bottom: 6px;">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <h3 style="color: #00e676; margin-bottom: 4px;">Đơn Hàng Đã Được Tự Động Xử Lý!</h3>
+        <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 10px;">
+          Đơn đã được chuyển thẳng vào mục Quản Trị của Chủ Shop (không cần gửi Zalo).
+        </p>
+
+        <div id="receipt-content"></div>
+
+        <button class="checkout-btn" onclick="closeModal('buy-modal'); openOrdersModal();">
+          <i class="fa-solid fa-list-check"></i> Xem Trong Lịch Sử Đơn Hàng
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL LỊCH SỬ ĐƠN HÀNG CỦA KHÁCH -->
+  <div class="modal" id="orders-modal">
+    <div class="modal-content modal-wide">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-box-open" style="color:#d8b4fe;"></i> Đơn Hàng Đã Mua Trên Web</h3>
+        <button class="close-btn" onclick="closeModal('orders-modal')">&times;</button>
+      </div>
+      <div id="orders-list-container"></div>
+    </div>
+  </div>
+
+  <!-- MODAL QUẢN TRỊ CHỦ SHOP (CHỈ DÀNH CHO hoangkhactruong1822010@gmail.com) -->
+  <div class="modal" id="admin-modal">
+    <div class="modal-content modal-wide">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-crown" style="color:#ffc107;"></i> Trang Chủ Shop: hoangkhactruong1822010@gmail.com</h3>
+        <button class="close-btn" onclick="closeModal('admin-modal')">&times;</button>
+      </div>
+
+      <div class="admin-stats-grid">
+        <div class="admin-stat-card">
+          <div style="font-size:0.78rem; color:#94a3b8;">Tổng đơn nhận</div>
+          <div class="admin-stat-val" id="admin-total-orders">0</div>
+        </div>
+        <div class="admin-stat-card">
+          <div style="font-size:0.78rem; color:#94a3b8;">Doanh thu tự động</div>
+          <div class="admin-stat-val" id="admin-total-revenue" style="color:#00e676;">0đ</div>
+        </div>
+        <div class="admin-stat-card">
+          <div style="font-size:0.78rem; color:#94a3b8;">Tổng acc còn trong kho</div>
+          <div class="admin-stat-val" id="admin-total-stock" style="color:#ffc107;">0</div>
+        </div>
+      </div>
+
+      <div class="admin-tabs">
+        <button class="admin-tab-btn active" id="tab-admin-orders" onclick="switchAdminTab('orders')">
+          📥 Đơn hàng nhận tự động
+        </button>
+        <button class="admin-tab-btn" id="tab-admin-stock" onclick="switchAdminTab('stock')">
+          📦 Quản lý & Nạp kho hàng sẵn
+        </button>
+      </div>
+
+      <!-- Tab Quản lý đơn -->
+      <div id="admin-panel-orders"></div>
+
+      <!-- Tab Quản lý kho -->
+      <div id="admin-panel-stock" style="display: none;">
+        <div class="form-group">
+          <label>Chọn sản phẩm cần nạp thêm hàng vào kho sẵn</label>
+          <select id="admin-stock-select" onchange="renderSelectedStockList()"></select>
+        </div>
+        <div class="form-group">
+          <label>Nhập danh sách tài khoản / mã hàng mới (mỗi dòng 1 tài khoản, ví dụ: user|pass)</label>
+          <textarea id="admin-stock-input" rows="4" placeholder="acc_moi_01@gmail.com|Matkhau123&#10;acc_moi_02@gmail.com|Matkhau456"></textarea>
+        </div>
+        <button class="checkout-btn" style="background: linear-gradient(90deg, #ffc107, #ff9800); color:#000;" onclick="addStockItems()">
+          <i class="fa-solid fa-plus"></i> Nạp Vào Kho Hàng Có Sẵn
+        </button>
+
+        <div style="margin-top: 14px;">
+          <label style="font-size: 0.82rem; color:#94a3b8; font-weight: 700;">Hàng đang có sẵn trong kho sản phẩm này:</label>
+          <div id="admin-current-stock-list" style="margin-top: 8px; max-height: 180px; overflow-y: auto;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI CHATBOT -->
+  <button id="ai-chat-toggle" onclick="toggleChat()">
+    <i class="fa-solid fa-robot"></i> Trợ lý AI
+  </button>
+
+  <div id="ai-chat-box" class="chat-hidden">
+    <div class="chat-header">
+      <span>🤖 Trợ lý Shop</span>
+      <button onclick="toggleChat()">&times;</button>
+    </div>
+    <div class="chat-quick-chips">
+      <button class="chip-btn" onclick="quickAsk('Mã giảm giá là gì?')">Mã giảm giá</button>
+      <button class="chip-btn" onclick="quickAsk('Mua hàng có nhận ngay không?')">Giao hàng tự động</button>
+      <button class="chip-btn" onclick="quickAsk('Còn acc Shopee không?')">Check kho Shopee</button>
+    </div>
+    <div class="chat-messages" id="chat-messages">
+      <div class="bot-msg">Xin chào! Hệ thống giao tài khoản có sẵn và chạy dịch vụ TikTok tự động 100% trực tiếp trên web. Bạn cần hỗ trợ gì?</div>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" id="chat-input" placeholder="Nhập câu hỏi..." onkeypress="if(event.key==='Enter') sendChat()" />
+      <button onclick="sendChat()">Gửi</button>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // CẤU HÌNH TÀI KHOẢN CHỦ SHOP (ADMIN)
+    // =========================================================================
+    const OWNER_EMAIL = "hoangkhactruong1822010@gmail.com";
+    const OWNER_PASS = "Matkhau.123";
+    const PROMO_CODE = "SN1802";
+    const PROMO_RATE = 0.2; // Giảm 20%
+
+    // =========================================================================
+    // DỮ LIỆU SẢN PHẨM & KHO HÀNG CÓ SẴN MẶC ĐỊNH TRÊN WEB
+    // =========================================================================
+    const DEFAULT_PRODUCTS = [
+      {
+        id: "tiktok-view-10k",
+        name: "Buff 10.000 View TikTok Tự Động",
+        category: "tiktok",
+        type: "service",
+        price: 5000,
+        bannerClass: "banner-tiktok",
+        bannerTitle: "10K VIEW TIKTOK",
+        bannerSub: "Chạy tự động trên web",
+        desc: "Tăng nhanh 10.000 lượt xem video TikTok. Tự động khởi chạy ngay sau khi đặt đơn."
+      },
+      {
+        id: "tiktok-like-1k",
+        name: "Buff 1.000 Tym ❤️ TikTok",
+        category: "tiktok",
+        type: "service",
+        price: 15000,
+        bannerClass: "banner-tiktok",
+        bannerTitle: "1K TYM TIKTOK",
+        bannerSub: "Tốc độ cao • Không tụt",
+        desc: "Tăng 1.000 lượt tim cho video TikTok, hệ thống tự động xử lý trực tiếp trên web."
+      },
+      {
+        id: "tiktok-sub-1k",
+        name: "Buff 1.000 Follow TikTok",
+        category: "tiktok",
+        type: "service",
+        price: 45000,
+        bannerClass: "banner-tiktok",
+        bannerTitle: "1K FOLLOW TIKTOK",
+        bannerSub: "Mở livestream & gắn link",
+        desc: "Tăng 1.000 người theo dõi kênh TikTok, chạy tự động liên tục cho đến khi đủ."
+      },
+      {
+        id: "acc-clone-vn",
+        name: "Acc Clone Nuôi Sẵn (Giao Ngay)",
+        category: "ai",
+        type: "stock",
+        price: 10000,
+        bannerClass: "banner-clone",
+        bannerTitle: "ACC CLONE SẴN",
+        bannerSub: "Nhận tài khoản lập tức",
+        desc: "Tài khoản clone đã xác minh, có sẵn trong kho web. Mua xong nhận ngay user|pass."
+      },
+      {
+        id: "ai-chatgpt-plus",
+        name: "Tài Khoản ChatGPT Plus 1 Tháng",
+        category: "ai",
+        type: "stock",
+        price: 89000,
+        bannerClass: "banner-plus",
+        bannerTitle: "CHATGPT PLUS",
+        bannerSub: "Kho sẵn • Bảo hành full",
+        desc: "Dùng đầy đủ tính năng GPT cao cấp, tốc độ nhanh. Trả tài khoản trực tiếp ngay trên web."
+      },
+      {
+        id: "ai-pro-vip",
+        name: "Tài Khoản AI Pro VIP",
+        category: "ai",
+        type: "stock",
+        price: 149000,
+        bannerClass: "banner-pro",
+        bannerTitle: "AI PRO VIP",
+        bannerSub: "Sẵn kho giao tự động",
+        desc: "Gói AI cao cấp phục vụ học tập và làm việc. Giao thông tin đăng nhập tức thì."
+      },
+      {
+        id: "shopee-50k",
+        name: "Acc Shopee Sẵn Voucher 50K",
+        category: "shopee",
+        type: "stock",
+        price: 25000,
+        bannerClass: "banner-shopee-50",
+        bannerTitle: "SHOPEE MÃ 50K",
+        bannerSub: "Hàng sẵn giao ngay",
+        desc: "Tài khoản Shopee có sẵn mã giảm 50K + freeship. Nhận tài khoản ngay khi bấm mua."
+      },
+      {
+        id: "shopee-80k",
+        name: "Acc Shopee Sẵn Voucher 80K",
+        category: "shopee",
+        type: "stock",
+        price: 40000,
+        bannerClass: "banner-shopee-80",
+        bannerTitle: "SHOPEE MÃ 80K",
+        bannerSub: "Hàng sẵn giao ngay",
+        desc: "Tài khoản Shopee săn sale có sẵn mã giảm 80K. Tự động xuất kho trực tiếp trên web."
+      },
+      {
+        id: "shopee-100k",
+        name: "Acc Shopee VIP Sẵn Mã 100K",
+        category: "shopee",
+        type: "stock",
+        price: 55000,
+        bannerClass: "banner-shopee-100",
+        bannerTitle: "SHOPEE VIP 100K",
+        bannerSub: "Sẵn kho • Số lượng có hạn",
+        desc: "Tài khoản Shopee VIP sẵn mã giảm sâu 100K, giao tự động không cần chờ duyệt."
+      }
+    ];
+
+    // Kho hàng mẫu có sẵn ngay khi mở web
+    const DEFAULT_INVENTORY = {
+      "acc-clone-vn": [
+        "clone_ht01@mail.vn|HtClone@2026",
+        "clone_ht02@mail.vn|HtClone@2026",
+        "clone_ht03@mail.vn|HtClone@2026",
+        "clone_ht04@mail.vn|HtClone@2026",
+        "clone_ht05@mail.vn|HtClone@2026"
+      ],
+      "ai-chatgpt-plus": [
+        "gptplus01@shop.vn|Plus#8821",
+        "gptplus02@shop.vn|Plus#9914",
+        "gptplus03@shop.vn|Plus#4472"
+      ],
+      "ai-pro-vip": [
+        "aipro01@shop.vn|ProVip@771",
+        "aipro02@shop.vn|ProVip@882"
+      ],
+      "shopee-50k": [
+        "shp50_user01|Shopee50#11|OTP_San",
+        "shp50_user02|Shopee50#22|OTP_San",
+        "shp50_user03|Shopee50#33|OTP_San",
+        "shp50_user04|Shopee50#44|OTP_San"
+      ],
+      "shopee-80k": [
+        "shp80_vip01|Shopee80#91|OTP_San",
+        "shp80_vip02|Shopee80#92|OTP_San",
+        "shp80_vip03|Shopee80#93|OTP_San"
+      ],
+      "shopee-100k": [
+        "shp100_pro01|Shopee100#01|VIP",
+        "shp100_pro02|Shopee100#02|VIP"
+      ]
+    };
+
+    // =========================================================================
+    // QUẢN LÝ TRẠNG THÁI (LOCALSTORAGE)
+    // =========================================================================
+    let inventory = JSON.parse(localStorage.getItem("htruong_inventory")) || DEFAULT_INVENTORY;
+    let orders = JSON.parse(localStorage.getItem("htruong_orders")) || [];
+    let currentUser = JSON.parse(localStorage.getItem("htruong_user")) || null;
+    let currentFilter = "all";
+    let selectedProduct = null;
+    let appliedDiscount = 0;
+
+    function saveData() {
+      localStorage.setItem("htruong_inventory", JSON.stringify(inventory));
+      localStorage.setItem("htruong_orders", JSON.stringify(orders));
+      if (currentUser) {
+        localStorage.setItem("htruong_user", JSON.stringify(currentUser));
+      } else {
+        localStorage.removeItem("htruong_user");
+      }
+    }
+
+    function formatVND(n) {
+      return Number(n).toLocaleString("vi-VN") + "đ";
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.innerText = msg;
+      t.style.display = "block";
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => { t.style.display = "none"; }, 2800);
+    }
+
+    // =========================================================================
+    // HIỂN THỊ SẢN PHẨM & KHO SẴN
+    // =========================================================================
+    function renderProducts() {
+      const grid = document.getElementById("products-grid");
+      const list = currentFilter === "all"
+        ? DEFAULT_PRODUCTS
+        : DEFAULT_PRODUCTS.filter(p => p.category === currentFilter);
+
+      grid.innerHTML = list.map(p => {
+        let stockHtml = "";
+        let disabledAttr = "";
+        let btnText = `<i class="fa-solid fa-bolt"></i> Mua & Nhận Ngay`;
+
+        if (p.type === "stock") {
+          const count = (inventory[p.id] || []).length;
+          if (count > 0) {
+            stockHtml = `<span class="stock-pill stock-available"><i class="fa-solid fa-box"></i> Kho có sẵn: ${count}</span>`;
+          } else {
+            stockHtml = `<span class="stock-pill stock-out"><i class="fa-solid fa-circle-xmark"></i> Tạm hết kho</span>`;
+            disabledAttr = "disabled";
+            btnText = "Hết hàng (Chờ Chủ Shop nạp)";
+          }
+        } else {
+          stockHtml = `<span class="stock-pill stock-available"><i class="fa-solid fa-gears"></i> Tự động chạy 24/7</span>`;
+          btnText = `<i class="fa-solid fa-rocket"></i> Đặt Chạy Tự Động`;
+        }
+
+        return `
+          <div class="product-card">
+            <div class="product-banner ${p.bannerClass}">
+              <div>${p.bannerTitle}</div>
+              <div style="font-size:0.75rem; opacity:0.85; font-weight:600; margin-top:4px;">${p.bannerSub}</div>
+            </div>
+            <div class="product-info">
+              ${stockHtml}
+              <div class="product-title">${p.name}</div>
+              <div class="product-desc">${p.desc}</div>
+              <div class="product-price">${formatVND(p.price)}</div>
+              <button class="btn-buynow" ${disabledAttr} onclick="openBuyModal('${p.id}')">
+                ${btnText}
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function filterCategory(cat, btn) {
+      currentFilter = cat;
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderProducts();
+    }
+
+    // =========================================================================
+    // ĐẶT ĐƠN & TỰ ĐỘNG THỰC HIỆN TRỰC TIẾP TRÊN WEB (KHÔNG GỬI ZALO)
+    // =========================================================================
+    function openBuyModal(productId) {
+      selectedProduct = DEFAULT_PRODUCTS.find(p => p.id === productId);
+      if (!selectedProduct) return;
+
+      appliedDiscount = 0;
+      document.getElementById("buy-step-form").style.display = "block";
+      document.getElementById("buy-step-receipt").style.display = "none";
+      document.getElementById("buy-modal-title").innerText = "Đặt Đơn Tự Động Trên Web";
+      document.getElementById("buy-product-name").value = selectedProduct.name;
+      document.getElementById("buy-promo-code").value = "";
+      document.getElementById("promo-status-msg").innerText = "";
+      document.getElementById("buy-customer-name").value = currentUser ? currentUser.email : "";
+
+      const qtyInput = document.getElementById("buy-qty");
+      qtyInput.value = 1;
+
+      if (selectedProduct.type === "stock") {
+        const avail = (inventory[selectedProduct.id] || []).length;
+        qtyInput.max = avail;
+        document.getElementById("buy-stock-hint").innerText = `Còn sẵn ${avail}`;
+        document.getElementById("buy-target-label").innerText = "Ghi chú thêm (không bắt buộc)";
+        document.getElementById("buy-target-input").placeholder = "Hàng sẽ tự động hiển thị ngay sau khi xác nhận...";
+        document.getElementById("buy-target-input").value = "";
+      } else {
+        qtyInput.max = 20;
+        document.getElementById("buy-stock-hint").innerText = "Chạy tự động trên web";
+        document.getElementById("buy-target-label").innerText = "Link video / ID TikTok cần chạy *";
+        document.getElementById("buy-target-input").placeholder = "https://www.tiktok.com/@username/video/...";
+        document.getElementById("buy-target-input").value = "";
+      }
+
+      updateOrderPrice();
+      document.getElementById("buy-modal").style.display = "flex";
+    }
+
+    function updateOrderPrice() {
+      if (!selectedProduct) return;
+      let qty = parseInt(document.getElementById("buy-qty").value) || 1;
+      if (qty < 1) qty = 1;
+      if (selectedProduct.type === "stock") {
+        const avail = (inventory[selectedProduct.id] || []).length;
+        if (qty > avail) {
+          qty = avail;
+          document.getElementById("buy-qty").value = qty;
+        }
+      }
+      const subtotal = selectedProduct.price * qty;
+      const discount = Math.round(subtotal * appliedDiscount);
+      const total = subtotal - discount;
+
+      document.getElementById("price-subtotal").innerText = formatVND(subtotal);
+      document.getElementById("price-discount").innerText = "-" + formatVND(discount);
+      document.getElementById("price-total").innerText = formatVND(total);
+    }
+
+    function applyPromo() {
+      const code = document.getElementById("buy-promo-code").value.trim().toUpperCase();
+      const msg = document.getElementById("promo-status-msg");
+      if (code === PROMO_CODE) {
+        appliedDiscount = PROMO_RATE;
+        msg.className = "promo-msg promo-success";
+        msg.innerText = "✅ Áp dụng thành công mã SN1802 (-20%)!";
+      } else {
+        appliedDiscount = 0;
+        msg.className = "promo-msg promo-error";
+        msg.innerText = "❌ Mã giảm giá không hợp lệ. Thử mã: SN1802";
+      }
+      updateOrderPrice();
+    }
+
+    function confirmAutoOrder() {
+      if (!selectedProduct) return;
+
+      const qty = Math.max(1, parseInt(document.getElementById("buy-qty").value) || 1);
+      const target = document.getElementById("buy-target-input").value.trim();
+      const customer = document.getElementById("buy-customer-name").value.trim() || "Khách vãng lai";
+
+      if (selectedProduct.type === "service" && !target) {
+        showToast("⚠️ Vui lòng nhập link video hoặc ID TikTok!");
+        return;
+      }
+
+      let deliveredItems = [];
+      let status = "Hoàn thành";
+      let progress = 100;
+
+      if (selectedProduct.type === "stock") {
+        const stockArr = inventory[selectedProduct.id] || [];
+        if (stockArr.length < qty) {
+          showToast("❌ Kho không đủ hàng!");
+          return;
+        }
+        // Tự động xuất hàng trực tiếp từ kho có sẵn trên web
+        deliveredItems = stockArr.splice(0, qty);
+        inventory[selectedProduct.id] = stockArr;
+      } else {
+        // Dịch vụ TikTok: tự động chạy tiến độ ngay trên web
+        status = "Đang chạy tự động";
+        progress = 10;
+      }
+
+      const subtotal = selectedProduct.price * qty;
+      const discount = Math.round(subtotal * appliedDiscount);
+      const total = subtotal - discount;
+      const orderId = "HT" + Math.floor(100000 + Math.random() * 900000);
+
+      const newOrder = {
+        id: orderId,
+        ownerReceiver: OWNER_EMAIL,
+        customer: customer,
+        productId: selectedProduct.id,
+        productName: selectedProduct.name,
+        type: selectedProduct.type,
+        qty: qty,
+        target: target,
+        delivered: deliveredItems,
+        total: total,
+        promoUsed: appliedDiscount > 0 ? PROMO_CODE : "",
+        status: status,
+        progress: progress,
+        createdAt: new Date().toLocaleString("vi-VN")
+      };
+
+      orders.unshift(newOrder);
+      saveData();
+      renderProducts();
+      updateBadges();
+
+      // Nếu là dịch vụ TikTok, kích hoạt tự động chạy 10% -> 100% trên web
+      if (newOrder.type === "service") {
+        startAutoServiceRunner(newOrder.id);
+      }
+
+      // Hiển thị biên lai & sản phẩm giao ngay trên web
+      renderReceipt(newOrder);
+      document.getElementById("buy-step-form").style.display = "none";
+      document.getElementById("buy-step-receipt").style.display = "block";
+      showToast("✅ Đặt hàng thành công! Đã tự động xử lý trên web.");
+    }
+
+    function renderReceipt(order) {
+      let bodyHtml = `
+        <div class="delivered-box">
+          <div style="font-size:0.82rem; color:#cbd5e1; margin-bottom:6px;">
+            <strong>Mã đơn:</strong> <span style="color:#00f2fe;">#${order.id}</span><br/>
+            <strong>Đơn nhận bởi Chủ Shop:</strong> ${order.ownerReceiver}<br/>
+            <strong>Tổng tiền:</strong> <span style="color:#ffeb3b;">${formatVND(order.total)}</span>
+          </div>
+      `;
+
+      if (order.type === "stock") {
+        bodyHtml += `<div style="font-size:0.8rem; color:#00e676; font-weight:700; margin-top:8px;">📦 Thông tin tài khoản đã xuất từ kho sẵn:</div>`;
+        order.delivered.forEach(acc => {
+          bodyHtml += `
+            <div class="delivered-code">
+              <span>${acc}</span>
+              <button class="btn-copy-small" onclick="copyText('${acc.replace(/'/g, "\\'")}')">Copy</button>
+            </div>
+          `;
+        });
+      } else {
+        bodyHtml += `
+          <div style="font-size:0.82rem; color:#00f2fe; font-weight:700; margin-top:8px;">
+            🚀 Đang tự động chạy dịch vụ cho: <span style="color:#fff;">${order.target}</span>
+          </div>
+          <div style="font-size:0.76rem; color:#94a3b8; margin-top:4px;">
+            Bạn có thể theo dõi thanh tiến độ chạy tự động 0% - 100% trong mục "Đơn hàng".
+          </div>
+        `;
+      }
+
+      bodyHtml += `</div>`;
+      document.getElementById("receipt-content").innerHTML = bodyHtml;
+    }
+
+    // Tự động chạy tiến độ cho các đơn dịch vụ trên web
+    function startAutoServiceRunner(orderId) {
+      const interval = setInterval(() => {
+        const order = orders.find(o => o.id === orderId);
+        if (!order || order.status === "Hoàn thành") {
+          clearInterval(interval);
+          return;
+        }
+        order.progress = Math.min(100, (order.progress || 10) + Math.floor(15 + Math.random() * 20));
+        if (order.progress >= 100) {
+          order.progress = 100;
+          order.status = "Hoàn thành";
+          clearInterval(interval);
+          showToast(`🎉 Đơn #${order.id} đã chạy hoàn thành 100%!`);
+        }
+        saveData();
+        updateBadges();
+        if (document.getElementById("orders-modal").style.display === "flex") renderCustomerOrders();
+        if (document.getElementById("admin-modal").style.display === "flex") renderAdminDashboard();
+      }, 1500);
+    }
+
+    // =========================================================================
+    // ĐĂNG NHẬP TÀI KHOẢN CHỦ SHOP (hoangkhactruong1822010@gmail.com / Matkhau.123)
+    // =========================================================================
+    function openAuth() {
+      document.getElementById("login-error").style.display = "none";
+      document.getElementById("login-email").value = "";
+      document.getElementById("login-password").value = "";
+      document.getElementById("auth-modal").style.display = "flex";
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById("login-email").value.trim().toLowerCase();
+      const pass = document.getElementById("login-password").value;
+      const errEl = document.getElementById("login-error");
+
+      if (email === OWNER_EMAIL) {
+        if (pass === OWNER_PASS) {
+          currentUser = { email: OWNER_EMAIL, role: "admin" };
+          saveData();
+          updateAuthUI();
+          closeModal("auth-modal");
+          showToast("👑 Đã đăng nhập tài khoản Chủ Shop!");
+          openAdminModal();
+        } else {
+          errEl.innerText = "❌ Sai mật khẩu tài khoản Chủ Shop!";
+          errEl.style.display = "block";
+        }
+        return;
+      }
+
+      if (pass.length < 4) {
+        errEl.innerText = "❌ Mật khẩu tối thiểu 4 ký tự.";
+        errEl.style.display = "block";
+        return;
+      }
+
+      currentUser = { email: email, role: "user" };
+      saveData();
+      updateAuthUI();
+      closeModal("auth-modal");
+      showToast("✅ Đăng nhập thành công: " + email);
+    }
+
+    function logoutAccount() {
+      currentUser = null;
+      saveData();
+      updateAuthUI();
+      showToast("Đã đăng xuất khỏi hệ thống.");
+    }
+
+    function updateAuthUI() {
+      const btnLogin = document.getElementById("btn-login");
+      const userDisplay = document.getElementById("user-display");
+      const btnAdmin = document.getElementById("btn-admin-panel");
+      const adminPill = document.getElementById("admin-role-pill");
+
+      if (currentUser) {
+        btnLogin.style.display = "none";
+        userDisplay.style.display = "flex";
+        document.getElementById("username-label").innerText = currentUser.email.split("@")[0];
+        if (currentUser.role === "admin") {
+          btnAdmin.style.display = "inline-flex";
+          adminPill.style.display = "inline-block";
+        } else {
+          btnAdmin.style.display = "none";
+          adminPill.style.display = "none";
+        }
+      } else {
+        btnLogin.style.display = "inline-flex";
+        userDisplay.style.display = "none";
+        btnAdmin.style.display = "none";
+      }
+    }
+
+    // =========================================================================
+    // ĐƠN HÀNG CỦA KHÁCH & TRANG QUẢN TRỊ CHỦ SHOP
+    // =========================================================================
+    function openOrdersModal() {
+      renderCustomerOrders();
+      document.getElementById("orders-modal").style.display = "flex";
+    }
+
+    function renderCustomerOrders() {
+      const wrap = document.getElementById("orders-list-container");
+      if (orders.length === 0) {
+        wrap.innerHTML = `<p style="text-align:center; color:#8b949e; padding:24px;">Chưa có đơn hàng nào. Hãy chọn dịch vụ hoặc tài khoản có sẵn ở bên dưới!</p>`;
+        return;
+      }
+
+      wrap.innerHTML = orders.map(o => {
+        const statusClass = o.status === "Hoàn thành" ? "status-done" : "status-running";
+        let extraHtml = "";
+
+        if (o.type === "stock" && o.delivered && o.delivered.length > 0) {
+          extraHtml = o.delivered.map(acc => `
+            <div class="delivered-code">
+              <span>${acc}</span>
+              <button class="btn-copy-small" onclick="copyText('${acc.replace(/'/g, "\\'")}')">Copy</button>
+            </div>
+          `).join("");
+        } else if (o.type === "service") {
+          extraHtml = `
+            <div style="margin-top:6px; font-size:0.78rem; color:#94a3b8;">
+              Link/ID: <strong style="color:#fff;">${o.target}</strong> • Tiến độ: <strong style="color:#00f2fe;">${o.progress}%</strong>
+            </div>
+            <div class="progress-wrap"><div class="progress-fill" style="width:${o.progress}%;"></div></div>
+          `;
+        }
+
+        return `
+          <div class="order-item-card">
+            <div class="order-top">
+              <strong>#${o.id} — ${o.productName} (x${o.qty})</strong>
+              <span class="status-tag ${statusClass}">${o.status}</span>
+            </div>
+            <div style="font-size:0.78rem; color:#94a3b8;">
+              Thời gian: ${o.createdAt} • Thanh toán: <strong style="color:#ffeb3b;">${formatVND(o.total)}</strong>
+            </div>
+            ${extraHtml}
+          </div>
+        `;
+      }).join("");
+    }
+
+    function openAdminModal() {
+      if (!currentUser || currentUser.role !== "admin") {
+        showToast("⛔ Chỉ tài khoản Chủ Shop mới truy cập được!");
+        return;
+      }
+      renderAdminDashboard();
+      populateStockSelect();
+      document.getElementById("admin-modal").style.display = "flex";
+    }
+
+    function switchAdminTab(tab) {
+      document.getElementById("tab-admin-orders").classList.toggle("active", tab === "orders");
+      document.getElementById("tab-admin-stock").classList.toggle("active", tab === "stock");
+      document.getElementById("admin-panel-orders").style.display = tab === "orders" ? "block" : "none";
+      document.getElementById("admin-panel-stock").style.display = tab === "stock" ? "block" : "none";
+      if (tab === "stock") renderSelectedStockList();
+    }
+
+    function renderAdminDashboard() {
+      const totalRevenue = orders.reduce((sum, o) => sum + (o.total || 0), 0);
+      const totalStock = Object.values(inventory).reduce((sum, arr) => sum + arr.length, 0);
+
+      document.getElementById("admin-total-orders").innerText = orders.length;
+      document.getElementById("admin-total-revenue").innerText = formatVND(totalRevenue);
+      document.getElementById("admin-total-stock").innerText = totalStock;
+
+      const wrap = document.getElementById("admin-panel-orders");
+      if (orders.length === 0) {
+        wrap.innerHTML = `<p style="text-align:center; color:#8b949e; padding:20px;">Chưa có đơn hàng nào gửi về tài khoản chủ shop.</p>`;
+        return;
+      }
+
+      wrap.innerHTML = orders.map(o => `
+        <div class="order-item-card">
+          <div class="order-top">
+            <span><strong>#${o.id}</strong> • ${o.productName} (x${o.qty})</span>
+            <span class="status-tag ${o.status === "Hoàn thành" ? "status-done" : "status-running"}">${o.status} (${o.progress}%)</span>
+          </div>
+          <div style="font-size:0.78rem; color:#94a3b8; line-height:1.5;">
+            Khách mua: <strong style="color:#fff;">${o.customer}</strong> • Tiền: <strong style="color:#00e676;">${formatVND(o.total)}</strong> ${o.promoUsed ? `(Mã ${o.promoUsed})` : ""}<br/>
+            ${o.type === "service" ? `Link/ID chạy: <span style="color:#00f2fe;">${o.target}</span>` : `Đã xuất tự động: <span style="color:#00f2fe;">${(o.delivered || []).join(" | ")}</span>`}<br/>
+            Thời gian: ${o.createdAt}
+          </div>
+          <div style="margin-top:8px; display:flex; gap:8px;">
+            ${o.status !== "Hoàn thành" ? `<button class="btn-copy-small" onclick="forceCompleteOrder('${o.id}')">Hoàn tất ngay</button>` : ""}
+            <button class="btn-copy-small" style="background:#ff5252; color:#fff;" onclick="deleteOrder('${o.id}')">Xóa đơn</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function forceCompleteOrder(orderId) {
+      const o = orders.find(x => x.id === orderId);
+      if (o) {
+        o.progress = 100;
+        o.status = "Hoàn thành";
+        saveData();
+        renderAdminDashboard();
+        updateBadges();
+        showToast("✅ Đã hoàn tất đơn #" + orderId);
+      }
+    }
+
+    function deleteOrder(orderId) {
+      orders = orders.filter(x => x.id !== orderId);
+      saveData();
+      renderAdminDashboard();
+      updateBadges();
+      showToast("🗑️ Đã xóa đơn #" + orderId);
+    }
+
+    function populateStockSelect() {
+      const select = document.getElementById("admin-stock-select");
+      const stockProducts = DEFAULT_PRODUCTS.filter(p => p.type === "stock");
+      select.innerHTML = stockProducts.map(p => {
+        const count = (inventory[p.id] || []).length;
+        return `<option value="${p.id}">${p.name} (Hiện có: ${count})</option>`;
+      }).join("");
+      renderSelectedStockList();
+    }
+
+    function renderSelectedStockList() {
+      const pid = document.getElementById("admin-stock-select").value;
+      const items = inventory[pid] || [];
+      const box = document.getElementById("admin-current-stock-list");
+      if (items.length === 0) {
+        box.innerHTML = `<div style="font-size:0.8rem; color:#ff5252;">Kho sản phẩm này đang trống.</div>`;
+        return;
+      }
+      box.innerHTML = items.map((line, idx) => `
+        <div class="delivered-code">
+          <span>${idx + 1}. ${line}</span>
+          <button class="btn-copy-small" style="background:#ff5252; color:#fff;" onclick="removeStockItem('${pid}', ${idx})">Xóa</button>
+        </div>
+      `).join("");
+    }
+
+    function addStockItems() {
+      const pid = document.getElementById("admin-stock-select").value;
+      const raw = document.getElementById("admin-stock-input").value;
+      const lines = raw.split("\n").map(s => s.trim()).filter(Boolean);
+      if (lines.length === 0) {
+        showToast("⚠️ Vui lòng nhập ít nhất 1 dòng tài khoản!");
+        return;
+      }
+      if (!inventory[pid]) inventory[pid] = [];
+      inventory[pid].push(...lines);
+      document.getElementById("admin-stock-input").value = "";
+      saveData();
+      renderProducts();
+      populateStockSelect();
+      renderAdminDashboard();
+      showToast(`✅ Đã nạp thêm ${lines.length} hàng vào kho sẵn!`);
+    }
+
+    function removeStockItem(pid, idx) {
+      inventory[pid].splice(idx, 1);
+      saveData();
+      renderProducts();
+      populateStockSelect();
+      renderAdminDashboard();
+    }
+
+    // =========================================================================
+    // TIỆN ÍCH & CHATBOT
+    // =========================================================================
+    function updateBadges() {
+      document.getElementById("order-count-badge").innerText = orders.length;
+    }
+
+    function copyPromoCode() {
+      copyText(PROMO_CODE);
+      showToast("📋 Đã copy mã giảm giá SN1802 (-20%)!");
+    }
+
+    function copyText(text) {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text);
+      }
+      showToast("📋 Đã sao chép!");
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).style.display = "none";
+    }
+
+    // Chatbot
+    function toggleChat() {
+      document.getElementById("ai-chat-box").classList.toggle("chat-hidden");
+    }
+    function quickAsk(q) {
+      document.getElementById("chat-input").value = q;
+      sendChat();
+    }
+    function sendChat() {
+      const input = document.getElementById("chat-input");
+      const text = input.value.trim();
+      if (!text) return;
+
+      const msgs = document.getElementById("chat-messages");
+      msgs.innerHTML += `<div class="user-msg">${text}</div>`;
+      input.value = "";
+
+      const lower = text.toLowerCase();
+      let reply = "Hệ thống hoạt động tự động 100% trên web. Bạn chỉ cần chọn sản phẩm và bấm Mua là nhận tài khoản hoặc chạy dịch vụ ngay, không cần gửi Zalo!";
+      if (lower.includes("mã") || lower.includes("giảm")) {
+        reply = "Bạn nhập mã SN1802 trong bước đặt hàng để được giảm ngay 20% nhé!";
+      } else if (lower.includes("shopee")) {
+        const s50 = (inventory["shopee-50k"] || []).length;
+        const s80 = (inventory["shopee-80k"] || []).length;
+        const s100 = (inventory["shopee-100k"] || []).length;
+        reply = `Kho Acc Shopee hiện còn sẵn:\n• Mã 50K: ${s50} acc\n• Mã 80K: ${s80} acc\n• VIP 100K: ${s100} acc\nMua là giao tự động ngay trên web!`;
+      } else if (lower.includes("nhận ngay") || lower.includes("tự động")) {
+        reply = "Đúng rồi! Tài khoản Clone, AI, Shopee có sẵn trong kho sẽ hiển thị user|pass ngay lập tức sau khi đặt. Dịch vụ TikTok tự chạy tiến độ 0-100% trên web.";
+      }
+
+      setTimeout(() => {
+        msgs.innerHTML += `<div class="bot-msg">${reply}</div>`;
+        msgs.scrollTop = msgs.scrollHeight;
+      }, 250);
+    }
+
+    // Khởi chạy ban đầu
+    updateAuthUI();
+    renderProducts();
+    updateBadges();
+    // Tiếp tục chạy các đơn dịch vụ còn dang dở nếu tải lại trang
+    orders.filter(o => o.type === "service" && o.status !== "Hoàn thành").forEach(o => startAutoServiceRunner(o.id));
+  </script>
+</body>
+</html>
